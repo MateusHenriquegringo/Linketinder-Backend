@@ -8,6 +8,8 @@ class Candidato implements Pessoa {
     String CEP
     String CPF
 
+    List<Empresa> matches
+    List<Empresa> curtidas
     List<String> competencias
 
     @Override
@@ -24,5 +26,20 @@ class Candidato implements Pessoa {
         println "Competências de ${nome}: ${competencias.join(', ')}"
     }
 
+    boolean verificarMatch(Empresa empresa) {
+        return empresa.getCurtidas().contains(this)
+    }
+
+    void curtirEmpresa(Empresa empresa) {
+        if (verificarMatch(empresa)) {
+            if (!matches.contains(empresa)) {
+                matches << empresa
+            }
+        } else {
+            if (!curtidas.contains(empresa)) {
+                curtidas << empresa
+            }
+        }
+    }
 }
 
