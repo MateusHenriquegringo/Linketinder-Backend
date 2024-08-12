@@ -1,0 +1,5 @@
+interface Pessoa {
+
+    String getEndereco()
+
+}
