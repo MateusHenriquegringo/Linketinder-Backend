@@ -1,6 +1,5 @@
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-
 import static org.junit.Assert.assertEquals
 
 class EmpresasCandidatosTest {
@@ -30,7 +29,5 @@ class EmpresasCandidatosTest {
 
         assertEquals(1, manager.empresas.size())
         assertEquals(empresa, manager.empresas[0])
-
-        verify(manager, time(1).adicionarEmpresa())
     }
 }
