@@ -8,8 +8,8 @@ class Empresa implements Pessoa {
     String CEP
     String descricao
 
-    List<Candidato> curtidas
-    List<Candidato> matches
+    Set<Candidato> curtidas
+    Set<Candidato> matches
 
     List<Candidato> candidatos
 
@@ -28,14 +28,6 @@ class Empresa implements Pessoa {
 
 
     void curtirCandidato(Candidato candidato) {
-        if (verificarMatch(candidato)) {
-            if (!matches.contains(candidato)) {
-                matches << candidato
-            }
-        } else {
-            if (!curtidas.contains(candidato)) {
-                curtidas << candidato
-            }
-        }
+        verificarMatch(candidato) ? matches << candidato : curtidas << candidato;
     }
 }
