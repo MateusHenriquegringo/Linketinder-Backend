@@ -18,8 +18,12 @@ class Empresa implements Pessoa {
         return "${this.CEP}, ${this.pais}, ${this.estadoFederativo}"
     }
 
-    boolean verificarMatch(Candidato candidato) {
-        return candidato.getCurtidas().contains(this)
+    @Override
+    boolean verificarMatch(Pessoa candidato) {
+        if (candidato instanceof Candidato) {
+            return candidato.getCurtidas().contains(this);
+        } else
+            throw new RuntimeException("Empresas so dao match com candidatos")
     }
 
     void adicionarCandidato(Candidato candidato){

@@ -26,9 +26,11 @@ class Candidato implements Pessoa {
         println "Competências de ${nome}: ${competencias.join(', ')}"
     }
 
-    boolean verificarMatch(Empresa empresa) {
-        return empresa.getCurtidas().contains(this)
-    }
+    boolean verificarMatch(Pessoa empresa) {
+        if (empresa instanceof Empresa) {
+            return empresa.getCurtidas().contains(this);
+        } else
+            throw new RuntimeException("Candidatos so dao match com empresas")    }
 
     void curtirEmpresa(Empresa empresa) {
         verificarMatch(empresa) ? matches << empresa : curtidas << empresa;
