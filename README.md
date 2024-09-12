@@ -16,7 +16,7 @@ O sistema permite interações entre empresas e candidatos através de curtidas 
 
 ## Classes
 
-### `Empresa`
+### `model.Empresa`
 
 - **Propriedades**:
   - `nome`, `email`, `CNPJ`, `pais`, `estadoFederativo`, `CEP`, `descricao`
@@ -26,11 +26,11 @@ O sistema permite interações entre empresas e candidatos através de curtidas 
 
 - **Métodos**:
   - `getEndereco()`
-  - `verificarMatch(Candidato candidato)`
-  - `adicionarCandidato(Candidato candidato)`
-  - `curtirCandidato(Candidato candidato)`
+  - `verificarMatch(model.Candidato candidato)`
+  - `adicionarCandidato(model.Candidato candidato)`
+  - `curtirCandidato(model.Candidato candidato)`
 
-### `Candidato`
+### `model.Candidato`
 
 - **Propriedades**:
   - `nome`, `email`, `CPF`, `pais`, `estadoFederativo`, `CEP`, `descricao`
@@ -39,5 +39,5 @@ O sistema permite interações entre empresas e candidatos através de curtidas 
 
 - **Métodos**:
   - `getEndereco()`
-  - `verificarMatch(Empresa empresa)`
-  - `curtirEmpresa(Empresa empresa)`
+  - `verificarMatch(model.Empresa empresa)`
+  - `curtirEmpresa(model.Empresa empresa)`

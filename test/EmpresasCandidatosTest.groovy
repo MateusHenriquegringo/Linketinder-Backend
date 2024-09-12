@@ -1,3 +1,5 @@
+import model.Candidato
+import model.Empresa
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import static org.junit.Assert.assertEquals
@@ -23,7 +25,7 @@ class EmpresasCandidatosTest {
 
     @Test
     void testAdicionarEmpresa() {
-        def empresa = new Empresa(nome: 'TechCorp', email: 'contact@techcorp.com', CNPJ: '67.890.123/0001-45', pais: 'Brasil', estadoFederativo: 'SP', CEP: '11001-000', descricao: 'Empresa de tecnologia inovadora.')
+        def empresa = new Empresa(nome: 'TechCorp', email: 'contact@techcorp.com', CNPJ: '67.890.123/0001-45', pais: 'Brasil', estadoFederativo: 'SP', CEP: '11001-000', descricao: 'model.Empresa de tecnologia inovadora.')
 
         manager.adicionarEmpresa(empresa)
 

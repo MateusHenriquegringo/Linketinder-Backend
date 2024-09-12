@@ -1,3 +1,6 @@
+import model.Candidato
+import model.Empresa
+
 class EmpresasCandidatosManager {
     def empresas = [
             new Empresa(nome: 'JetBrains', email: 'support@jetbrains.com', CNPJ: '12.345.678/0001-90', pais: 'República Tcheca', estadoFederativo: 'Praga', CEP: '11000', descricao: 'Desenvolvedores das ferramentas de IDEs populares como IntelliJ IDEA e PyCharm.'),
