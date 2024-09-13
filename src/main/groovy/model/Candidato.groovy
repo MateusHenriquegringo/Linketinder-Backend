@@ -13,7 +13,10 @@ class Candidato {
     String city
     String password
 
-    Candidato(String password, String CPF, String city, String CEP, String description, String email, String last_name, String first_name, List<String> competencies) {
+    Candidato() {
+    }
+
+    Candidato(String CPF, String city, String CEP, String description, String email, String last_name, String first_name, List<Competencia> competencies, String password) {
         this.password = password
         this.CPF = CPF
         this.city = city
@@ -39,9 +42,9 @@ class Candidato {
 
     Set<Empresa> matches
     Set<Empresa> likes
-    List<String> competencies
+    List<Competencia> competencies
 
-    void addCompetencie(String skill) {
+    void addCompetencie(Competencia skill) {
         competencies << skill
     }
 
