@@ -13,8 +13,6 @@ class DatabaseConnection {
     private static final String PASSWORD = "gringo"
     private static final String DRIVER = 'org.postgresql.Driver'
 
-
-
     static Connection getConnection(){
         Properties props = new Properties()
 
