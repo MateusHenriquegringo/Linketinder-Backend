@@ -1,4 +1,4 @@
-package main.groovy.DAO
+package DAO
 
 import main.groovy.model.Competencia
 

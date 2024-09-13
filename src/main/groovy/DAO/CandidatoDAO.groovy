@@ -1,8 +1,9 @@
-package main.groovy.DAO
+package DAO
 
-import main.groovy.DB.DatabaseConnection
-import main.groovy.model.Candidato
-import main.groovy.model.Competencia
+import DB.DatabaseConnection
+
+import model.Candidato
+import model.Competencia
 
 import java.sql.PreparedStatement
 import java.sql.ResultSet
