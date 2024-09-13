@@ -1,4 +1,4 @@
-package model
+package main.groovy.model
 
 class Candidato_Competencia {
 
