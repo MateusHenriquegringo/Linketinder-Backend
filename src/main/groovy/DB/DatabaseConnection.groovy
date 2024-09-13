@@ -1,4 +1,4 @@
-package DB
+package main.groovy.DB
 
 import groovy.sql.Sql
 
@@ -13,10 +13,19 @@ class DatabaseConnection {
     private static final String PASSWORD = "gringo"
     private static final String DRIVER = 'org.postgresql.Driver'
 
+
+
     static Connection getConnection(){
+        Properties props = new Properties()
+
+        props.setProperty("user", "mateus")
+        props.setProperty("password", "gringo")
+        props.setProperty("loggerLevel", "DEBUG")
+        props.setProperty("loggerFile", "System.out")
+
         try {
             Class.forName(DRIVER);
-            return DriverManager.getConnection(URL, USER, PASSWORD)
+            return DriverManager.getConnection(URL, props)
         } catch (ClassCastException | SQLException e) {
             throw new RuntimeException("erro ao conectar")
         }
