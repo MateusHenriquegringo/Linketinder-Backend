@@ -8,7 +8,6 @@ class Vaga {
     String description
     String city
     String state
-
-    Long empresaId
+    long empresaId
 
 }

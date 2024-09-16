@@ -13,6 +13,10 @@ class Candidato {
     String city
     String password
 
+    Set<Empresa> matches
+    Set<Empresa> likes
+    List<Competencia> competencies
+
     Candidato() {
     }
 
@@ -39,10 +43,6 @@ class Candidato {
         this.password = password
     }
 
-
-    Set<Empresa> matches
-    Set<Empresa> likes
-    List<Competencia> competencies
 
     void addCompetencie(Competencia skill) {
         competencies << skill
