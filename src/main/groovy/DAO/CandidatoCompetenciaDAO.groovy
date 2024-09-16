@@ -1,6 +1,6 @@
 package DAO
 
-import main.groovy.model.Competencia
+import model.Competencia
 
 import java.sql.Connection
 import java.sql.PreparedStatement
@@ -27,7 +27,9 @@ class CandidatoCompetenciaDAO {
             }
             pstmt.executeBatch()
         } catch (SQLException e) {
-            throw new RuntimeException("erro ao salvar competencias do candidato")
+            throw new RuntimeException("erro ao salvar competencias do candidato " + e.getMessage())
         }
     }
+
+
 }
