@@ -38,7 +38,6 @@ class CandidatoDAO {
                     candidatoCompetenciaDAO = new CandidatoCompetenciaDAO(connection)
                 while (generateKey.next()) {
                     candidato.setId(generateKey.getLong(1))
-                    print(generateKey)
                 }
 
                 candidatoCompetenciaDAO.insertCompetenciaToCandidato(candidato.getId(), candidato.getCompetences())
