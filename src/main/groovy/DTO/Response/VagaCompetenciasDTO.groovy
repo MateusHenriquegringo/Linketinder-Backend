@@ -1,12 +1,13 @@
 package DTO.Response
 
-record VagaDTO(
+record VagaCompetenciasDTO(
         long id,
         String name,
         String description,
         String city,
         String state,
-        long empresaID
+        long empresaID,
+        List<String> competences
 ) {
 
 }
