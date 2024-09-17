@@ -1,4 +1,4 @@
-CREATE TABLE Candidato (
+CREATE TABLE "Candidato" (
     id SERIAL PRIMARY KEY,
     CPF VARCHAR NOT NULL,
     first_name VARCHAR(50) NOT NULL,
@@ -10,7 +10,7 @@ CREATE TABLE Candidato (
     password VARCHAR(100) NOT NULL
 );
 
-CREATE TABLE Empresa (
+CREATE TABLE "Empresa" (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     description TEXT,
@@ -21,7 +21,7 @@ CREATE TABLE Empresa (
     password VARCHAR(100) NOT NULL
 );
 
-CREATE TABLE Vaga (
+CREATE TABLE "Vaga" (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     description TEXT,
