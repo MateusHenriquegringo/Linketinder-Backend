@@ -1,10 +1,12 @@
 package DAO
 
+import enums.CompetenciasENUM
 import model.Competencia
 
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.SQLException
+import java.util.stream.Collectors
 
 class VagaCompetenciaDAO {
     private Connection connection;
@@ -13,20 +15,55 @@ class VagaCompetenciaDAO {
         this.connection = connection;
     }
 
-    void insertCompetenciaToVaga (long vagaId, List<Competencia> competencias){
-
-        String command = "INSERT INTO Vaga_Competencia (vaga_id, competencia_id)" +
-                "VALUES(?, ?)"
+    void insertCompetenciaToVaga(long vagaId, List<CompetenciasENUM> competencias) {
+        connection.setAutoCommit(false);
+        String command = "INSERT INTO \"Vaga_Competencia\" (vaga_id, competencia_id) VALUES(?, ?)";
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
-            competencias.forEach {
-                pstmt.setLong(1, vagaId)
-                pstmt.setLong(2, it.getId())
-                pstmt.addBatch()
+            for (CompetenciasENUM comp : competencias) {
+                pstmt.setLong(1, vagaId);
+                pstmt.setLong(2, comp.getId());
+                pstmt.addBatch();
             }
-            pstmt.executeBatch()
+            pstmt.executeBatch();
+            connection.commit();
         } catch (SQLException e) {
-            throw new RuntimeException("erro ao salvar competencias do candidato " + e.getMessage())
+            try {
+                connection.rollback();
+            } catch (SQLException rollbackEx) {
+                throw new RuntimeException("falha ao realizar rollback: " + rollbackEx.getMessage(), rollbackEx);
+            }
+            throw new RuntimeException("erro ao salvar competencias da vaga: " + e.getMessage(), e);
+        }
+    }
+
+    void updateCompetencias(long vagaId, List<CompetenciasENUM> competencias) {
+        try {
+            connection.setAutoCommit(false);
+
+            deleteCompetenciasOfVaga(vagaId);
+
+            insertCompetenciaToVaga(vagaId, competencias);
+
+            connection.commit();
+        } catch (SQLException e) {
+
+            connection.rollback();
+            throw new RuntimeException("Erro ao atualizar competências: " + e.getMessage(), e);
+
+        } finally {
+            connection.setAutoCommit(true)
+        }
+    }
+
+    void deleteCompetenciasOfVaga(long id) {
+        String command = "DELETE FROM \"Vaga_Competencia\" WHERE vaga_id = ?";
+
+        try(PreparedStatement pstmt = connection.prepareStatement(command)){
+            pstmt.setLong(1, id)
+            pstmt.executeUpdate()
+        } catch (SQLException e) {
+            throw new RuntimeException("Ocorreu um erro ao deleter "+ e.getMessage())
         }
     }
 }
