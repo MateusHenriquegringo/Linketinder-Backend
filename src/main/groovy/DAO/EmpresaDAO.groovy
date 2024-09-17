@@ -2,9 +2,7 @@ package DAO
 
 import DB.DatabaseConnection
 import DTO.Response.EmpresaResponseDTO
-import DTO.VagaDTO
 import model.Empresa
-import model.Vaga
 
 import java.sql.Connection
 import java.sql.PreparedStatement

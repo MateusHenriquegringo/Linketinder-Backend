@@ -1,8 +1,8 @@
 package DAO
 
 import DB.DatabaseConnection
-import DTO.Response.CandidatoResponseDTO
-import DTO.VagaDTO
+import DTO.Response.VagaCompetenciasDTO
+import DTO.Response.VagaDTO
 import model.Vaga
 
 import java.sql.Connection
@@ -13,6 +13,7 @@ import java.sql.Statement
 
 class VagaDAO {
 
+    private VagaCompetenciaDAO vagaCompetenciaDAO;
     private Connection connection = DatabaseConnection.getConnection()
 
     void createVaga(Vaga vaga) {
@@ -28,6 +29,17 @@ class VagaDAO {
             pstm.setLong(5, vaga.getEmpresaId())
 
             pstm.executeUpdate()
+
+            ResultSet generateKey = pstmt.getGeneratedKeys()
+
+            if(vaga.getCompetences()!=null) {
+                if(vaga.getCompetences().size()> 0)
+                    vagaCompetenciaDAO = new VagaCompetenciaDAO(connection)
+
+                if(generateKey.next()) vaga.setId(generateKey.getLong(1))
+
+                vagaCompetenciaDAO.insertCompetenciaToVaga(vaga.getId(), vaga.getCompetences())
+            }
         } catch (SQLException e) {
             throw new RuntimeException("nao foi possivel salvar a vaga " + e.getMessage())
         }
@@ -41,7 +53,7 @@ class VagaDAO {
         ) {
             List<VagaDTO> vagasResponse = new ArrayList<>();
             while (setVagas.next()) {
-                vagasResponse.add(new VagaDTO(
+                vagasResponse.add(new VagaDTO (
                         setVagas.getLong("id"),
                         setVagas.getString("name"),
                         setVagas.getString("description"),
@@ -54,6 +66,19 @@ class VagaDAO {
         } catch (SQLException e) {
             throw new RuntimeException("ocorreu um erro ao listar as vagas " + e.getMessage())
         }
+    }
+
+    List<VagaCompetenciasDTO> listAllVagasAndCompetences () {
+        String command = "SELECT vaga.id, vaga.name, vaga.description, vaga.city, " +
+                "vaga.state, vaga.email" +
+                "comp.id AS competencia_id, comp.name AS competencia_name " +
+                "FROM \"Vaga\" AS vaga " +
+                "LEFT JOIN \"Vaga_Competencia\" AS vaga_comp ON vaga_comp.vaga_id = vaga.id " +
+                "LEFT JOIN \"Competencia\" AS comp ON cand_comp.competencia_id = comp.id;";
+
+        List<VagaCompetenciasDTO> vagasECompetencias = new ArrayList<>()
+
+        return vagasECompetencias
     }
 
     VagaDTO findVagaById(long id) {

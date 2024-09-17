@@ -3,7 +3,6 @@ package DAO
 import DB.DatabaseConnection
 import DTO.Response.CandidatoCompetenciaDTO
 import DTO.Response.CandidatoResponseDTO
-import groovy.sql.Sql
 import model.Candidato
 
 import java.sql.PreparedStatement
@@ -20,7 +19,8 @@ class CandidatoDAO {
         String command = "INSERT INTO \"Candidato\" (first_name, last_name, email, cpf, city, cep, description, password)" +
                 "VALUES (?, ?, ?, ? , ?, ?, ?, ?);"
 
-        try (PreparedStatement pstmt = connection.prepareStatement(command)) {
+        connection.setAutoCommit(false)
+        try (PreparedStatement pstmt = connection.prepareStatement(command, Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setString(1, candidato.getFirst_name())
             pstmt.setString(2, candidato.getLast_name())
             pstmt.setString(3, candidato.getEmail())
@@ -34,18 +34,22 @@ class CandidatoDAO {
 
             ResultSet generateKey = pstmt.getGeneratedKeys()
 
-            if (candidato.getCompetencies() != null) {
-                if (candidato.getCompetencies().size() > 0)
+            if (candidato.getCompetences() != null) {
+                if (candidato.getCompetences().size() > 0)
                     candidatoCompetenciaDAO = new CandidatoCompetenciaDAO(connection)
+                while (generateKey.next()) {
+                    candidato.setId(generateKey.getLong(1))
+                    print(generateKey)
+                }
 
-                if (generateKey.next()) candidato.setId(generateKey.getLong(1))
-
-                candidatoCompetenciaDAO.insertCompetenciaToCandidato(candidato.getId(), candidato.getCompetencies())
+                candidatoCompetenciaDAO.insertCompetenciaToCandidato(candidato.getId(), candidato.getCompetences())
             }
 
         } catch (SQLException e) {
+            connection.rollback()
             throw new RuntimeException("ocorreu um erro ao salvar " + e.getMessage())
         }
+        connection.setAutoCommit(true)
     }
 
     List<CandidatoResponseDTO> listAllCandidatos() {
@@ -81,6 +85,8 @@ class CandidatoDAO {
     // TODO
     List<CandidatoCompetenciaDTO> listAllCandidatosAndCompetencias() {
 
+        List<CandidatoCompetenciaDTO> candidadosCompetencias = new ArrayList<>()
+
         String command = "SELECT candidato.id, candidato.first_name, candidato.last_name, candidato.cpf, " +
                 "candidato.description, candidato.email, candidato.cep, candidato.city, " +
                 "comp.id AS competencia_id, comp.name AS competencia_name " +
@@ -89,11 +95,38 @@ class CandidatoDAO {
                 "LEFT JOIN \"Competencia\" AS comp ON cand_comp.competencia_id = comp.id;";
 
         try (Statement stmt = connection.prepareStatement(command)
-             ResultSet candidatosCompetenciasSet = stmt.executeQuery()) {
-            List<CandidatoCompetenciaDTO> candidadosComeptencias = new ArrayList<>()
+             ResultSet resultSet = stmt.executeQuery()) {
 
+            Map<Long, CandidatoCompetenciaDTO> candidatoMap = new HashMap<>()
+
+            while (resultSet.next()){
+                long candidatoId = resultSet.getLong("id")
+                CandidatoCompetenciaDTO candidato = candidatoMap.get(candidatoId)
+
+                if(candidato==null) {
+                    candidato = new CandidatoCompetenciaDTO(
+                            resultSet.getLong("id"),
+                            resultSet.getString("first_name"),
+                            resultSet.getString("last_name"),
+                            resultSet.getString("cpf"),
+                            resultSet.getString("description"),
+                            resultSet.getString("email"),
+                            resultSet.getString("cep"),
+                            resultSet.getString("city"),
+                            new ArrayList<String>()
+                    )
+                    candidatoMap.put(candidatoId, candidato)
+                }
+                String competenciaName = resultSet.getString("competencia_name")
+                if(competenciaName!= null && !competenciaName.isBlank()) {
+                    candidato.competences().add(competenciaName)
+                }
+            }
+            candidadosCompetencias.addAll(candidatoMap.values())
+        } catch (SQLException e ) {
+            e.printStackTrace()
         }
-        return candidadosComeptencias
+        return candidadosCompetencias
     }
 
     CandidatoResponseDTO findCandidatoById(long id) {

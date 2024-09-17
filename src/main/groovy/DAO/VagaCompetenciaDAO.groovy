@@ -6,23 +6,22 @@ import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.SQLException
 
-class CandidatoCompetenciaDAO {
-
+class VagaCompetenciaDAO {
     private Connection connection;
 
-    public CandidatoCompetenciaDAO(Connection connection) {
+    public VagaCompetenciaDAO(Connection connection) {
         this.connection = connection;
     }
 
-    void insertCompetenciaToCandidato (long candidatoId, List<Long> competencias){
+    void insertCompetenciaToVaga (long vagaId, List<Competencia> competencias){
 
-        String command = "INSERT INTO \"Candidato_Competencia\" (candidato_id, competencia_id)" +
+        String command = "INSERT INTO Vaga_Competencia (vaga_id, competencia_id)" +
                 "VALUES(?, ?)"
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
-            for (Long competenciaId : competencias){
-                pstmt.setLong(1, candidatoId)
-                pstmt.setLong(2, competenciaId)
+            competencias.forEach {
+                pstmt.setLong(1, vagaId)
+                pstmt.setLong(2, it.getId())
                 pstmt.addBatch()
             }
             pstmt.executeBatch()
@@ -30,6 +29,4 @@ class CandidatoCompetenciaDAO {
             throw new RuntimeException("erro ao salvar competencias do candidato " + e.getMessage())
         }
     }
-
-
 }
