@@ -28,12 +28,10 @@ class VagaCompetenciaDAO {
             pstmt.executeBatch();
             connection.commit();
         } catch (SQLException e) {
-            try {
-                connection.rollback();
-            } catch (SQLException rollbackEx) {
-                throw new RuntimeException("falha ao realizar rollback: " + rollbackEx.getMessage(), rollbackEx);
-            }
+            connection.rollback();
             throw new RuntimeException("erro ao salvar competencias da vaga: " + e.getMessage(), e);
+        } finally {
+            connection.setAutoCommit(true)
         }
     }
 
@@ -59,11 +57,11 @@ class VagaCompetenciaDAO {
     void deleteCompetenciasOfVaga(long id) {
         String command = "DELETE FROM \"Vaga_Competencia\" WHERE vaga_id = ?";
 
-        try(PreparedStatement pstmt = connection.prepareStatement(command)){
+        try (PreparedStatement pstmt = connection.prepareStatement(command)) {
             pstmt.setLong(1, id)
             pstmt.executeUpdate()
         } catch (SQLException e) {
-            throw new RuntimeException("Ocorreu um erro ao deleter "+ e.getMessage())
+            throw new RuntimeException("Ocorreu um erro ao deletar " + e.getMessage())
         }
     }
 }

@@ -82,7 +82,6 @@ class CandidatoDAO {
 
     }
 
-    // TODO
     List<CandidatoCompetenciaDTO> listAllCandidatosAndCompetencias() {
 
         List<CandidatoCompetenciaDTO> candidadosCompetencias = new ArrayList<>()
@@ -157,6 +156,7 @@ class CandidatoDAO {
     }
 
     void updateCandidato(Candidato candidato, long id) {
+        connection.setAutoCommit(false)
         String command = "UPDATE \"Candidato\" SET first_name=?, last_name=?, email=?, cep=?, cpf=?, city=?, description=? WHERE id=?";
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
@@ -170,31 +170,20 @@ class CandidatoDAO {
             pstmt.setLong(8, id)
 
             pstmt.executeUpdate()
+
+            if(candidato.getCompetences()!= null && !candidato.getCompetences().isEmpty()){
+                CandidatoCompetenciaDAO candidatoCompetenciaDAO = new CandidatoCompetenciaDAO(connection)
+                candidatoCompetenciaDAO.updateCompetencias(id, candidato.getCompetences())
+            }
+            connection.commit()
         } catch (SQLException e) {
-            throw new RuntimeException("ocorreu um erro ao editar")
+            throw new RuntimeException("ocorreu um erro ao editar "+ e.getMessage())
+        } finally {
+            connection.setAutoCommit(true)
         }
 
     }
 
-    void updateCandidato(Candidato candidato) {
-        String command = "UPDATE \"Candidato\" SET first_name=?, last_name=?, email=?, cep=?, cpf=?, city=?, description=? WHERE id=?";
-
-        try (PreparedStatement pstmt = connection.prepareStatement(command)) {
-            pstmt.setString(1, candidato.getFirst_name())
-            pstmt.setString(2, candidato.getLast_name())
-            pstmt.setString(3, candidato.getEmail())
-            pstmt.setString(4, candidato.getCEP())
-            pstmt.setString(5, candidato.getCPF())
-            pstmt.setString(6, candidato.getCity())
-            pstmt.setString(7, candidato.getDescription())
-            pstmt.setLong(8, candidato.getId())
-
-            pstmt.executeUpdate()
-        } catch (SQLException e) {
-            throw new RuntimeException("ocorreu um erro ao editar")
-        }
-
-    }
 
     void deleteCandidatoById(long id) {
         String command = "DELETE FROM \"Candidato\" WHERE id = ?"

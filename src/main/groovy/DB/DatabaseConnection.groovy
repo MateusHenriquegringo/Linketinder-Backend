@@ -19,7 +19,7 @@ class DatabaseConnection {
 
         try {
             Class.forName(DRIVER);
-            return DriverManager.getConnection(URL, props)
+            return DriverManager.getConnection(URL, props).setAutoCommit(true)
         } catch (ClassCastException | SQLException e) {
             throw new RuntimeException("erro ao conectar")
         }
