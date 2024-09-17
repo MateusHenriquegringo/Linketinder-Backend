@@ -25,6 +25,7 @@ Aplicação Java que utiliza JDBC para operações CRUD em **Candidatos**, **Emp
     - **model**: Classes de modelo.
     - **Main**: Ponto de entrada.
     - **DB**: Configuracoes de Conexao.
+- **sql/** : Definicao e populacao do banco de dados
 
 ## Exemplos
 
