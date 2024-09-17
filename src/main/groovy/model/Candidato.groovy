@@ -1,5 +1,7 @@
 package model
 
+import enums.CompetenciasENUM
+
 class Candidato {
 
     long id
@@ -15,12 +17,12 @@ class Candidato {
 
     Set<Empresa> matches
     Set<Empresa> likes
-    List<Competencia> competencies
+    List<CompetenciasENUM> competences
 
     Candidato() {
     }
 
-    Candidato(String CPF, String city, String CEP, String description, String email, String last_name, String first_name, List<Competencia> competencies, String password) {
+    Candidato(String CPF, String city, String CEP, String description, String email, String last_name, String first_name, List<CompetenciasENUM> competencies, String password) {
         this.password = password
         this.CPF = CPF
         this.city = city
@@ -29,7 +31,7 @@ class Candidato {
         this.email = email
         this.last_name = last_name
         this.first_name = first_name
-        this.competencies = competencies
+        this.competences = competencies
     }
 
     Candidato(String first_name, String last_name, String email, String description, String CEP, String city, String CPF, String password) {
@@ -44,12 +46,12 @@ class Candidato {
     }
 
 
-    void addCompetencie(Competencia skill) {
-        competencies << skill
+    void addCompetencie(CompetenciasENUM skill) {
+        competences << skill
     }
 
     void listCompetencies() {
-        println "Competências de ${first_name + ' '+ last_name}: ${competencies.join(', ')}"
+        println "Competências de ${first_name + ' '+ last_name}: ${competences.join(', ')}"
     }
 
 

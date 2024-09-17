@@ -89,10 +89,10 @@ class CandidatoDAO {
 
         String command = "SELECT candidato.id, candidato.first_name, candidato.last_name, candidato.cpf, " +
                 "candidato.description, candidato.email, candidato.cep, candidato.city, " +
-                "comp.id AS competencia_id, comp.name AS competencia_name " +
+                "comp.id AS competencia_id, comp.description AS competencia_name " +
                 "FROM \"Candidato\" AS candidato " +
                 "LEFT JOIN \"Candidato_Competencia\" AS cand_comp ON cand_comp.candidato_id = candidato.id " +
-                "LEFT JOIN \"Competencia\" AS comp ON cand_comp.competencia_id = comp.id;";
+                "LEFT JOIN competencia_by_enum AS comp ON cand_comp.competencia_id = comp.id;";
 
         try (Statement stmt = connection.prepareStatement(command)
              ResultSet resultSet = stmt.executeQuery()) {

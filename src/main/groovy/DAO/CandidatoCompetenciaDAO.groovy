@@ -1,5 +1,6 @@
 package DAO
 
+import enums.CompetenciasENUM
 import model.Competencia
 
 import java.sql.Connection
@@ -14,15 +15,15 @@ class CandidatoCompetenciaDAO {
         this.connection = connection;
     }
 
-    void insertCompetenciaToCandidato (long candidatoId, List<Long> competencias){
+    void insertCompetenciaToCandidato (long candidatoId, List<CompetenciasENUM> competencias){
 
         String command = "INSERT INTO \"Candidato_Competencia\" (candidato_id, competencia_id)" +
                 "VALUES(?, ?)"
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
-            for (Long competenciaId : competencias){
+            for (CompetenciasENUM competencia : competencias){
                 pstmt.setLong(1, candidatoId)
-                pstmt.setLong(2, competenciaId)
+                pstmt.setLong(2, competencia.getId())
                 pstmt.addBatch()
             }
             pstmt.executeBatch()

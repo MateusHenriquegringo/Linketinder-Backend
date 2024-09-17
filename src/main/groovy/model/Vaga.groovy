@@ -10,4 +10,5 @@ class Vaga {
     String state
     long empresaId
 
+    List<Competencia> competences
 }

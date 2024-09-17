@@ -1,23 +1,35 @@
 import DAO.CandidatoDAO
+import DAO.CompetenciasDAO
+import enums.CompetenciasENUM
 import model.Candidato
+import model.Competencia
 
 class Main {
 
+    static CompetenciasDAO competenciasDAO = new CompetenciasDAO()
     static CandidatoDAO dao = new CandidatoDAO();
 
     static void main(String[] args) {
 
-        var test = new Candidato()
-        test.setCEP("99950000")
-        test.setCity("tapejara")
-        test.setCPF("04155784009")
-        test.setEmail("henrique@gmail")
-        test.setDescription("vamo ")
-        test.setFirst_name("mateus")
-        test.setLast_name("derossi")
-        test.setPassword("senha123")
+        List<CompetenciasENUM> competencias = new ArrayList<>()
 
-        dao.createCandidato(test)
+        competencias.addAll(CompetenciasENUM.DJANGO, CompetenciasENUM.PYTHON)
 
+        var test2 = new Candidato()
+        test2.setCEP("99950000")
+        test2.setCity("tapejara")
+        test2.setCPF("fsdfsdfsdghfsdf")
+        test2.setEmail("778978drf@gmail")
+        test2.setDescription("vamo ")
+        test2.setFirst_name("henrique")
+        test2.setLast_name("derossi")
+        test2.setPassword("senha123")
+        test2.setCompetences(competencias)
+
+
+        dao.listAllCandidatosAndCompetencias()
+                .forEach {
+                    print(it)
+                }
     }
 }
