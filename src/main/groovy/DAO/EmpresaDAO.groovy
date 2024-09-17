@@ -85,7 +85,7 @@ class EmpresaDAO {
     }
 
     void updateEmpresa(Empresa empresaUpdate, long id){
-        String command = "UPDATE \"Empresa\" SET name=?, description=?, email=?, cnpj=?, cep=?, country=? WHERE id=?";
+        String command = "UPDATE \"Empresa\" SET name=?, description=?, email=?, cnpj=?, cep=?, country=?, password=? WHERE id=?";
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
             pstmt.setString(1, empresaUpdate.getName())
@@ -94,28 +94,12 @@ class EmpresaDAO {
             pstmt.setString(4, empresaUpdate.getCNPJ())
             pstmt.setString(5, empresaUpdate.getCEP())
             pstmt.setString(6, empresaUpdate.getCountry())
-            pstmt.setLong(6, id)
+            pstmt.setString(7, empresaUpdate.getPassword())
+            pstmt.setLong(8, id)
 
             pstmt.executeUpdate()
         } catch (SQLException e) {
-            throw new RuntimeException("ocorreu um erro ao editar")
-        }
-    }
-    void updateEmpresa(Empresa empresaUpdate){
-        String command = "UPDATE \"Empresa\" SET name=?, description=?, email=?, cnpj=?, cep=?, country=? WHERE id=?";
-
-        try (PreparedStatement pstmt = connection.prepareStatement(command)) {
-            pstmt.setString(1, empresaUpdate.getName())
-            pstmt.setString(2, empresaUpdate.getDescription())
-            pstmt.setString(3, empresaUpdate.getEmail())
-            pstmt.setString(4, empresaUpdate.getCNPJ())
-            pstmt.setString(5, empresaUpdate.getCEP())
-            pstmt.setString(6, empresaUpdate.getCountry())
-            pstmt.setLong(6, empresaUpdate.getId())
-
-            pstmt.executeUpdate()
-        } catch (SQLException e) {
-            throw new RuntimeException("ocorreu um erro ao editar")
+            throw new RuntimeException("ocorreu um erro ao editar " + e.getMessage())
         }
     }
 

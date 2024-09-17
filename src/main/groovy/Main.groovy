@@ -17,9 +17,6 @@ class Main {
 
     static void main(String[] args) {
 
-        List<CompetenciasENUM> competencias = new ArrayList<>()
-
-        competencias.addAll(CompetenciasENUM.TYPESCRIPT, CompetenciasENUM.HTML)
 
 
     }

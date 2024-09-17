@@ -16,7 +16,6 @@ class CandidatoCompetenciaDAO {
     }
 
     void insertCompetenciaToCandidato(long candidatoId, List<CompetenciasENUM> competencias) {
-        connection.setAutoCommit(false)
         String command = "INSERT INTO \"Candidato_Competencia\" (candidato_id, competencia_id)" +
                 "VALUES(?, ?)"
 
@@ -27,24 +26,19 @@ class CandidatoCompetenciaDAO {
                 pstmt.addBatch()
             }
             pstmt.executeBatch()
-            connection.commit()
         } catch (SQLException e) {
-            connection.rollback()
             throw new RuntimeException("erro ao salvar competencias do candidato " + e.getMessage())
         }
     }
 
     void updateCompetencias(long candidatoId, List<CompetenciasENUM> competencias) {
         try {
-            connection.setAutoCommit(false)
 
             deleteCompetenciasOfCandidato(candidatoId)
 
             insertCompetenciaToCandidato(candidatoId, competencias)
 
-            connection.commit()
         } catch (SQLException e) {
-            connection.rollback();
             throw new RuntimeException("Erro ao atualizar competências: " + e.getMessage(), e);
         }
     }

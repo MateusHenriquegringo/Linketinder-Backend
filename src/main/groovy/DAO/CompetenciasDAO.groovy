@@ -84,5 +84,4 @@ class CompetenciasDAO {
             throw new RuntimeException("nao foi possivel excluir " + e.getMessage())
         }
     }
-
 }

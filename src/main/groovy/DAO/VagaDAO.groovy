@@ -18,7 +18,6 @@ class VagaDAO {
     private Connection connection = DatabaseConnection.getConnection()
 
     void createVaga(Vaga vaga) {
-        connection.setAutoCommit(false);
         String command = "INSERT INTO \"Vaga\" (name, description, city, state, empresa_id) VALUES(?, ?, ?, ?, ?)";
 
         try (PreparedStatement pstm = connection.prepareStatement(command, Statement.RETURN_GENERATED_KEYS)) {
@@ -40,16 +39,8 @@ class VagaDAO {
                 vagaCompetenciaDAO.insertCompetenciaToVaga(vaga.getId(), vaga.getCompetences());
             }
 
-            connection.commit();
         } catch (SQLException e) {
-            try {
-                connection.rollback();
-            } catch (SQLException rollbackEx) {
-                throw new RuntimeException("falha ao realizar rollback: " + rollbackEx.getMessage(), rollbackEx);
-            }
             throw new RuntimeException("falha ao salvar vaga: " + e.getMessage(), e);
-        } finally {
-            connection.setAutoCommit(true);
         }
     }
 
@@ -61,7 +52,7 @@ class VagaDAO {
         ) {
             List<VagaDTO> vagasResponse = new ArrayList<>();
             while (setVagas.next()) {
-                vagasResponse.add(new VagaDTO (
+                vagasResponse.add(new VagaDTO(
                         setVagas.getLong("id"),
                         setVagas.getString("name"),
                         setVagas.getString("description"),
@@ -76,7 +67,7 @@ class VagaDAO {
         }
     }
 
-    List<VagaCompetenciasDTO> listAllVagasAndCompetences () {
+    List<VagaCompetenciasDTO> listAllVagasAndCompetences() {
         String command = "SELECT vaga.id, vaga.name, vaga.description, vaga.city, " +
                 "vaga.state, vaga.empresa_id, " +
                 "comp.id AS competencia_id, comp.description AS competencia_name " +
@@ -91,11 +82,11 @@ class VagaDAO {
 
             Map<Long, VagaCompetenciasDTO> vagasMap = new HashMap<>()
 
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 long vagaId = resultSet.getLong("id")
                 VagaCompetenciasDTO vaga = vagasMap.get(vagaId)
 
-                if(vaga==null) {
+                if (vaga == null) {
                     vaga = new VagaCompetenciasDTO(
                             resultSet.getLong("id"),
                             resultSet.getString("name"),
@@ -108,12 +99,12 @@ class VagaDAO {
                     vagasMap.put(vagaId, vaga)
                 }
                 String competenciaName = resultSet.getString("competencia_name")
-                if(competenciaName!= null && !competenciaName.isBlank()) {
+                if (competenciaName != null && !competenciaName.isBlank()) {
                     vaga.competences().add(competenciaName)
                 }
             }
             vagasECompetencias.addAll(vagasMap.values())
-        } catch (SQLException e ) {
+        } catch (SQLException e) {
             e.printStackTrace()
         }
         return vagasECompetencias
@@ -163,8 +154,7 @@ class VagaDAO {
         }
     }
 
-    void updateVaga(Vaga vagaUpdate, long id){
-        connection.setAutoCommit(false)
+    void updateVaga(Vaga vagaUpdate, long id) {
         String command = "UPDATE \"Vaga\" SET name=?, description=?, city=?, state=?, empresa_id=? WHERE id=?";
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
@@ -181,12 +171,8 @@ class VagaDAO {
                 VagaCompetenciaDAO vagaCompetenciaDAO = new VagaCompetenciaDAO(connection);
                 vagaCompetenciaDAO.updateCompetencias(id, vagaUpdate.getCompetences());
             }
-            connection.commit()
         } catch (SQLException e) {
-            connection.rollback()
-            throw new RuntimeException("ocorreu um erro ao editar "+ e.getMessage())
-        } finally {
-            connection.setAutoCommit(true)
+            throw new RuntimeException("ocorreu um erro ao editar " + e.getMessage())
         }
     }
 
@@ -197,7 +183,7 @@ class VagaDAO {
             pstmt.setLong(1, id)
             pstmt.executeUpdate()
         } catch (SQLException e) {
-            throw new RuntimeException("nao foi possivel excluir " +e.getMessage())
+            throw new RuntimeException("nao foi possivel excluir " + e.getMessage())
         }
     }
 

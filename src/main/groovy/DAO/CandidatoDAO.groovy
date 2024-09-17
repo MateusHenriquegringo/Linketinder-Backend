@@ -19,7 +19,6 @@ class CandidatoDAO {
         String command = "INSERT INTO \"Candidato\" (first_name, last_name, email, cpf, city, cep, description, password)" +
                 "VALUES (?, ?, ?, ? , ?, ?, ?, ?);"
 
-        connection.setAutoCommit(false)
         try (PreparedStatement pstmt = connection.prepareStatement(command, Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setString(1, candidato.getFirst_name())
             pstmt.setString(2, candidato.getLast_name())
@@ -46,10 +45,8 @@ class CandidatoDAO {
             }
 
         } catch (SQLException e) {
-            connection.rollback()
             throw new RuntimeException("ocorreu um erro ao salvar " + e.getMessage())
         }
-        connection.setAutoCommit(true)
     }
 
     List<CandidatoResponseDTO> listAllCandidatos() {
@@ -156,7 +153,6 @@ class CandidatoDAO {
     }
 
     void updateCandidato(Candidato candidato, long id) {
-        connection.setAutoCommit(false)
         String command = "UPDATE \"Candidato\" SET first_name=?, last_name=?, email=?, cep=?, cpf=?, city=?, description=? WHERE id=?";
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
@@ -175,13 +171,9 @@ class CandidatoDAO {
                 CandidatoCompetenciaDAO candidatoCompetenciaDAO = new CandidatoCompetenciaDAO(connection)
                 candidatoCompetenciaDAO.updateCompetencias(id, candidato.getCompetences())
             }
-            connection.commit()
         } catch (SQLException e) {
             throw new RuntimeException("ocorreu um erro ao editar "+ e.getMessage())
-        } finally {
-            connection.setAutoCommit(true)
         }
-
     }
 
 
