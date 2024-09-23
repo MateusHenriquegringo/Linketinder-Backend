@@ -1,7 +1,6 @@
 package DAO
 
 import enums.CompetenciasENUM
-import model.Competencia
 
 import java.sql.Connection
 import java.sql.PreparedStatement

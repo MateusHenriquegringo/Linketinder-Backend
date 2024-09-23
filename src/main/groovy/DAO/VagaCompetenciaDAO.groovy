@@ -1,12 +1,10 @@
 package DAO
 
 import enums.CompetenciasENUM
-import model.Competencia
 
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.SQLException
-import java.util.stream.Collectors
 
 class VagaCompetenciaDAO {
     private Connection connection;
