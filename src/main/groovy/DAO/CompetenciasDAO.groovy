@@ -9,6 +9,10 @@ class CompetenciasDAO implements CRUD<Competencia, Long>{
 
     private Connection connection = DatabaseConnection.getConnection()
 
+    CompetenciasDAO(Connection connection){
+        this.connection = connection
+    }
+
     @Override
     void create(Competencia competencia) {
         String command = "INSERT INTO \"Competencia\" (name) VALUES ( ? )"

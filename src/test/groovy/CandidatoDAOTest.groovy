@@ -30,7 +30,7 @@ class CandidatoDAOTest extends Specification {
                         "password VARCHAR(100) NOT NULL" +
                         ")"
         )
-        candidato = new Candidato (
+        candidato = new Candidato(
                 "mateus",
                 "derossi",
                 "henrique@gmail.com",
@@ -85,7 +85,7 @@ class CandidatoDAOTest extends Specification {
         assert resultSet.getString("description") == candidato.getDescription()
     }
 
-    def "verify update method"(){
+    def "verify update method"() {
         given:
         Candidato originalCandidato = candidato
         dao.create(originalCandidato)
@@ -139,7 +139,7 @@ class CandidatoDAOTest extends Specification {
         assert !deletedResultSet.next()
     }
 
-    def "verify findById throws exception" () {
+    def "verify findById throws exception"() {
         when:
         dao.findById(-1)
 
