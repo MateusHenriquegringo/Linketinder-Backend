@@ -22,4 +22,12 @@ class Vaga {
         this.state = state
         this.city = city
     }
+    Vaga(long id, String name, String description, String city, String state, long empresaId) {
+        this.id = id
+        this.name = name
+        this.description = description
+        this.empresaId = empresaId
+        this.state = state
+        this.city = city
+    }
 }

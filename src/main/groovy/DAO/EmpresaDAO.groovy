@@ -1,17 +1,16 @@
 package DAO
 
 import DB.DatabaseConnection
-import DTO.Response.EmpresaResponseDTO
 import model.Empresa
 
 import java.sql.*
 
-class EmpresaDAO {
+class EmpresaDAO implements CRUD<Empresa, Long> {
 
     private Connection connection = DatabaseConnection.getConnection()
 
-    void createEmpresa(Empresa empresa) {
-
+    @Override
+    void create(Empresa empresa) {
         String command = "INSERT INTO \"Empresa\" (name, description, email, cnpj, cep, country, password)" +
                 "VALUES (?, ?, ?, ?, ?, ?, ?)"
 
@@ -31,56 +30,8 @@ class EmpresaDAO {
 
     }
 
-    List<EmpresaResponseDTO> listAllEmpresas() {
-        String command = "SELECT * FROM \"Empresa\";"
-
-        try (Statement stmt = connection.createStatement()
-             ResultSet setEmpresas = stmt.executeQuery(command)
-        ) {
-            List<EmpresaResponseDTO> empresasResponse = new ArrayList<>()
-            while (setEmpresas.next()) {
-                empresasResponse.add(new EmpresaResponseDTO(
-                        setEmpresas.getLong("id"),
-                        setEmpresas.getString("name"),
-                        setEmpresas.getString("description"),
-                        setEmpresas.getString("email"),
-                        setEmpresas.getString("cnpj"),
-                        setEmpresas.getString("cep"),
-                        setEmpresas.getString("country"))
-                )
-            }
-
-            return empresasResponse
-        } catch (SQLException e) {
-            throw new RuntimeException("ocorreu um erro ao listar as empresas " + e.getMessage())
-        }
-    }
-
-    EmpresaResponseDTO findEmpresaById(long id) {
-        String command = "SELECT * FROM \"Empresa\" WHERE id = ?"
-
-        try (PreparedStatement pstmt = connection.prepareStatement(command)) {
-
-            pstmt.setLong(1, id)
-            ResultSet result = pstmt.executeQuery()
-
-            if (result.next()) {
-                return new EmpresaResponseDTO(
-                        result.getLong("id"),
-                        result.getString("name"),
-                        result.getString("description"),
-                        result.getString("email"),
-                        result.getString("cnpj"),
-                        result.getString("cep"),
-                        result.getString("country")
-                )
-            } else throw new NoSuchElementException("Empresa nao encontrada")
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao consultar " + e.getMessage())
-        }
-    }
-
-    void updateEmpresa(Empresa empresaUpdate, long id) {
+    @Override
+    void update(Empresa empresaUpdate, Long id) {
         String command = "UPDATE \"Empresa\" SET name=?, description=?, email=?, cnpj=?, cep=?, country=?, password=? WHERE id=?"
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
@@ -99,7 +50,8 @@ class EmpresaDAO {
         }
     }
 
-    void deleteEmpresaById(long id) {
+    @Override
+    void delete(Long id) {
         String command = "DELETE FROM \"Empresa\" WHERE id = ?"
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
@@ -110,4 +62,54 @@ class EmpresaDAO {
         }
     }
 
+    @Override
+    List<Empresa> listAll() {
+        String command = "SELECT * FROM \"Empresa\";"
+
+        try (Statement stmt = connection.createStatement()
+             ResultSet setEmpresas = stmt.executeQuery(command)
+        ) {
+            List<Empresa> empresasResponse = new ArrayList<>()
+            while (setEmpresas.next()) {
+                empresasResponse.add(new Empresa(
+                        setEmpresas.getLong("id"),
+                        setEmpresas.getString("name"),
+                        setEmpresas.getString("description"),
+                        setEmpresas.getString("email"),
+                        setEmpresas.getString("cnpj"),
+                        setEmpresas.getString("cep"),
+                        setEmpresas.getString("country"))
+                )
+            }
+
+            return empresasResponse
+        } catch (SQLException e) {
+            throw new RuntimeException("ocorreu um erro ao listar as empresas " + e.getMessage())
+        }
+    }
+
+    @Override
+    Empresa findById(Long id) {
+        String command = "SELECT * FROM \"Empresa\" WHERE id = ?"
+
+        try (PreparedStatement pstmt = connection.prepareStatement(command)) {
+
+            pstmt.setLong(1, id)
+            ResultSet result = pstmt.executeQuery()
+
+            if (result.next()) {
+                return new Empresa(
+                        result.getLong("id"),
+                        result.getString("name"),
+                        result.getString("description"),
+                        result.getString("email"),
+                        result.getString("cnpj"),
+                        result.getString("cep"),
+                        result.getString("country")
+                )
+            } else throw new NoSuchElementException("Empresa nao encontrada")
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao consultar " + e.getMessage())
+        }
+    }
 }

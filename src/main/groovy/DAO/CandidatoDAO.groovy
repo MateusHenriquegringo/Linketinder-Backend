@@ -1,7 +1,6 @@
 package DAO
 
 import DB.DatabaseConnection
-import DTO.Response.CandidatoResponseDTO
 import model.Candidato
 
 import java.sql.PreparedStatement
@@ -9,11 +8,12 @@ import java.sql.ResultSet
 import java.sql.SQLException
 import java.sql.Statement
 
-class CandidatoDAO {
+class CandidatoDAO implements CRUD<Candidato, Long> {
 
     private connection = DatabaseConnection.getConnection()
 
-    void createCandidato(Candidato candidato) {
+    @Override
+    void create(Candidato candidato) {
         String command = "INSERT INTO \"Candidato\" (first_name, last_name, email, cpf, city, cep, description, password)" +
                 "VALUES (?, ?, ?, ? , ?, ?, ?, ?);"
 
@@ -35,63 +35,8 @@ class CandidatoDAO {
         }
     }
 
-    List<CandidatoResponseDTO> listAllCandidatos() {
-
-        String command = "SELECT cep, city, cpf, description, email, first_name, last_name, id FROM \"Candidato\";"
-
-        try (Statement stmt = connection.createStatement()
-             ResultSet setCandidatos = stmt.executeQuery(command)) {
-
-            List<CandidatoResponseDTO> candidatosResponse = new ArrayList<>()
-
-            while (setCandidatos.next()) {
-                candidatosResponse.add(
-                        new CandidatoResponseDTO.Builder()
-                                .CEP(setCandidatos.getString("cep"))
-                                .city(setCandidatos.getString("city"))
-                                .CPF(setCandidatos.getString("cpf"))
-                                .description(setCandidatos.getString("description"))
-                                .email(setCandidatos.getString("email"))
-                                .firstName(setCandidatos.getString("first_name"))
-                                .lastName(setCandidatos.getString("last_name"))
-                                .id(setCandidatos.getLong("id"))
-                                .build())
-            }
-
-            return candidatosResponse
-        } catch (SQLException e) {
-            throw new RuntimeException("ocorreu um erro ao listar candidatos " + e.getMessage())
-        }
-
-    }
-
-    CandidatoResponseDTO findCandidatoById(long id) {
-
-        String command = "SELECT * FROM \"Candidato\" WHERE id = ?"
-
-        try (PreparedStatement pstmt = connection.prepareStatement(command)) {
-            pstmt.setLong(1, id)
-            ResultSet result = pstmt.executeQuery()
-
-            if (result.next()) {
-                return new CandidatoResponseDTO.Builder()
-                        .CEP(result.getString("cep"))
-                        .city(result.getString("city"))
-                        .CPF(result.getString("cpf"))
-                        .description(result.getString("description"))
-                        .email(result.getString("email"))
-                        .firstName(result.getString("first_name"))
-                        .lastName(result.getString("last_name"))
-                        .id(result.getLong("id"))
-                        .build()
-
-            } else throw new NoSuchElementException("Candidato nao encontrado")
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao consultar " + e.getMessage())
-        }
-    }
-
-    void updateCandidato(Candidato candidato, long id) {
+    @Override
+    void update(Candidato candidato, Long id) {
         String command = "UPDATE \"Candidato\" SET first_name=?, last_name=?, email=?, cep=?, cpf=?, city=?, description=? WHERE id=?"
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
@@ -111,8 +56,8 @@ class CandidatoDAO {
         }
     }
 
-
-    void deleteCandidatoById(long id) {
+    @Override
+    void delete(Long id) {
         String command = "DELETE FROM \"Candidato\" WHERE id = ?"
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
@@ -122,4 +67,61 @@ class CandidatoDAO {
             throw new RuntimeException("nao foi possivel excluir " + e.getMessage())
         }
     }
+
+    @Override
+    List<Candidato> listAll() {
+        String command = "SELECT cep, city, cpf, description, email, first_name, last_name, id FROM \"Candidato\";"
+
+        try (Statement stmt = connection.createStatement()
+             ResultSet setCandidatos = stmt.executeQuery(command)) {
+
+            List<Candidato> candidatosResponse = new ArrayList<>()
+
+            while (setCandidatos.next()) {
+                candidatosResponse.add(
+                        new Candidato(
+                                setCandidatos.getLong("id"),
+                                setCandidatos.getString("first_name"),
+                                setCandidatos.getString("last_name"),
+                                setCandidatos.getString("email"),
+                                setCandidatos.getString("description"),
+                                setCandidatos.getString("cep"),
+                                setCandidatos.getString("city"),
+                                setCandidatos.getString("cpf")
+                        )
+                )
+            }
+
+            return candidatosResponse
+        } catch (SQLException e) {
+            throw new RuntimeException("ocorreu um erro ao listar candidatos " + e.getMessage())
+        }
+    }
+
+    @Override
+    Candidato findById(Long id) {
+        String command = "SELECT * FROM \"Candidato\" WHERE id = ?"
+
+        try (PreparedStatement pstmt = connection.prepareStatement(command)) {
+            pstmt.setLong(1, id)
+            ResultSet setCandidatos = pstmt.executeQuery()
+
+            if (setCandidatos.next()) {
+                return  new Candidato(
+                        setCandidatos.getLong("id"),
+                        setCandidatos.getString("first_name"),
+                        setCandidatos.getString("last_name"),
+                        setCandidatos.getString("email"),
+                        setCandidatos.getString("description"),
+                        setCandidatos.getString("cep"),
+                        setCandidatos.getString("city"),
+                        setCandidatos.getString("cpf")
+                )
+            } else throw new NoSuchElementException("Candidato nao encontrado")
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao consultar " + e.getMessage())
+        }
+    }
+
 }

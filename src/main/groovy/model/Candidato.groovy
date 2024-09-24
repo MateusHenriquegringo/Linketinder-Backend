@@ -19,8 +19,6 @@ class Candidato {
     Set<Empresa> likes
     List<CompetenciasENUM> competences
 
-    Candidato() {
-    }
 
     Candidato(String CPF, String city, String CEP, String description, String email, String last_name, String first_name, List<CompetenciasENUM> competencies, String password) {
         this.password = password
@@ -34,7 +32,8 @@ class Candidato {
         this.competences = competencies
     }
 
-    Candidato(String first_name, String last_name, String email, String description, String CEP, String city, String CPF, String password) {
+    Candidato(long id, String first_name, String last_name, String email, String description, String CEP, String city, String CPF) {
+        this.id = id
         this.first_name = first_name
         this.last_name = last_name
         this.email = email

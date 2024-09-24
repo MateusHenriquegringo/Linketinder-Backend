@@ -6,12 +6,12 @@ import model.Vaga
 
 import java.sql.*
 
-class VagaDAO {
+class VagaDAO implements CRUD<Vaga, Long>{
 
     private Connection connection = DatabaseConnection.getConnection()
 
-    void createVaga(Vaga vaga) {
-
+    @Override
+    void create(Vaga vaga) {
         String command = "INSERT INTO \"Vaga\" (name, description, city, state, empresa_id) VALUES(?, ?, ?, ?, ?)"
 
         try (PreparedStatement pstm = connection.prepareStatement(command)) {
@@ -28,55 +28,8 @@ class VagaDAO {
         }
     }
 
-    List<VagaDTO> listAllVagas() {
-        String command = "SELECT * FROM \"Vaga\";"
-
-        try (Statement stmt = connection.createStatement()
-             ResultSet setVagas = stmt.executeQuery(command)
-        ) {
-            List<VagaDTO> vagasResponse = new ArrayList<>()
-            while (setVagas.next()) {
-                vagasResponse.add(new VagaDTO(
-                        setVagas.getLong("id"),
-                        setVagas.getString("name"),
-                        setVagas.getString("description"),
-                        setVagas.getString("city"),
-                        setVagas.getString("state"),
-                        setVagas.getLong("empresa_id")))
-            }
-
-            return vagasResponse
-        } catch (SQLException e) {
-            throw new RuntimeException("ocorreu um erro ao listar as vagas " + e.getMessage())
-        }
-    }
-
-    VagaDTO findVagaById(long id) {
-
-        String command = "SELECT * FROM \"Vaga\" WHERE id = ?"
-
-        try (PreparedStatement pstmt = connection.prepareStatement(command)) {
-            pstmt.setLong(1, id)
-            ResultSet resultSet = pstmt.executeQuery()
-
-            if (resultSet.next()) {
-                return new VagaDTO(
-                        resultSet.getLong("id"),
-                        resultSet.getString("name"),
-                        resultSet.getString("description"),
-                        resultSet.getString("city"),
-                        resultSet.getString("state"),
-                        resultSet.getLong("empresa_id")
-                )
-            } else throw new NoSuchElementException("Essa vaga nao existe")
-
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao consultar a vaga: " + e.getMessage())
-        }
-    }
-
-
-    void updateVaga(Vaga vagaUpdate, long id) {
+    @Override
+    void update(Vaga vagaUpdate, Long id) {
         String command = "UPDATE \"Vaga\" SET name=?, description=?, city=?, state=?, empresa_id=? WHERE id=?"
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
@@ -94,7 +47,8 @@ class VagaDAO {
         }
     }
 
-    void deleteVagaById(long id) {
+    @Override
+    void delete(Long id) {
         String command = "DELETE FROM \"Vaga\" WHERE id = ?"
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
@@ -102,6 +56,56 @@ class VagaDAO {
             pstmt.executeUpdate()
         } catch (SQLException e) {
             throw new RuntimeException("nao foi possivel excluir " + e.getMessage())
+        }
+    }
+
+    @Override
+    List<Vaga> listAll() {
+        String command = "SELECT * FROM \"Vaga\";"
+
+        try (Statement stmt = connection.createStatement();
+             ResultSet setVagas = stmt.executeQuery(command)
+        ) {
+            List<Vaga> vagasResponse = new ArrayList<>()
+            while (setVagas.next()) {
+                vagasResponse.add(new Vaga(
+                        setVagas.getLong("id"),
+                        setVagas.getString("name"),
+                        setVagas.getString("description"),
+                        setVagas.getString("city"),
+                        setVagas.getString("state"),
+                        setVagas.getLong("empresa_id")))
+            }
+
+            return vagasResponse
+        } catch (SQLException e) {
+            throw new RuntimeException("ocorreu um erro ao listar as vagas " + e.getMessage())
+        }
+    }
+
+    @Override
+    Vaga findById(Long id) {
+        String command = "SELECT * FROM \"Vaga\" WHERE id = ?"
+
+        try (PreparedStatement pstmt = connection.prepareStatement(command)) {
+            pstmt.setLong(1, id)
+            ResultSet resultSet = pstmt.executeQuery()
+
+            if (resultSet.next()) {
+                return new Vaga(
+                        resultSet.getLong("id"),
+                        resultSet.getString("name"),
+                        resultSet.getString("description"),
+                        resultSet.getString("city"),
+                        resultSet.getString("state"),
+                        resultSet.getLong("empresa_id")
+                )
+            } else {
+                throw new NoSuchElementException("Essa vaga nao existe")
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao consultar a vaga: " + e.getMessage())
         }
     }
 

@@ -25,6 +25,15 @@ class Empresa {
         this.password = password
     }
 
+    Empresa(long id, String name, String description, String email, String CNPJ, String CEP, String country) {
+        this.id = id
+        this.name = name
+        this.description = description
+        this.email = email
+        this.CNPJ = CNPJ
+        this.CEP = CEP
+        this.country = country
+    }
     boolean verifyMatch(Candidato candidato) {
         if (candidato instanceof Candidato) {
             return candidato.getLikes().contains(this);

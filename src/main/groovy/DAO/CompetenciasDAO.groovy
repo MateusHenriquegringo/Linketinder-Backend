@@ -5,14 +5,52 @@ import model.Competencia
 
 import java.sql.*
 
-class CompetenciasDAO {
+class CompetenciasDAO implements CRUD<Competencia, Long>{
 
     private Connection connection = DatabaseConnection.getConnection()
 
-    List<Competencia> listAllCompetencias() {
+    @Override
+    void create(Competencia competencia) {
+        String command = "INSERT INTO \"Competencia\" (name) VALUES ( ? )"
+
+        try (PreparedStatement pstmt = connection.prepareStatement(command)) {
+            pstmt.setString(1, competencia.getName())
+            pstmt.executeUpdate()
+        } catch (SQLException e) {
+            throw new RuntimeException("nao foi possivel adicionar a competencia: " + e.getMessage())
+        }
+    }
+
+    @Override
+    void update(Competencia competencia, Long id) {
+        String command = "UPDATE \"Competencia\" SET name = ? WHERE id = ?"
+
+        try (PreparedStatement pstmt = connection.prepareStatement(command)) {
+            pstmt.setString(1, competencia.getName())
+            pstmt.setLong(2, id)
+            pstmt.executeUpdate()
+        } catch (SQLException e) {
+            throw new RuntimeException("nao foi possivel editar a competencia: " + e.getMessage())
+        }
+    }
+
+    @Override
+    void delete(Long id) {
+        String command = "DELETE FROM \"Competencia\" WHERE id = ?"
+
+        try (PreparedStatement pstmt = connection.prepareStatement(command)) {
+            pstmt.setLong(1, id)
+            pstmt.executeUpdate()
+        } catch (SQLException e) {
+            throw new RuntimeException("nao foi possivel excluir: " + e.getMessage())
+        }
+    }
+
+    @Override
+    List<Competencia> listAll() {
         String command = "SELECT * FROM \"Competencia\";"
 
-        try (Statement stmt = connection.createStatement()
+        try (Statement stmt = connection.createStatement();
              ResultSet setCompetencia = stmt.executeQuery(command)) {
 
             List<Competencia> competenciasResponse = new ArrayList<>()
@@ -25,11 +63,12 @@ class CompetenciasDAO {
 
             return competenciasResponse
         } catch (SQLException e) {
-            throw new RuntimeException("ocorreu um erro ao listar as competencias " + e.getMessage())
+            throw new RuntimeException("ocorreu um erro ao listar as competencias: " + e.getMessage())
         }
     }
 
-    Competencia findCompetenciaById(long id) {
+    @Override
+    Competencia findById(Long id) {
         String command = "SELECT * FROM \"Competencia\" WHERE id = ?"
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
@@ -41,43 +80,11 @@ class CompetenciasDAO {
                         setCompetencia.getLong("id"),
                         setCompetencia.getString("name")
                 )
-            }
+            } else throw new NoSuchElementException("Essa competencia nao existe")
+
         } catch (SQLException e) {
-            throw new RuntimeException("nao foi possivel buscar a Competencia " + e.getMessage())
+            throw new RuntimeException("nao foi possivel buscar a competencia: " + e.getMessage())
         }
     }
 
-    void createCompetencia(Competencia competencia) {
-        String command = "INSERT INTO \"Competencia\" (name) VALUES ( ? )"
-
-        try (PreparedStatement pstmt = connection.prepareStatement(command)) {
-            pstmt.setString(1, competencia.getName())
-            pstmt.executeUpdate()
-        } catch (SQLException e) {
-            throw new RuntimeException("nao foi possivel adicionar a competencia " + e.getMessage())
-        }
-    }
-
-    void updateCompetencia(Competencia competencia, long id) {
-        String command = "UPDATE \"Competencia\" SET name = ? WHERE id=?"
-
-        try (PreparedStatement pstmt = connection.prepareStatement(command)) {
-            pstmt.setString(1, competencia.getName())
-            pstmt.setLong(2, id)
-            pstmt.executeUpdate()
-        } catch (SQLException e) {
-            throw new RuntimeException("nao foi possivel editar a competencia " + e.getMessage())
-        }
-    }
-
-    void deleteCompetencia(long id) {
-        String command = "DELETE FROM \"Competencia\" WHERE id = ?"
-
-        try (PreparedStatement pstmt = connection.prepareStatement(command)) {
-            pstmt.setLong(1, id)
-            pstmt.executeUpdate()
-        } catch (SQLException e) {
-            throw new RuntimeException("nao foi possivel excluir " + e.getMessage())
-        }
-    }
 }
