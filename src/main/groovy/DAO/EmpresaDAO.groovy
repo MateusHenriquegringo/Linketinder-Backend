@@ -9,6 +9,10 @@ class EmpresaDAO implements CRUD<Empresa, Long> {
 
     private Connection connection = DatabaseConnection.getConnection()
 
+    EmpresaDAO(Connection connection){
+        this.connection = connection
+    }
+
     @Override
     void create(Empresa empresa) {
         String command = "INSERT INTO \"Empresa\" (name, description, email, cnpj, cep, country, password)" +
