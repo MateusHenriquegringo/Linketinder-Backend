@@ -3,6 +3,7 @@ package DAO
 import DB.DatabaseConnection
 import model.Candidato
 
+import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet
 import java.sql.SQLException
@@ -11,6 +12,10 @@ import java.sql.Statement
 class CandidatoDAO implements CRUD<Candidato, Long> {
 
     private connection = DatabaseConnection.getConnection()
+
+    CandidatoDAO(Connection connection) {
+        this.connection = connection
+    }
 
     @Override
     void create(Candidato candidato) {
@@ -70,7 +75,7 @@ class CandidatoDAO implements CRUD<Candidato, Long> {
 
     @Override
     List<Candidato> listAll() {
-        String command = "SELECT cep, city, cpf, description, email, first_name, last_name, id FROM \"Candidato\";"
+        String command = "SELECT * FROM \"Candidato\";"
 
         try (Statement stmt = connection.createStatement()
              ResultSet setCandidatos = stmt.executeQuery(command)) {

@@ -16,8 +16,15 @@ dependencies {
     api libs.org.apache.groovy.groovy.all
     api libs.org.postgresql.postgresql
     api libs.org.apache.groovy.groovy.sql
-    testImplementation libs.org.junit.jupiter.junit.jupiter.api
+
+    testImplementation 'com.h2database:h2:2.1.214'
+
+    testImplementation 'org.spockframework:spock-core:2.3-groovy-4.0'
+    testImplementation 'org.spockframework:spock-junit4:2.3-groovy-4.0'
     testImplementation libs.org.mockito.mockito.all
+
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.7.1'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 group = 'org.example'
@@ -39,4 +46,13 @@ tasks.withType(JavaCompile).configureEach {
 
 tasks.withType(Javadoc).configureEach {
     options.encoding = 'UTF-8'
+}
+
+tasks.named('test', Test) {
+    useJUnitPlatform()
+    maxHeapSize = '1G'
+
+    testLogging {
+        events "passed"
+    }
 }

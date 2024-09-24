@@ -1,7 +1,6 @@
 package DAO
 
 import DB.DatabaseConnection
-import DTO.Response.VagaDTO
 import model.Vaga
 
 import java.sql.*

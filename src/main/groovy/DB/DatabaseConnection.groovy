@@ -22,4 +22,5 @@ class DatabaseConnection {
             throw new RuntimeException("erro ao conectar "+ e)
         }
     }
+
 }

@@ -41,9 +41,18 @@ class Candidato {
         this.CEP = CEP
         this.city = city
         this.CPF = CPF
-        this.password = password
     }
 
+    Candidato(String first_name, String last_name, String email, String description, String CEP, String city, String CPF, String password) {
+        this.first_name = first_name
+        this.last_name = last_name
+        this.email = email
+        this.description = description
+        this.CEP = CEP
+        this.city = city
+        this.CPF = CPF
+        this.password = password
+    }
 
     void addCompetencie(CompetenciasENUM skill) {
         competences << skill
