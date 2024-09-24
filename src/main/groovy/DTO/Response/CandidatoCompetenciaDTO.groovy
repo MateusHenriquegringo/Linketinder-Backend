@@ -1,7 +1,5 @@
 package DTO.Response
 
-import model.Competencia
-
 record CandidatoCompetenciaDTO(
         long id,
         String first_name,

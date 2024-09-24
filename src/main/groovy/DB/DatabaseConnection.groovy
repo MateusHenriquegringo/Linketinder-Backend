@@ -14,14 +14,12 @@ class DatabaseConnection {
 
         props.setProperty("user", "mateus")
         props.setProperty("password", "gringo")
-        props.setProperty("loggerLevel", "DEBUG")
-        props.setProperty("loggerFile", "System.out")
 
         try {
             Class.forName(DRIVER);
             return DriverManager.getConnection(URL, props)
         } catch (ClassCastException | SQLException e) {
-            throw new RuntimeException("erro ao conectar")
+            throw new RuntimeException("erro ao conectar "+ e)
         }
     }
 }

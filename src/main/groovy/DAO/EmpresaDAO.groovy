@@ -4,20 +4,16 @@ import DB.DatabaseConnection
 import DTO.Response.EmpresaResponseDTO
 import model.Empresa
 
-import java.sql.Connection
-import java.sql.PreparedStatement
-import java.sql.ResultSet
-import java.sql.SQLException
-import java.sql.Statement
+import java.sql.*
 
 class EmpresaDAO {
 
-    private Connection connection = DatabaseConnection.getConnection();
+    private Connection connection = DatabaseConnection.getConnection()
 
     void createEmpresa(Empresa empresa) {
 
         String command = "INSERT INTO \"Empresa\" (name, description, email, cnpj, cep, country, password)" +
-                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+                "VALUES (?, ?, ?, ?, ?, ?, ?)"
 
         try (PreparedStatement pstm = connection.prepareStatement(command)) {
             pstm.setString(1, empresa.getName())
@@ -38,10 +34,10 @@ class EmpresaDAO {
     List<EmpresaResponseDTO> listAllEmpresas() {
         String command = "SELECT * FROM \"Empresa\";"
 
-        try (Statement stmt = connection.createStatement();
+        try (Statement stmt = connection.createStatement()
              ResultSet setEmpresas = stmt.executeQuery(command)
         ) {
-            List<EmpresaResponseDTO> empresasResponse = new ArrayList<>();
+            List<EmpresaResponseDTO> empresasResponse = new ArrayList<>()
             while (setEmpresas.next()) {
                 empresasResponse.add(new EmpresaResponseDTO(
                         setEmpresas.getLong("id"),
@@ -54,14 +50,14 @@ class EmpresaDAO {
                 )
             }
 
-            return empresasResponse;
+            return empresasResponse
         } catch (SQLException e) {
             throw new RuntimeException("ocorreu um erro ao listar as empresas " + e.getMessage())
         }
     }
 
     EmpresaResponseDTO findEmpresaById(long id) {
-        String command = "SELECT * FROM \"Empresa\" WHERE id = ?";
+        String command = "SELECT * FROM \"Empresa\" WHERE id = ?"
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
 
@@ -84,8 +80,8 @@ class EmpresaDAO {
         }
     }
 
-    void updateEmpresa(Empresa empresaUpdate, long id){
-        String command = "UPDATE \"Empresa\" SET name=?, description=?, email=?, cnpj=?, cep=?, country=?, password=? WHERE id=?";
+    void updateEmpresa(Empresa empresaUpdate, long id) {
+        String command = "UPDATE \"Empresa\" SET name=?, description=?, email=?, cnpj=?, cep=?, country=?, password=? WHERE id=?"
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
             pstmt.setString(1, empresaUpdate.getName())
@@ -110,7 +106,7 @@ class EmpresaDAO {
             pstmt.setLong(1, id)
             pstmt.executeUpdate()
         } catch (SQLException e) {
-            throw new RuntimeException("nao foi possivel excluir " +e.getMessage())
+            throw new RuntimeException("nao foi possivel excluir " + e.getMessage())
         }
     }
 
