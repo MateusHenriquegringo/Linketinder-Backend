@@ -14,7 +14,9 @@ Aplicação Java que utiliza JDBC para operações CRUD em **Candidatos**, **Emp
 - **Groovy**
 - **JDBC**
 - **PostgreSQL**
-- **Maven**
+- **Gradle**
+- **H2 Database**
+- **Spock**
 
 
 ## Estrutura do Projeto
@@ -25,6 +27,7 @@ Aplicação Java que utiliza JDBC para operações CRUD em **Candidatos**, **Emp
     - **model**: Classes de modelo.
     - **Main**: Ponto de entrada.
     - **DB**: Configuracoes de Conexao.
+- **src/test/groovy**: Testes.
 - **sql/** : Definicao e populacao do banco de dados
 
 ## Exemplos
