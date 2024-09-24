@@ -9,6 +9,10 @@ class VagaDAO implements CRUD<Vaga, Long>{
 
     private Connection connection = DatabaseConnection.getConnection()
 
+    VagaDAO(Connection connection){
+        this.connection = connection
+    }
+
     @Override
     void create(Vaga vaga) {
         String command = "INSERT INTO \"Vaga\" (name, description, city, state, empresa_id) VALUES(?, ?, ?, ?, ?)"
