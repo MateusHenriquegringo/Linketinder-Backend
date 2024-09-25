@@ -25,7 +25,7 @@ Aplicação Java que utiliza JDBC para operações CRUD em **Candidatos**, **Emp
     - **DAO**: Data Access Objects.
     - **DTO**: Data Transfer Objects.
     - **model**: Classes de modelo.
-    - **Main**: Ponto de entrada.
+    - **app.Main**: Ponto de entrada.
     - **DB**: Configuracoes de Conexao.
 - **src/test/groovy**: Testes.
 - **sql/** : Definicao e populacao do banco de dados

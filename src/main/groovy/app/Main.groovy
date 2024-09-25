@@ -1,3 +1,4 @@
+package app
 
 class Main {
 
