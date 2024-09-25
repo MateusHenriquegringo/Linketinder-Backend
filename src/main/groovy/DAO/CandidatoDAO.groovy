@@ -1,6 +1,6 @@
 package DAO
 
-import DB.DatabaseConnection
+import DB.PostgresDatabaseConnection
 import model.Candidato
 
 import java.sql.Connection
@@ -11,7 +11,7 @@ import java.sql.Statement
 
 class CandidatoDAO implements CRUD<Candidato, Long> {
 
-    private connection = DatabaseConnection.getConnection()
+    private connection = PostgresDatabaseConnection.getConnection()
 
     CandidatoDAO(Connection connection) {
         this.connection = connection

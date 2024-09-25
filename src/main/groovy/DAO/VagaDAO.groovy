@@ -1,13 +1,13 @@
 package DAO
 
-import DB.DatabaseConnection
+import DB.PostgresDatabaseConnection
 import model.Vaga
 
 import java.sql.*
 
 class VagaDAO implements CRUD<Vaga, Long>{
 
-    private Connection connection = DatabaseConnection.getConnection()
+    private Connection connection = PostgresDatabaseConnection.getConnection()
 
     VagaDAO(Connection connection){
         this.connection = connection

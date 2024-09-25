@@ -1,13 +1,13 @@
 package DAO
 
-import DB.DatabaseConnection
+import DB.PostgresDatabaseConnection
 import model.Empresa
 
 import java.sql.*
 
 class EmpresaDAO implements CRUD<Empresa, Long> {
 
-    private Connection connection = DatabaseConnection.getConnection()
+    private Connection connection = PostgresDatabaseConnection.getConnection()
 
     EmpresaDAO(Connection connection){
         this.connection = connection

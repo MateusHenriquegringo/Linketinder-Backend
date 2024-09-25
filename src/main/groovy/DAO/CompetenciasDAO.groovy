@@ -1,13 +1,13 @@
 package DAO
 
-import DB.DatabaseConnection
+import DB.PostgresDatabaseConnection
 import model.Competencia
 
 import java.sql.*
 
 class CompetenciasDAO implements CRUD<Competencia, Long>{
 
-    private Connection connection = DatabaseConnection.getConnection()
+    private Connection connection = PostgresDatabaseConnection.getConnection()
 
     CompetenciasDAO(Connection connection){
         this.connection = connection

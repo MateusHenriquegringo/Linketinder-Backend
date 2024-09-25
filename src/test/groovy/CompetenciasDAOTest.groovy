@@ -1,6 +1,5 @@
 import DAO.CompetenciasDAO
 import DB.H2DatabaseConnection
-import model.Candidato
 import model.Competencia
 import spock.lang.Shared
 import spock.lang.Specification
