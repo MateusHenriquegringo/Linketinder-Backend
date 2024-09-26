@@ -1,6 +1,6 @@
 package DAO
 
-import DB.PostgresDatabaseConnection
+
 import model.Candidato
 
 import java.sql.Connection
@@ -11,7 +11,7 @@ import java.sql.Statement
 
 class CandidatoDAO implements CRUD<Candidato, Long> {
 
-    private connection = PostgresDatabaseConnection.getConnection()
+    private connection;
 
     CandidatoDAO(Connection connection) {
         this.connection = connection
@@ -78,26 +78,26 @@ class CandidatoDAO implements CRUD<Candidato, Long> {
         String command = "SELECT * FROM \"Candidato\";"
 
         try (Statement stmt = connection.createStatement()
-             ResultSet setCandidatos = stmt.executeQuery(command)) {
+             ResultSet resultSet = stmt.executeQuery(command)) {
 
-            List<Candidato> candidatosResponse = new ArrayList<>()
+            List<Candidato> responseList = new ArrayList<>()
 
-            while (setCandidatos.next()) {
-                candidatosResponse.add(
+            while (resultSet.next()) {
+                responseList.add(
                         new Candidato(
-                                setCandidatos.getLong("id"),
-                                setCandidatos.getString("first_name"),
-                                setCandidatos.getString("last_name"),
-                                setCandidatos.getString("email"),
-                                setCandidatos.getString("description"),
-                                setCandidatos.getString("cep"),
-                                setCandidatos.getString("city"),
-                                setCandidatos.getString("cpf")
+                                resultSet.getLong("id"),
+                                resultSet.getString("first_name"),
+                                resultSet.getString("last_name"),
+                                resultSet.getString("email"),
+                                resultSet.getString("description"),
+                                resultSet.getString("cep"),
+                                resultSet.getString("city"),
+                                resultSet.getString("cpf")
                         )
                 )
             }
 
-            return candidatosResponse
+            return responseList
         } catch (SQLException e) {
             throw new RuntimeException("ocorreu um erro ao listar candidatos " + e.getMessage())
         }
@@ -109,18 +109,18 @@ class CandidatoDAO implements CRUD<Candidato, Long> {
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
             pstmt.setLong(1, id)
-            ResultSet setCandidatos = pstmt.executeQuery()
+            ResultSet resultSet = pstmt.executeQuery()
 
-            if (setCandidatos.next()) {
+            if (resultSet.next()) {
                 return  new Candidato(
-                        setCandidatos.getLong("id"),
-                        setCandidatos.getString("first_name"),
-                        setCandidatos.getString("last_name"),
-                        setCandidatos.getString("email"),
-                        setCandidatos.getString("description"),
-                        setCandidatos.getString("cep"),
-                        setCandidatos.getString("city"),
-                        setCandidatos.getString("cpf")
+                        resultSet.getLong("id"),
+                        resultSet.getString("first_name"),
+                        resultSet.getString("last_name"),
+                        resultSet.getString("email"),
+                        resultSet.getString("description"),
+                        resultSet.getString("cep"),
+                        resultSet.getString("city"),
+                        resultSet.getString("cpf")
                 )
             } else throw new NoSuchElementException("Candidato nao encontrado")
 

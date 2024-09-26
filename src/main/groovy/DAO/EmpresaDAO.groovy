@@ -1,15 +1,15 @@
 package DAO
 
-import DB.PostgresDatabaseConnection
+
 import model.Empresa
 
 import java.sql.*
 
 class EmpresaDAO implements CRUD<Empresa, Long> {
 
-    private Connection connection = PostgresDatabaseConnection.getConnection()
+    private Connection connection;
 
-    EmpresaDAO(Connection connection){
+    EmpresaDAO(Connection connection) {
         this.connection = connection
     }
 
@@ -71,22 +71,22 @@ class EmpresaDAO implements CRUD<Empresa, Long> {
         String command = "SELECT * FROM \"Empresa\";"
 
         try (Statement stmt = connection.createStatement()
-             ResultSet setEmpresas = stmt.executeQuery(command)
+             ResultSet resultSet = stmt.executeQuery(command)
         ) {
-            List<Empresa> empresasResponse = new ArrayList<>()
-            while (setEmpresas.next()) {
-                empresasResponse.add(new Empresa(
-                        setEmpresas.getLong("id"),
-                        setEmpresas.getString("name"),
-                        setEmpresas.getString("description"),
-                        setEmpresas.getString("email"),
-                        setEmpresas.getString("cnpj"),
-                        setEmpresas.getString("cep"),
-                        setEmpresas.getString("country"))
+            List<Empresa> responseList = new ArrayList<>()
+            while (resultSet.next()) {
+                responseList.add(new Empresa(
+                        resultSet.getLong("id"),
+                        resultSet.getString("name"),
+                        resultSet.getString("description"),
+                        resultSet.getString("email"),
+                        resultSet.getString("cnpj"),
+                        resultSet.getString("cep"),
+                        resultSet.getString("country"))
                 )
             }
 
-            return empresasResponse
+            return responseList
         } catch (SQLException e) {
             throw new RuntimeException("ocorreu um erro ao listar as empresas " + e.getMessage())
         }
@@ -99,17 +99,17 @@ class EmpresaDAO implements CRUD<Empresa, Long> {
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
 
             pstmt.setLong(1, id)
-            ResultSet result = pstmt.executeQuery()
+            ResultSet resultSet = pstmt.executeQuery()
 
-            if (result.next()) {
+            if (resultSet.next()) {
                 return new Empresa(
-                        result.getLong("id"),
-                        result.getString("name"),
-                        result.getString("description"),
-                        result.getString("email"),
-                        result.getString("cnpj"),
-                        result.getString("cep"),
-                        result.getString("country")
+                        resultSet.getLong("id"),
+                        resultSet.getString("name"),
+                        resultSet.getString("description"),
+                        resultSet.getString("email"),
+                        resultSet.getString("cnpj"),
+                        resultSet.getString("cep"),
+                        resultSet.getString("country")
                 )
             } else throw new NoSuchElementException("Empresa nao encontrada")
         } catch (SQLException e) {

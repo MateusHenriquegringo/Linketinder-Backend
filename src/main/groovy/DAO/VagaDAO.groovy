@@ -1,15 +1,15 @@
 package DAO
 
-import DB.PostgresDatabaseConnection
+
 import model.Vaga
 
 import java.sql.*
 
 class VagaDAO implements CRUD<Vaga, Long>{
 
-    private Connection connection = PostgresDatabaseConnection.getConnection()
+    private Connection connection;
 
-    VagaDAO(Connection connection){
+    VagaDAO(Connection connection) {
         this.connection = connection
     }
 
@@ -67,20 +67,20 @@ class VagaDAO implements CRUD<Vaga, Long>{
         String command = "SELECT * FROM \"Vaga\";"
 
         try (Statement stmt = connection.createStatement();
-             ResultSet setVagas = stmt.executeQuery(command)
+             ResultSet resultSet = stmt.executeQuery(command)
         ) {
-            List<Vaga> vagasResponse = new ArrayList<>()
-            while (setVagas.next()) {
-                vagasResponse.add(new Vaga(
-                        setVagas.getLong("id"),
-                        setVagas.getString("name"),
-                        setVagas.getString("description"),
-                        setVagas.getString("city"),
-                        setVagas.getString("state"),
-                        setVagas.getLong("empresa_id")))
+            List<Vaga> responseList = new ArrayList<>()
+            while (resultSet.next()) {
+                responseList.add(new Vaga(
+                        resultSet.getLong("id"),
+                        resultSet.getString("name"),
+                        resultSet.getString("description"),
+                        resultSet.getString("city"),
+                        resultSet.getString("state"),
+                        resultSet.getLong("empresa_id")))
             }
 
-            return vagasResponse
+            return responseList
         } catch (SQLException e) {
             throw new RuntimeException("ocorreu um erro ao listar as vagas " + e.getMessage())
         }

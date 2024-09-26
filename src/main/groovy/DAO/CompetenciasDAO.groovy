@@ -1,15 +1,15 @@
 package DAO
 
-import DB.PostgresDatabaseConnection
+
 import model.Competencia
 
 import java.sql.*
 
 class CompetenciasDAO implements CRUD<Competencia, Long>{
 
-    private Connection connection = PostgresDatabaseConnection.getConnection()
+    private Connection connection;
 
-    CompetenciasDAO(Connection connection){
+    CompetenciasDAO(Connection connection) {
         this.connection = connection
     }
 
@@ -55,17 +55,17 @@ class CompetenciasDAO implements CRUD<Competencia, Long>{
         String command = "SELECT * FROM \"Competencia\";"
 
         try (Statement stmt = connection.createStatement();
-             ResultSet setCompetencia = stmt.executeQuery(command)) {
+             ResultSet resultSet = stmt.executeQuery(command)) {
 
-            List<Competencia> competenciasResponse = new ArrayList<>()
-            while (setCompetencia.next()) {
-                competenciasResponse.add(new Competencia(
-                        setCompetencia.getLong("id"),
-                        setCompetencia.getString("name")
+            List<Competencia> responseList = new ArrayList<>()
+            while (resultSet.next()) {
+                responseList.add(new Competencia(
+                        resultSet.getLong("id"),
+                        resultSet.getString("name")
                 ))
             }
 
-            return competenciasResponse
+            return responseList
         } catch (SQLException e) {
             throw new RuntimeException("ocorreu um erro ao listar as competencias: " + e.getMessage())
         }
@@ -77,12 +77,12 @@ class CompetenciasDAO implements CRUD<Competencia, Long>{
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
             pstmt.setLong(1, id)
-            ResultSet setCompetencia = pstmt.executeQuery()
+            ResultSet resultSet = pstmt.executeQuery()
 
-            if (setCompetencia.next()) {
+            if (resultSet.next()) {
                 return new Competencia(
-                        setCompetencia.getLong("id"),
-                        setCompetencia.getString("name")
+                        resultSet.getLong("id"),
+                        resultSet.getString("name")
                 )
             } else throw new NoSuchElementException("Essa competencia nao existe")
 

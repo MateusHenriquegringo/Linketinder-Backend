@@ -8,7 +8,7 @@ import java.sql.Connection
 
 class CompetenciasDAOTest extends Specification{
 
-    Connection connection = H2DatabaseConnection.getConnection()
+    Connection connection = H2DatabaseConnection.getConnection();
 
     @Shared
     Competencia competencia
