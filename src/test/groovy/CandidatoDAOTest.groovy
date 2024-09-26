@@ -1,4 +1,4 @@
-import DAO.CandidatoDAO
+import repository.CandidatoDAO
 import DB.H2DatabaseConnection
 import model.Candidato
 import spock.lang.Shared

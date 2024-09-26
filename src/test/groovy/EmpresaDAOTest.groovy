@@ -1,4 +1,4 @@
-import DAO.EmpresaDAO
+import repository.EmpresaDAO
 import DB.H2DatabaseConnection
 import model.Empresa
 import spock.lang.Shared

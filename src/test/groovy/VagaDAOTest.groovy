@@ -1,4 +1,4 @@
-import DAO.VagaDAO
+import repository.VagaDAO
 import DB.H2DatabaseConnection
 import model.Vaga
 import spock.lang.Shared

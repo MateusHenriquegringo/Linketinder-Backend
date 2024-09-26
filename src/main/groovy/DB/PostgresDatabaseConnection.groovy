@@ -4,7 +4,7 @@ import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.SQLException
 
-class PostgresDatabaseConnection  {
+class PostgresDatabaseConnection {
 
     private static final String URL = "jdbc:postgresql://localhost:5432/postgres"
     private static final String DRIVER = 'org.postgresql.Driver'
@@ -19,6 +19,7 @@ class PostgresDatabaseConnection  {
     static setConnectionProperties(String key, String value){
         properties.setProperty(key, value)
     }
+
 
     static Connection getConnection(){
         try {

@@ -1,4 +1,4 @@
-package DAO
+package repository
 
 interface CRUD<T, ID> {
 

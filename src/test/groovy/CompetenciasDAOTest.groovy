@@ -1,4 +1,4 @@
-import DAO.CompetenciasDAO
+import repository.CompetenciasDAO
 import DB.H2DatabaseConnection
 import model.Competencia
 import spock.lang.Shared
