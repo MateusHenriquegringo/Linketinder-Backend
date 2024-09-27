@@ -1,6 +1,5 @@
 package repository
 
-
 import model.Competencia
 
 import java.sql.*
@@ -12,6 +11,8 @@ class CompetenciasDAO implements CRUD<Competencia, Long>{
     CompetenciasDAO(Connection connection) {
         this.connection = connection
     }
+
+    CompetenciasDAO(){}
 
     @Override
     void create(Competencia competencia) {

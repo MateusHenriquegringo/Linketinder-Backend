@@ -2,7 +2,7 @@ package repository
 
 interface CRUD<T, ID> {
 
-    void create(T entity);
+    long create(T entity);
     void update(T entity, ID id);
     void delete(ID id);
     List<T> listAll();

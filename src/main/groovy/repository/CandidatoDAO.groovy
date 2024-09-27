@@ -1,7 +1,8 @@
 package repository
 
-
 import model.Candidato
+import model.builder.Builder
+import model.builder.CandidatoBuilder
 
 import java.sql.Connection
 import java.sql.PreparedStatement
@@ -11,18 +12,22 @@ import java.sql.Statement
 
 class CandidatoDAO implements CRUD<Candidato, Long> {
 
-    private connection;
+    Builder<Candidato> builder = new CandidatoBuilder()
+
+    private Connection connection;
 
     CandidatoDAO(Connection connection) {
         this.connection = connection
     }
 
+    CandidatoDAO(){}
+
     @Override
-    void create(Candidato candidato) {
+    long create(Candidato candidato) {
         String command = "INSERT INTO \"Candidato\" (first_name, last_name, email, cpf, city, cep, description, password)" +
                 "VALUES (?, ?, ?, ? , ?, ?, ?, ?);"
 
-        try (PreparedStatement pstmt = connection.prepareStatement(command)) {
+        try (PreparedStatement pstmt = connection.prepareStatement(command, Statement.RETURN_GENERATED_KEYS)) {
 
             pstmt.setString(1, candidato.getFirst_name())
             pstmt.setString(2, candidato.getLast_name())
@@ -34,6 +39,10 @@ class CandidatoDAO implements CRUD<Candidato, Long> {
             pstmt.setString(8, candidato.getPassword())
 
             pstmt.executeUpdate()
+
+            ResultSet keys = pstmt.getGeneratedKeys()
+
+            return keys.next() ? keys.getLong(1) : -1
 
         } catch (SQLException e) {
             throw new RuntimeException("ocorreu um erro ao salvar " + e.getMessage())
@@ -84,16 +93,7 @@ class CandidatoDAO implements CRUD<Candidato, Long> {
 
             while (resultSet.next()) {
                 responseList.add(
-                        new Candidato(
-                                resultSet.getLong("id"),
-                                resultSet.getString("first_name"),
-                                resultSet.getString("last_name"),
-                                resultSet.getString("email"),
-                                resultSet.getString("description"),
-                                resultSet.getString("cep"),
-                                resultSet.getString("city"),
-                                resultSet.getString("cpf")
-                        )
+                      builder.buildModelFromResultSet(resultSet)
                 )
             }
 
@@ -112,16 +112,9 @@ class CandidatoDAO implements CRUD<Candidato, Long> {
             ResultSet resultSet = pstmt.executeQuery()
 
             if (resultSet.next()) {
-                return  new Candidato(
-                        resultSet.getLong("id"),
-                        resultSet.getString("first_name"),
-                        resultSet.getString("last_name"),
-                        resultSet.getString("email"),
-                        resultSet.getString("description"),
-                        resultSet.getString("cep"),
-                        resultSet.getString("city"),
-                        resultSet.getString("cpf")
-                )
+
+                return builder.buildModelFromResultSet(resultSet)
+
             } else throw new NoSuchElementException("Candidato nao encontrado")
 
         } catch (SQLException e) {

@@ -1,6 +1,6 @@
 package repository
 
-
+import DB.PostgresDatabaseConnection
 import model.Vaga
 
 import java.sql.*
@@ -14,10 +14,10 @@ class VagaDAO implements CRUD<Vaga, Long>{
     }
 
     @Override
-    void create(Vaga vaga) {
+    long create(Vaga vaga) {
         String command = "INSERT INTO \"Vaga\" (name, description, city, state, empresa_id) VALUES(?, ?, ?, ?, ?)"
 
-        try (PreparedStatement pstm = connection.prepareStatement(command)) {
+        try (PreparedStatement pstm = connection.prepareStatement(command, Statement.RETURN_GENERATED_KEYS)) {
             pstm.setString(1, vaga.getName())
             pstm.setString(2, vaga.getDescription())
             pstm.setString(3, vaga.getCity())
@@ -25,6 +25,9 @@ class VagaDAO implements CRUD<Vaga, Long>{
             pstm.setLong(5, vaga.getEmpresaId())
 
             pstm.executeUpdate()
+
+            ResultSet keys = pstm.getGeneratedKeys()
+            return keys.next() ? keys.getLong(1) : -1
 
         } catch (SQLException e) {
             throw new RuntimeException("falha ao salvar vaga: " + e.getMessage(), e)
