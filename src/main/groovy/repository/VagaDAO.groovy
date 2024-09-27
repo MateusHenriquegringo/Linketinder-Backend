@@ -1,13 +1,17 @@
 package repository
 
-import DB.PostgresDatabaseConnection
+
 import model.Vaga
+import model.builder.Builder
+import model.builder.VagaBuilder
 
 import java.sql.*
 
-class VagaDAO implements CRUD<Vaga, Long>{
+class VagaDAO implements CRUD<Vaga, Long> {
 
-    private Connection connection;
+    private Builder<Vaga> builder = new VagaBuilder()
+
+    private Connection connection
 
     VagaDAO(Connection connection) {
         this.connection = connection
@@ -69,18 +73,14 @@ class VagaDAO implements CRUD<Vaga, Long>{
     List<Vaga> listAll() {
         String command = "SELECT * FROM \"Vaga\";"
 
-        try (Statement stmt = connection.createStatement();
+        try (Statement stmt = connection.createStatement()
              ResultSet resultSet = stmt.executeQuery(command)
         ) {
             List<Vaga> responseList = new ArrayList<>()
             while (resultSet.next()) {
-                responseList.add(new Vaga(
-                        resultSet.getLong("id"),
-                        resultSet.getString("name"),
-                        resultSet.getString("description"),
-                        resultSet.getString("city"),
-                        resultSet.getString("state"),
-                        resultSet.getLong("empresa_id")))
+                responseList.add(
+                        builder.buildModelFromResultSet(resultSet)
+                )
             }
 
             return responseList
@@ -98,14 +98,9 @@ class VagaDAO implements CRUD<Vaga, Long>{
             ResultSet resultSet = pstmt.executeQuery()
 
             if (resultSet.next()) {
-                return new Vaga(
-                        resultSet.getLong("id"),
-                        resultSet.getString("name"),
-                        resultSet.getString("description"),
-                        resultSet.getString("city"),
-                        resultSet.getString("state"),
-                        resultSet.getLong("empresa_id")
-                )
+
+                return builder.buildModelFromResultSet(resultSet)
+
             } else {
                 throw new NoSuchElementException("Essa vaga nao existe")
             }
