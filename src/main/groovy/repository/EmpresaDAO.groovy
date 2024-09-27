@@ -13,11 +13,11 @@ class EmpresaDAO implements CRUD<Empresa, Long> {
     }
 
     @Override
-    void create(Empresa empresa) {
+    long create(Empresa empresa) {
         String command = "INSERT INTO \"Empresa\" (name, description, email, cnpj, cep, country, password)" +
                 "VALUES (?, ?, ?, ?, ?, ?, ?)"
 
-        try (PreparedStatement pstm = connection.prepareStatement(command)) {
+        try (PreparedStatement pstm = connection.prepareStatement(command, Statement.RETURN_GENERATED_KEYS)) {
             pstm.setString(1, empresa.getName())
             pstm.setString(2, empresa.getDescription())
             pstm.setString(3, empresa.getEmail())
@@ -27,6 +27,9 @@ class EmpresaDAO implements CRUD<Empresa, Long> {
             pstm.setString(7, empresa.getPassword())
 
             pstm.executeUpdate()
+
+            ResultSet keys = pstm.getGeneratedKeys()
+            return keys.next() ? keys.getLong(1) : -1
         } catch (SQLException e) {
             throw new RuntimeException("nao foi possivel criar empresa " + e.getMessage())
         }

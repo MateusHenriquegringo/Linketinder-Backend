@@ -15,12 +15,16 @@ class CompetenciasDAO implements CRUD<Competencia, Long>{
     CompetenciasDAO(){}
 
     @Override
-    void create(Competencia competencia) {
+    long create(Competencia competencia) {
         String command = "INSERT INTO \"Competencia\" (name) VALUES ( ? )"
 
-        try (PreparedStatement pstmt = connection.prepareStatement(command)) {
+        try (PreparedStatement pstmt = connection.prepareStatement(command, Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setString(1, competencia.getName())
             pstmt.executeUpdate()
+
+            ResultSet keys = pstmt.getGeneratedKeys()
+            return keys.next() ? keys.getLong(1) : -1
+
         } catch (SQLException e) {
             throw new RuntimeException("nao foi possivel adicionar a competencia: " + e.getMessage())
         }
