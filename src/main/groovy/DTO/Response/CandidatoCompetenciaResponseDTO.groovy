@@ -1,6 +1,6 @@
 package DTO.Response
 
-record CandidatoCompetenciaDTO(
+record CandidatoCompetenciaResponseDTO(
         long id,
         String first_name,
         String last_name,
@@ -67,8 +67,8 @@ record CandidatoCompetenciaDTO(
             return this;
         }
 
-        public CandidatoCompetenciaDTO build() {
-            return new CandidatoCompetenciaDTO(id, first_name, last_name, CPF, description, email, CEP, city, competences);
+        public CandidatoCompetenciaResponseDTO build() {
+            return new CandidatoCompetenciaResponseDTO(id, first_name, last_name, CPF, description, email, CEP, city, competences);
         }
     }
 }
