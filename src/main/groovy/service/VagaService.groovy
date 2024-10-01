@@ -1,37 +1,39 @@
 package service
 
 import DTO.Request.CandidatoRequestDTO
+import DTO.Request.VagaRequestDTO
 import DTO.Response.CandidatoCompetenciaResponseDTO
 import DTO.Response.CandidatoResponseDTO
 import enums.CompetenciasENUM
 import model.Candidato
-import repository.CandidatoDAO
+import model.Vaga
 import repository.ModelsCRUD
+import repository.VagaDAO
 import repository.auxiliary.AuxiliaryTablesCRUD
-import repository.auxiliary.CandidatoCompetenciaDAO
+import repository.auxiliary.VagaCompetenciaDAO
 
 import java.util.stream.Collectors
 
-class CandidatoService {
+class VagaService {
 
-    private ModelsCRUD<Candidato, Long> candidatoRepository = new CandidatoDAO()
-    private AuxiliaryTablesCRUD<Candidato, Long> candidatoCompetenciaRepository = new CandidatoCompetenciaDAO()
+    private ModelsCRUD<Vaga, Long> vagaRepository = new VagaDAO()
+    private AuxiliaryTablesCRUD<Vaga, Long> vagaCompetenciaRepository = new VagaCompetenciaDAO()
 
-    void createCandidato(CandidatoRequestDTO request) {
+    void createVaga(VagaRequestDTO request) {
+        Long returnedID = vagaRepository.create(new Vaga(request))
 
-        long returnedID = candidatoRepository.create(new Candidato(request))
-
-        if(request.competences().size() > 0 && request.competences()!==null){
-            addCompetencesToCandidato(returnedID, request.competences())
+        if (request.competences().size() > 0 && request.competences() !== null) {
+            addCompetencesToVaga(returnedID, request.competences())
         }
     }
 
-    void addCompetencesToCandidato(Long candidatoID, List<CompetenciasENUM> competences){
-        candidatoCompetenciaRepository.create(candidatoID, competences
+    void addCompetencesToVaga(Long vagaId, List<CompetenciasENUM> competences) {
+        vagaCompetenciaRepository.create(vagaId, competences
                 .stream()
-                .map {it -> it.getId()}
-                .collect(Collectors.toList()));
+                .map { it -> it.getId() }
+                .collect(Collectors.toList()))
     }
+
 
     CandidatoResponseDTO findCandidatoById(Long id) {
         Candidato model = candidatoRepository.findById(id)
@@ -73,11 +75,9 @@ class CandidatoService {
     }
 
     private static buildCandidatoWithCompetenciasDTO(CandidatoResponseDTO dto, List<CompetenciasENUM> competencias) {
-        return new CandidatoCompetenciaResponseDTO (
+        return new CandidatoCompetenciaResponseDTO(
                 dto,
-                competencias.stream()
-                    .map {it-> it.getDescription()}
-                    .collect(Collectors.toList())
+                competencias
         )
     }
 }

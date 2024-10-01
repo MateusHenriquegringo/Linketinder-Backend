@@ -13,12 +13,14 @@ import java.sql.SQLException
 
 class VagaCompetenciaDAO implements AuxiliaryTablesCRUD<Vaga, Long> {
 
-    Connection connection =  PostgresDatabaseConnection.getConnection();
+    Connection connection = PostgresDatabaseConnection.getConnection();
 
     Builder<Vaga> builder = new VagaBuilder()
 
     VagaCompetenciaDAO(Connection connection) {
         this.connection = connection
+    }
+    VagaCompetenciaDAO() {
     }
 
     @Override
@@ -77,7 +79,7 @@ class VagaCompetenciaDAO implements AuxiliaryTablesCRUD<Vaga, Long> {
 
     @Override
     List<Vaga> listAllWithCompetence(Long competenceId) {
-        String command = SQLQuerys.FIND_ALL_VAGAS_WITH_COMPETENCE.getQuery();
+        String command = SQLQuerys.FIND_ALL_VAGAS_WITH_reCOMPETENCE.getQuery();
 
         try(PreparedStatement pstmt = connection.prepareStatement(command)){
             pstmt.setLong(1, competenceId)

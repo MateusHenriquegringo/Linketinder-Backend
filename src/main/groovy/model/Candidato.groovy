@@ -18,7 +18,7 @@ class Candidato {
 
     Set<Empresa> matches
     Set<Empresa> likes
-    List<String> competences
+    List<CompetenciasENUM> competences
 
     Candidato(long id, String first_name, String last_name, String email, String description, String CEP, String city, String CPF) {
         this.id = id
@@ -51,6 +51,7 @@ class Candidato {
         this.city = request.city()
         this.CPF = request.CPF()
         this.password = request.password()
+        this.competences = request.competences()
     }
 
     Candidato(long id, String first_name, String last_name, String email, String description, String CEP, String city, String CPF, List<String> competences) {

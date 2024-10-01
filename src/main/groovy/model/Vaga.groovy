@@ -1,5 +1,7 @@
 package model
 
+import DTO.Request.VagaRequestDTO
+
 class Vaga {
 
     long id
@@ -36,5 +38,13 @@ class Vaga {
         this.state = state
         this.empresaId = empresaId
         this.competences = competences
+    }
+
+    Vaga(VagaRequestDTO dto) {
+        this.vaga_name = dto.vaga_name()
+        this.description = dto.description()
+        this.city = dto.city()
+        this.state = dto.state()
+        this.empresaId = dto.empresa_id()
     }
 }

@@ -16,6 +16,8 @@ class VagaDAO implements ModelsCRUD<Vaga, Long> {
     VagaDAO(Connection connection) {
         this.connection = connection
     }
+    VagaDAO() {
+    }
 
     @Override
     long create(Vaga vaga) {
