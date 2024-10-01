@@ -14,7 +14,7 @@ class EmpresaDAO implements CRUD<Empresa, Long> {
 
     @Override
     long create(Empresa empresa) {
-        String command = "INSERT INTO \"Empresa\" (name, description, email, cnpj, cep, country, password)" +
+        String command = "INSERT INTO empresa (empresa_name, description, email, cnpj, cep, country, password)" +
                 "VALUES (?, ?, ?, ?, ?, ?, ?)"
 
         try (PreparedStatement pstm = connection.prepareStatement(command, Statement.RETURN_GENERATED_KEYS)) {
@@ -38,7 +38,7 @@ class EmpresaDAO implements CRUD<Empresa, Long> {
 
     @Override
     void update(Empresa empresaUpdate, Long id) {
-        String command = "UPDATE \"Empresa\" SET name=?, description=?, email=?, cnpj=?, cep=?, country=?, password=? WHERE id=?"
+        String command = "UPDATE empresa SET empresa_name=?, description=?, email=?, cnpj=?, cep=?, country=?, password=? WHERE id=?"
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
             pstmt.setString(1, empresaUpdate.getName())
@@ -58,7 +58,7 @@ class EmpresaDAO implements CRUD<Empresa, Long> {
 
     @Override
     void delete(Long id) {
-        String command = "DELETE FROM \"Empresa\" WHERE id = ?"
+        String command = "DELETE FROM empresa WHERE id = ?"
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
             pstmt.setLong(1, id)
@@ -70,7 +70,7 @@ class EmpresaDAO implements CRUD<Empresa, Long> {
 
     @Override
     List<Empresa> listAll() {
-        String command = "SELECT * FROM \"Empresa\";"
+        String command = "SELECT * FROM empresa;"
 
         try (Statement stmt = connection.createStatement()
              ResultSet resultSet = stmt.executeQuery(command)
@@ -79,7 +79,7 @@ class EmpresaDAO implements CRUD<Empresa, Long> {
             while (resultSet.next()) {
                 responseList.add(new Empresa(
                         resultSet.getLong("id"),
-                        resultSet.getString("name"),
+                        resultSet.getString("empresa_name"),
                         resultSet.getString("description"),
                         resultSet.getString("email"),
                         resultSet.getString("cnpj"),
@@ -96,7 +96,7 @@ class EmpresaDAO implements CRUD<Empresa, Long> {
 
     @Override
     Empresa findById(Long id) {
-        String command = "SELECT * FROM \"Empresa\" WHERE id = ?"
+        String command = "SELECT * FROM empresa WHERE id = ?"
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
 

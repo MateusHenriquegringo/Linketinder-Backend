@@ -23,7 +23,7 @@ class CandidatoCompetenciaDAO implements AuxiliaryTablesCRUD<Candidato, Competen
     @Override
     void create(Long candidatoID, List<Long> competenciasID) {
 
-        String command = "INSERT INTO \"Candidato_Competencia\" (candidato_id, competencia_id) VALUES (?, ?);"
+        String command = "INSERT INTO candidato_competencia (candidato_id, competencia_id) VALUES (?, ?);"
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
             for (Long id : competenciasID) {
@@ -41,7 +41,7 @@ class CandidatoCompetenciaDAO implements AuxiliaryTablesCRUD<Candidato, Competen
     @Override
     void delete(Long candidatoID, List<Long> competenciasID) {
 
-        String command = "DELETE FROM \"Candidato_Competencia\" WHERE candidato_id = ? AND competencia_id = ?;"
+        String command = "DELETE FROM candidato_competencia WHERE candidato_id = ? AND competencia_id = ?;"
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
 
@@ -102,31 +102,31 @@ class CandidatoCompetenciaDAO implements AuxiliaryTablesCRUD<Candidato, Competen
     private enum SQL {
 
         LIST_WITH_COMPETENCES(
-                """SELECT c.id, c.first_name, c.last_name, c.CPF, c.email, c.CEP, c.city, c.description
+                """
+            SELECT c.id, c.first_name, c.last_name, c.cpf, c.email, c.cep, c.city, c.description
                 STRING_AGG(comp.description::text, ', ') AS competences
-            FROM \"Candidato\" c
-            JOIN \"Candidato_Competencia\" cc ON c.id = cc.candidato_id
+            FROM candidato c
+            JOIN candidato_competencia cc ON c.id = cc.candidato_id
             JOIN competencia_by_enum comp ON cc.competencia_id = comp.id
             WHERE c.id = ? 
-            GROUP BY c.id, c.first_name, c.last_name, c.CPF, c.email, c.CEP, c.city, c.description;
+            GROUP BY c.id, c.first_name, c.last_name, c.cpf, c.email, c.cep, c.city, c.description;
                 """
         ),
 
         FIND_ALL_CANDIDATOS_WITH_COMPETENCE(
           """
-        SELECT  c.id, c.first_name, c.last_name, c.CPF, c.email, c.CEP, c.city, c.description, 
+        SELECT  c.id, c.first_name, c.last_name, c.cpf, c.email, c.cep, c.city, c.description, 
             STRING_AGG(comp.description::text, ', ') AS competences
-            FROM "Candidato" c
-            JOIN "Candidato_Competencia" cc ON c.id = cc.candidato_id
+            FROM candidato c
+            JOIN candidato_competencia cc ON c.id = cc.candidato_id
             JOIN competencia_by_enum comp ON cc.competencia_id = comp.id
-            
         WHERE c.id IN (
-             SELECT c.id
-            FROM "Candidato" c
-            JOIN "Candidato_Competencia" cc ON c.id = cc.candidato_id
+           SELECT c.id
+            FROM candidato c
+            JOIN candidato_competencia cc ON c.id = cc.candidato_id
            WHERE cc.competencia_id = ? )   
            
-           GROUP BY c.id, c.first_name, c.last_name, c.CPF, c.email, c.CEP, c.city, c.description;          
+           GROUP BY c.id, c.first_name, c.last_name, c.cpf, c.email, c.cep, c.city, c.description;          
 """
         )
 

@@ -19,7 +19,7 @@ class VagaDAO implements CRUD<Vaga, Long> {
 
     @Override
     long create(Vaga vaga) {
-        String command = "INSERT INTO \"Vaga\" (name, description, city, state, empresa_id) VALUES(?, ?, ?, ?, ?)"
+        String command = "INSERT INTO vaga (vaga_name, description, city, state, empresa_id) VALUES(?, ?, ?, ?, ?)"
 
         try (PreparedStatement pstm = connection.prepareStatement(command, Statement.RETURN_GENERATED_KEYS)) {
             pstm.setString(1, vaga.getName())
@@ -40,7 +40,7 @@ class VagaDAO implements CRUD<Vaga, Long> {
 
     @Override
     void update(Vaga vagaUpdate, Long id) {
-        String command = "UPDATE \"Vaga\" SET name=?, description=?, city=?, state=?, empresa_id=? WHERE id=?"
+        String command = "UPDATE vaga SET name=?, description=?, city=?, state=?, empresa_id=? WHERE id=?"
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
             pstmt.setString(1, vagaUpdate.getName())
@@ -59,7 +59,7 @@ class VagaDAO implements CRUD<Vaga, Long> {
 
     @Override
     void delete(Long id) {
-        String command = "DELETE FROM \"Vaga\" WHERE id = ?"
+        String command = "DELETE FROM vaga WHERE id = ?"
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
             pstmt.setLong(1, id)
@@ -71,7 +71,7 @@ class VagaDAO implements CRUD<Vaga, Long> {
 
     @Override
     List<Vaga> listAll() {
-        String command = "SELECT * FROM \"Vaga\";"
+        String command = "SELECT * FROM vaga;"
 
         try (Statement stmt = connection.createStatement()
              ResultSet resultSet = stmt.executeQuery(command)
@@ -91,7 +91,7 @@ class VagaDAO implements CRUD<Vaga, Long> {
 
     @Override
     Vaga findById(Long id) {
-        String command = "SELECT * FROM \"Vaga\" WHERE id = ?"
+        String command = "SELECT * FROM vaga WHERE id = ?"
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
             pstmt.setLong(1, id)

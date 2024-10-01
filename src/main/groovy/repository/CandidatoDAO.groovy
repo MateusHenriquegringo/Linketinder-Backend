@@ -24,7 +24,7 @@ class CandidatoDAO implements CRUD<Candidato, Long> {
 
     @Override
     long create(Candidato candidato) {
-        String command = "INSERT INTO \"Candidato\" (first_name, last_name, email, cpf, city, cep, description, password)" +
+        String command = "INSERT INTO candidato (first_name, last_name, email, cpf, city, cep, description, password)" +
                 "VALUES (?, ?, ?, ? , ?, ?, ?, ?);"
 
         try (PreparedStatement pstmt = connection.prepareStatement(command, Statement.RETURN_GENERATED_KEYS)) {
@@ -51,7 +51,7 @@ class CandidatoDAO implements CRUD<Candidato, Long> {
 
     @Override
     void update(Candidato candidato, Long id) {
-        String command = "UPDATE \"Candidato\" SET first_name=?, last_name=?, email=?, cep=?, cpf=?, city=?, description=? WHERE id=?"
+        String command = "UPDATE candidato SET first_name=?, last_name=?, email=?, cep=?, cpf=?, city=?, description=? WHERE id=?"
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
             pstmt.setString(1, candidato.getFirst_name())
@@ -72,7 +72,7 @@ class CandidatoDAO implements CRUD<Candidato, Long> {
 
     @Override
     void delete(Long id) {
-        String command = "DELETE FROM \"Candidato\" WHERE id = ?"
+        String command = "DELETE FROM candidato WHERE id = ?"
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
             pstmt.setLong(1, id)
@@ -84,7 +84,7 @@ class CandidatoDAO implements CRUD<Candidato, Long> {
 
     @Override
     List<Candidato> listAll() {
-        String command = "SELECT * FROM \"Candidato\";"
+        String command = "SELECT * FROM candidato;"
 
         try (Statement stmt = connection.createStatement()
              ResultSet resultSet = stmt.executeQuery(command)) {
@@ -105,7 +105,7 @@ class CandidatoDAO implements CRUD<Candidato, Long> {
 
     @Override
     Candidato findById(Long id) {
-        String command = "SELECT * FROM \"Candidato\" WHERE id = ?"
+        String command = "SELECT * FROM candidato WHERE id = ?"
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
             pstmt.setLong(1, id)

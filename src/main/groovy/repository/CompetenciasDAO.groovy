@@ -16,7 +16,7 @@ class CompetenciasDAO implements CRUD<Competencia, Long>{
 
     @Override
     long create(Competencia competencia) {
-        String command = "INSERT INTO \"Competencia\" (name) VALUES ( ? )"
+        String command = "INSERT INTO competencia_input (name) VALUES ( ? )"
 
         try (PreparedStatement pstmt = connection.prepareStatement(command, Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setString(1, competencia.getName())
@@ -32,7 +32,7 @@ class CompetenciasDAO implements CRUD<Competencia, Long>{
 
     @Override
     void update(Competencia competencia, Long id) {
-        String command = "UPDATE \"Competencia\" SET name = ? WHERE id = ?"
+        String command = "UPDATE competencia_input SET name = ? WHERE id = ?"
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
             pstmt.setString(1, competencia.getName())
@@ -45,7 +45,7 @@ class CompetenciasDAO implements CRUD<Competencia, Long>{
 
     @Override
     void delete(Long id) {
-        String command = "DELETE FROM \"Competencia\" WHERE id = ?"
+        String command = "DELETE FROM competencia_input WHERE id = ?"
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
             pstmt.setLong(1, id)
@@ -57,7 +57,7 @@ class CompetenciasDAO implements CRUD<Competencia, Long>{
 
     @Override
     List<Competencia> listAll() {
-        String command = "SELECT * FROM \"Competencia\";"
+        String command = "SELECT * FROM competencia_input;"
 
         try (Statement stmt = connection.createStatement();
              ResultSet resultSet = stmt.executeQuery(command)) {
@@ -78,7 +78,7 @@ class CompetenciasDAO implements CRUD<Competencia, Long>{
 
     @Override
     Competencia findById(Long id) {
-        String command = "SELECT * FROM \"Competencia\" WHERE id = ?"
+        String command = "SELECT * FROM competencia_input WHERE id = ?"
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
             pstmt.setLong(1, id)
