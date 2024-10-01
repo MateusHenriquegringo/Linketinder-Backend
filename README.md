@@ -17,6 +17,7 @@ Aplicação Java que utiliza JDBC para operações CRUD em **Candidatos**, **Emp
 - **Gradle**
 - **H2 Database**
 - **Spock**
+- **Flyway**
 
 
 ## Estrutura do Projeto

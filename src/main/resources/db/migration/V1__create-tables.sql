@@ -1,4 +1,4 @@
-CREATE TABLE "Candidato" (
+CREATE TABLE IF NOT EXISTS candidato (
     id SERIAL PRIMARY KEY,
     CPF VARCHAR NOT NULL,
     first_name VARCHAR(50) NOT NULL,
@@ -9,33 +9,52 @@ CREATE TABLE "Candidato" (
     description TEXT,
     password VARCHAR(100) NOT NULL
 );
-
-CREATE TABLE "Empresa" (
+CREATE TABLE IF NOT EXISTS empresa (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
+    empresa_name VARCHAR(100) NOT NULL,
     description TEXT,
     email VARCHAR(100) NOT NULL,
     cnpj VARCHAR(18) NOT NULL,
-    cep VARCHAR NOT NULL,
+    cep VARCHAR(9) NOT NULL,
     country VARCHAR(50) NOT NULL,
     password VARCHAR(100) NOT NULL
 );
-
-CREATE TABLE "Vaga" (
+CREATE TABLE IF NOT EXISTS vaga (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
+    vaga_name VARCHAR(100) NOT NULL,
     description TEXT,
     empresa_id INT NOT NULL,
     state VARCHAR(2) NOT NULL,
     city VARCHAR(100) NOT NULL,
     CONSTRAINT fk_empresa
-        FOREIGN KEY (empresaId)
-        REFERENCES "Empresa"(id)
+        FOREIGN KEY (empresa_id)
+        REFERENCES empresa(id)
 );
 
-CREATE TABLE competencia_by_enum (
+CREATE TABLE IF NOT EXISTS competencia_by_enum (
     id SERIAL PRIMARY KEY,
     description VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS competencia_input (
+    id SERIAL PRIMARY KEY,
+    description VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS candidato_competencia (
+    id SERIAL PRIMARY KEY,
+    candidato_id INT NOT NULL,
+    competencia_id INT NOT NULL,
+    FOREIGN KEY (candidato_id) REFERENCES candidato(id) ON DELETE CASCADE,
+    FOREIGN KEY (competencia_id) REFERENCES competencia_by_enum(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS vaga_competencia (
+    id SERIAL PRIMARY KEY,
+    vaga_id INT NOT NULL,
+    competencia_id INT NOT NULL,
+    FOREIGN KEY (vaga_id) REFERENCES vaga(id) ON DELETE CASCADE,
+    FOREIGN KEY (competencia_id) REFERENCES competencia_by_enum(id) ON DELETE CASCADE
 );
 
 INSERT INTO competencia_by_enum (description) VALUES
@@ -65,19 +84,3 @@ INSERT INTO competencia_by_enum (description) VALUES
 ('DevOps'),
 ('Test-Driven Development'),
 ('CI/CD');
-
-CREATE TABLE "Candidato_Competencia" (
-    id SERIAL PRIMARY KEY,
-    candidato_id INT NOT NULL,
-    competencia_id INT NOT NULL,
-    FOREIGN KEY (candidato_id) REFERENCES "Candidato"(id) ON DELETE CASCADE,
-    FOREIGN KEY (competencia_id) REFERENCES competencia_by_enum(id) ON DELETE CASCADE
-);
-
-CREATE TABLE "Vaga_Competencia" (
-    id SERIAL PRIMARY KEY,
-    vaga_id INT NOT NULL,
-    competencia_id INT NOT NULL,
-    FOREIGN KEY (vaga_id) REFERENCES "Vaga"(id) ON DELETE CASCADE,
-    FOREIGN KEY (competencia_id) REFERENCES competencia_by_enum(id) ON DELETE CASCADE
-);

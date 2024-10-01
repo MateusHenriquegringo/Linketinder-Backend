@@ -14,6 +14,7 @@ class PostgresDatabaseConnection {
     static {
         properties.setProperty("user", "mateus");
         properties.setProperty("password", "gringo");
+        properties.setProperty("currentSchema", "flyway")
     }
 
     static setConnectionProperties(String key, String value){
