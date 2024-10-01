@@ -17,19 +17,23 @@ class CandidatoDAOTest extends Specification {
 
     def setup() {
         def statement = connection.createStatement()
+
         statement.execute(
-                "CREATE TABLE \"Candidato\" ( " +
-                        "id SERIAL PRIMARY KEY, " +
-                        "CPF VARCHAR(11) NOT NULL, " +
-                        "first_name VARCHAR(50) NOT NULL, " +
-                        "last_name VARCHAR(50) NOT NULL, " +
-                        "email VARCHAR(100) NOT NULL, " +
-                        "city VARCHAR(100) NOT NULL, " +
-                        "CEP VARCHAR(9) NOT NULL, " +
-                        "description TEXT, " +
-                        "password VARCHAR(100) NOT NULL" +
-                        ")"
+                """
+         CREATE TABLE candidato (
+    id SERIAL PRIMARY KEY,
+    CPF VARCHAR NOT NULL,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    city VARCHAR(100) NOT NULL,
+    CEP VARCHAR(9) NOT NULL,
+    description TEXT,
+    password VARCHAR(100) NOT NULL
+);
+"""
         )
+
         candidato = new Candidato(
                 "mateus",
                 "derossi",
@@ -46,7 +50,7 @@ class CandidatoDAOTest extends Specification {
 
     def cleanup() {
         def statement = connection.createStatement()
-        statement.execute("DROP TABLE \"Candidato\"")
+        statement.execute("DROP TABLE candidato")
         statement.close()
         connection.close()
     }
@@ -75,7 +79,7 @@ class CandidatoDAOTest extends Specification {
         dao.create(candidato)
 
         then: "method should save correctly"
-        def resultSet = connection.createStatement().executeQuery("SELECT * FROM \"Candidato\" WHERE cpf = '00044499909'")
+        def resultSet = connection.createStatement().executeQuery("SELECT * FROM candidato WHERE cpf = '00044499909'")
         resultSet.next()
         assert resultSet.getString("first_name") == candidato.getFirst_name()
         assert resultSet.getString("last_name") == candidato.getLast_name()
@@ -109,7 +113,7 @@ class CandidatoDAOTest extends Specification {
         when: "create a new candidato and fetch by ID"
         dao.create(candidato)
 
-        def resultSet = connection.createStatement().executeQuery("SELECT * FROM \"Candidato\" WHERE CPF = '00044499909'")
+        def resultSet = connection.createStatement().executeQuery("SELECT * FROM candidato WHERE CPF = '00044499909'")
         resultSet.next()
         Long id = resultSet.getLong("id")
 
@@ -127,7 +131,7 @@ class CandidatoDAOTest extends Specification {
         when: "create a new candidato"
         dao.create(candidato)
 
-        def resultSet = connection.createStatement().executeQuery("SELECT * FROM \"Candidato\" WHERE CPF = '00044499909'")
+        def resultSet = connection.createStatement().executeQuery("SELECT * FROM candidato WHERE CPF = '00044499909'")
         resultSet.next()
         Long id = resultSet.getLong("id")
 
@@ -135,7 +139,7 @@ class CandidatoDAOTest extends Specification {
         dao.delete(id)
 
         then: "candidato should no longer exist in the database"
-        def deletedResultSet = connection.createStatement().executeQuery("SELECT * FROM \"Candidato\" WHERE id = ${id}")
+        def deletedResultSet = connection.createStatement().executeQuery("SELECT * FROM candidato WHERE id = ${id}")
         assert !deletedResultSet.next()
     }
 

@@ -6,7 +6,7 @@ import java.sql.SQLException
 
 class H2DatabaseConnection  {
 
-    private static final String URL = "jdbc:h2:mem:test"
+    private static final String URL = "jdbc:h2:mem:test;MODE=PostgreSQL"
 
     static Connection getConnection() {
         try {

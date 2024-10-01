@@ -1,12 +1,10 @@
 package model
 
-import enums.CompetenciasENUM
-
 class Vaga {
 
     long id
 
-    String name
+    String vaga_name
     String description
     String city
     String state
@@ -14,25 +12,25 @@ class Vaga {
 
     List<String> competences
 
-    Vaga(String name, String description, long empresaId, String state, String city) {
-        this.name = name
+    Vaga(String vaga_name, String description, long empresaId, String state, String city) {
+        this.vaga_name = vaga_name
         this.description = description
         this.empresaId = empresaId
         this.state = state
         this.city = city
     }
-    Vaga(long id, String name, String description, String city, String state, long empresaId) {
+    Vaga(long id, String vaga_name, String description, String city, String state, long empresaId) {
         this.id = id
-        this.name = name
+        this.vaga_name = vaga_name
         this.description = description
         this.empresaId = empresaId
         this.state = state
         this.city = city
     }
 
-    Vaga(long id, String name, String description, String city, String state, long empresaId, List<String> competences) {
+    Vaga(long id, String vaga_name, String description, String city, String state, long empresaId, List<String> competences) {
         this.id = id
-        this.name = name
+        this.vaga_name = vaga_name
         this.description = description
         this.city = city
         this.state = state

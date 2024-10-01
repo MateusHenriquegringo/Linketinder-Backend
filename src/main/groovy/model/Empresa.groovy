@@ -4,7 +4,7 @@ class Empresa {
 
     long id
 
-    String name
+    String empresa_name
     String description
     String email
     String CNPJ
@@ -15,8 +15,8 @@ class Empresa {
     Set<Candidato> likes
     Set<Candidato> matches
 
-    Empresa(String name, String description, String email, String CNPJ, String CEP, String country, String password) {
-        this.name = name
+    Empresa(String empresa_name, String description, String email, String CNPJ, String CEP, String country, String password) {
+        this.empresa_name = empresa_name
         this.description = description
         this.email = email
         this.CNPJ = CNPJ
@@ -25,9 +25,9 @@ class Empresa {
         this.password = password
     }
 
-    Empresa(long id, String name, String description, String email, String CNPJ, String CEP, String country) {
+    Empresa(long id, String empresa_name, String description, String email, String CNPJ, String CEP, String country) {
         this.id = id
-        this.name = name
+        this.empresa_name = empresa_name
         this.description = description
         this.email = email
         this.CNPJ = CNPJ

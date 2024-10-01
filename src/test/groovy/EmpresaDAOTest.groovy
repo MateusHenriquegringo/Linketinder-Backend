@@ -18,18 +18,17 @@ class EmpresaDAOTest extends Specification {
 
     def setup() {
         def statement = connection.createStatement()
-        statement.execute("""
-        CREATE TABLE \"Empresa\" (
-            id SERIAL PRIMARY KEY,
-            name VARCHAR(100) NOT NULL,
-            description TEXT,
-            email VARCHAR(100) NOT NULL,
-            cnpj VARCHAR(18) NOT NULL,
-            cep VARCHAR(10) NOT NULL,
-            country VARCHAR(50) NOT NULL,
-            password VARCHAR(100) NOT NULL
-        )
-    """)
+        statement.execute(
+                """CREATE TABLE empresa (
+                        id SERIAL PRIMARY KEY,
+                                empresa_name VARCHAR(100) NOT NULL,
+                                description TEXT,
+                        email VARCHAR(100) NOT NULL,
+                                cnpj VARCHAR(18) NOT NULL,
+                                cep VARCHAR(9) NOT NULL,
+                                country VARCHAR(50) NOT NULL,
+                                password VARCHAR(100) NOT NULL )"""
+        );
 
         empresa = new Empresa(
                 "Nome da Empresa",
@@ -45,7 +44,7 @@ class EmpresaDAOTest extends Specification {
 
     def cleanup() {
         def statement = connection.createStatement()
-        statement.execute("DROP TABLE \"Empresa\"")
+        statement.execute("DROP TABLE empresa")
         statement.close()
         connection.close()
     }
@@ -79,8 +78,8 @@ class EmpresaDAOTest extends Specification {
 
         then:
         assert list.size() == 2
-        list[0].name == empresa1.getName()
-        list[1].name == empresa2.getName()
+        list[0].empresa_name == empresa1.getEmpresa_name()
+        list[1].empresa_name == empresa2.getEmpresa_name()
         list[0].email == empresa1.getEmail()
         list[1].email == empresa2.getEmail()
     }
@@ -90,9 +89,9 @@ class EmpresaDAOTest extends Specification {
         dao.create(empresa)
 
         then:
-        def resultSet = connection.createStatement().executeQuery("SELECT * FROM \"Empresa\"")
+        def resultSet = connection.createStatement().executeQuery("SELECT * FROM empresa")
         resultSet.next()
-        assert resultSet.getString("name") == empresa.getName()
+        assert resultSet.getString("empresa_name") == empresa.getEmpresa_name()
         assert resultSet.getString("description") == empresa.getDescription()
         assert resultSet.getString("email") == empresa.getEmail()
         assert resultSet.getString("cnpj") == empresa.getCNPJ()
@@ -106,14 +105,14 @@ class EmpresaDAOTest extends Specification {
         Long idToUpdate = 1L
 
         when:
-        ogEmpresa.setName("update")
+        ogEmpresa.setEmpresa_name("update")
         ogEmpresa.setDescription("update")
 
         dao.update(ogEmpresa, idToUpdate)
 
         then:
         Empresa updated = dao.findById(idToUpdate)
-        updated.name == "update"
+        updated.empresa_name == "update"
         updated.description == "update"
 
     }
@@ -123,13 +122,13 @@ class EmpresaDAOTest extends Specification {
         when:
         dao.create(empresa)
 
-        def resultSet = connection.createStatement().executeQuery("SELECT * FROM \"Empresa\"")
+        def resultSet = connection.createStatement().executeQuery("SELECT * FROM empresa")
         resultSet.next()
         Long id = resultSet.getLong("id")
 
         then:
         Empresa foundEmpresa = dao.findById(id)
-        foundEmpresa.name == empresa.getName()
+        foundEmpresa.empresa_name == empresa.getEmpresa_name()
         foundEmpresa.description == empresa.getDescription()
         foundEmpresa.email == empresa.getEmail()
         foundEmpresa.CNPJ == empresa.getCNPJ()
@@ -140,7 +139,7 @@ class EmpresaDAOTest extends Specification {
         when:
         dao.create(empresa)
 
-        def resultSet = connection.createStatement().executeQuery("SELECT * FROM \"Empresa\"")
+        def resultSet = connection.createStatement().executeQuery("SELECT * FROM empresa")
         resultSet.next()
         Long id = resultSet.getLong("id")
 
@@ -148,7 +147,7 @@ class EmpresaDAOTest extends Specification {
         dao.delete(id)
 
         then:
-        def deletedResultSet = connection.createStatement().executeQuery("SELECT * FROM \"Empresa\" WHERE id = ${id}")
+        def deletedResultSet = connection.createStatement().executeQuery("SELECT * FROM empresa WHERE id = ${id}")
         assert !deletedResultSet.next()
     }
 

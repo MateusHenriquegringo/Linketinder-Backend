@@ -18,7 +18,7 @@ class EmpresaDAO implements CRUD<Empresa, Long> {
                 "VALUES (?, ?, ?, ?, ?, ?, ?)"
 
         try (PreparedStatement pstm = connection.prepareStatement(command, Statement.RETURN_GENERATED_KEYS)) {
-            pstm.setString(1, empresa.getName())
+            pstm.setString(1, empresa.getEmpresa_name())
             pstm.setString(2, empresa.getDescription())
             pstm.setString(3, empresa.getEmail())
             pstm.setString(4, empresa.getCNPJ())
@@ -41,7 +41,7 @@ class EmpresaDAO implements CRUD<Empresa, Long> {
         String command = "UPDATE empresa SET empresa_name=?, description=?, email=?, cnpj=?, cep=?, country=?, password=? WHERE id=?"
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
-            pstmt.setString(1, empresaUpdate.getName())
+            pstmt.setString(1, empresaUpdate.getEmpresa_name())
             pstmt.setString(2, empresaUpdate.getDescription())
             pstmt.setString(3, empresaUpdate.getEmail())
             pstmt.setString(4, empresaUpdate.getCNPJ())
@@ -106,7 +106,7 @@ class EmpresaDAO implements CRUD<Empresa, Long> {
             if (resultSet.next()) {
                 return new Empresa(
                         resultSet.getLong("id"),
-                        resultSet.getString("name"),
+                        resultSet.getString("empresa_name"),
                         resultSet.getString("description"),
                         resultSet.getString("email"),
                         resultSet.getString("cnpj"),

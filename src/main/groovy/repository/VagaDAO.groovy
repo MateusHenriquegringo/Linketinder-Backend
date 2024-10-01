@@ -22,7 +22,7 @@ class VagaDAO implements CRUD<Vaga, Long> {
         String command = "INSERT INTO vaga (vaga_name, description, city, state, empresa_id) VALUES(?, ?, ?, ?, ?)"
 
         try (PreparedStatement pstm = connection.prepareStatement(command, Statement.RETURN_GENERATED_KEYS)) {
-            pstm.setString(1, vaga.getName())
+            pstm.setString(1, vaga.getVaga_name())
             pstm.setString(2, vaga.getDescription())
             pstm.setString(3, vaga.getCity())
             pstm.setString(4, vaga.getState())
@@ -40,10 +40,10 @@ class VagaDAO implements CRUD<Vaga, Long> {
 
     @Override
     void update(Vaga vagaUpdate, Long id) {
-        String command = "UPDATE vaga SET name=?, description=?, city=?, state=?, empresa_id=? WHERE id=?"
+        String command = "UPDATE vaga SET vaga_name=?, description=?, city=?, state=?, empresa_id=? WHERE id=?"
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
-            pstmt.setString(1, vagaUpdate.getName())
+            pstmt.setString(1, vagaUpdate.getVaga_name())
             pstmt.setString(2, vagaUpdate.getDescription())
             pstmt.setString(3, vagaUpdate.getCity())
             pstmt.setString(4, vagaUpdate.getState())

@@ -16,10 +16,10 @@ class CompetenciasDAO implements CRUD<Competencia, Long>{
 
     @Override
     long create(Competencia competencia) {
-        String command = "INSERT INTO competencia_input (name) VALUES ( ? )"
+        String command = "INSERT INTO competencia_input (description) VALUES ( ? )"
 
         try (PreparedStatement pstmt = connection.prepareStatement(command, Statement.RETURN_GENERATED_KEYS)) {
-            pstmt.setString(1, competencia.getName())
+            pstmt.setString(1, competencia.getDescription())
             pstmt.executeUpdate()
 
             ResultSet keys = pstmt.getGeneratedKeys()
@@ -32,10 +32,10 @@ class CompetenciasDAO implements CRUD<Competencia, Long>{
 
     @Override
     void update(Competencia competencia, Long id) {
-        String command = "UPDATE competencia_input SET name = ? WHERE id = ?"
+        String command = "UPDATE competencia_input SET description = ? WHERE id = ?"
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
-            pstmt.setString(1, competencia.getName())
+            pstmt.setString(1, competencia.getDescription())
             pstmt.setLong(2, id)
             pstmt.executeUpdate()
         } catch (SQLException e) {
@@ -66,7 +66,7 @@ class CompetenciasDAO implements CRUD<Competencia, Long>{
             while (resultSet.next()) {
                 responseList.add(new Competencia(
                         resultSet.getLong("id"),
-                        resultSet.getString("name")
+                        resultSet.getString("description")
                 ))
             }
 
@@ -87,7 +87,7 @@ class CompetenciasDAO implements CRUD<Competencia, Long>{
             if (resultSet.next()) {
                 return new Competencia(
                         resultSet.getLong("id"),
-                        resultSet.getString("name")
+                        resultSet.getString("description")
                 )
             } else throw new NoSuchElementException("Essa competencia nao existe")
 

@@ -3,14 +3,14 @@ package model
 class Competencia {
 
     long id
-    String name
+    String description
 
-    Competencia(String name) {
-        this.name = name
+    Competencia(String description) {
+        this.description = description
     }
-    Competencia(long id, String name) {
+    Competencia(long id, String description) {
         this.id = id
-        this.name = name
+        this.description = description
     }
 }
 

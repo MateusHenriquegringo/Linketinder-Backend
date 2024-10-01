@@ -19,10 +19,13 @@ class CompetenciasDAOTest extends Specification{
     def setup(){
         def statement = connection.createStatement()
         statement.execute(
-                "CREATE TABLE \"Competencia\" (" +
-                "id SERIAL PRIMARY KEY, " +
-                "name VARCHAR(50) NOT NULL" +
-                ");"
+                """
+        CREATE TABLE competencia_input (
+              id SERIAL PRIMARY KEY,
+              description VARCHAR(50) NOT NULL
+);
+
+"""
         )
 
         competencia = new Competencia("Analise de Requisitos")
@@ -31,7 +34,7 @@ class CompetenciasDAOTest extends Specification{
 
     def cleanup() {
         def statement = connection.createStatement()
-        statement.execute("DROP TABLE \"Competencia\"")
+        statement.execute("DROP TABLE competencia_input")
         statement.close()
         connection.close()
     }
@@ -49,8 +52,8 @@ class CompetenciasDAOTest extends Specification{
 
         then:
         assert list.size() == 2
-        list[0].name == "test"
-        list[1].name == "test2"
+        list[0].description == "test"
+        list[1].description == "test2"
     }
 
     def "verify create method"() {
@@ -58,9 +61,9 @@ class CompetenciasDAOTest extends Specification{
         dao.create(competencia)
 
         then: "method should save correctly"
-        def resultSet = connection.createStatement().executeQuery("SELECT * FROM \"Competencia\";")
+        def resultSet = connection.createStatement().executeQuery("SELECT * FROM competencia_input;")
         resultSet.next()
-        assert resultSet.getString("name") == competencia.getName()
+        assert resultSet.getString("description") == competencia.getDescription()
 
     }
 
@@ -71,12 +74,12 @@ class CompetenciasDAOTest extends Specification{
         Long idToUpdate = 1L
 
         when:
-        ogComp.setName("update")
+        ogComp.setDescription("update")
         dao.update(ogComp, idToUpdate)
 
         then:
         Competencia updated = dao.findById(idToUpdate)
-        updated.name == "update"
+        updated.description == "update"
 
     }
 
@@ -89,7 +92,7 @@ class CompetenciasDAOTest extends Specification{
 
         then:
         Competencia comp = dao.findById(id)
-        assert comp.name == competencia.getName()
+        assert comp.description == competencia.getDescription()
     }
 
     def "verify delete method"() {
@@ -103,7 +106,7 @@ class CompetenciasDAOTest extends Specification{
         dao.delete(id)
 
         then:
-        def deletedResultSet = connection.createStatement().executeQuery("SELECT * FROM \"Competencia\" WHERE id = ${id}")
+        def deletedResultSet = connection.createStatement().executeQuery("SELECT * FROM competencia_input WHERE id = ${id}")
         assert !deletedResultSet.next()
     }
 

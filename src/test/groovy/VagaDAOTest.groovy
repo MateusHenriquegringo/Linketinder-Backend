@@ -17,25 +17,25 @@ class VagaDAOTest extends Specification {
     VagaDAO dao
 
     def setup() {
+
         def statement = connection.createStatement()
         statement.execute("""
-        CREATE TABLE "Vaga" (
-          id SERIAL PRIMARY KEY,
-             name VARCHAR(100) NOT NULL,
-             description TEXT,
-             empresa_id INT NOT NULL,
-             state VARCHAR(2) NOT NULL,
-             city VARCHAR(100) NOT NULL
-    );
-""")
-
+        CREATE TABLE vaga (
+            id SERIAL PRIMARY KEY,
+            vaga_name VARCHAR(100) NOT NULL,
+            description TEXT,
+            empresa_id INT NOT NULL,
+            state VARCHAR(2) NOT NULL,
+            city VARCHAR(100) NOT NULL
+                );"""
+        )
         vaga = new Vaga("Desenvolvedor Java", "Vaga para desenvolvedor Java pleno.", 1L, "SP", "São Paulo")
         dao = new VagaDAO(connection)
     }
 
     def cleanup() {
         def statement = connection.createStatement()
-        statement.execute("DROP TABLE \"Vaga\"")
+        statement.execute("DROP TABLE vaga")
         statement.close()
         connection.close()
     }
@@ -61,8 +61,8 @@ class VagaDAOTest extends Specification {
 
         then:
         assert list.size() == 2
-        list[0].name == vaga1.getName()
-        list[1].name == vaga2.getName()
+        list[0].vaga_name == vaga1.getVaga_name()
+        list[1].vaga_name == vaga2.getVaga_name()
         list[0].description == vaga1.getDescription()
         list[1].description == vaga2.getDescription()
     }
@@ -72,9 +72,9 @@ class VagaDAOTest extends Specification {
         dao.create(vaga)
 
         then:
-        def resultSet = connection.createStatement().executeQuery("SELECT * FROM \"Vaga\"")
+        def resultSet = connection.createStatement().executeQuery("SELECT * FROM vaga")
         resultSet.next()
-        assert resultSet.getString("name") == vaga.getName()
+        assert resultSet.getString("vaga_name") == vaga.getVaga_name()
         assert resultSet.getString("description") == vaga.getDescription()
 
     }
@@ -86,14 +86,14 @@ class VagaDAOTest extends Specification {
         Long idToUpdate = 1L
 
         when:
-        ogVaga.setName("update")
+        ogVaga.setVaga_name("update")
         ogVaga.setDescription("update")
 
         dao.update(ogVaga, idToUpdate)
 
         then:
         Vaga updated = dao.findById(idToUpdate)
-        updated.name == "update"
+        updated.vaga_name == "update"
         updated.description == "update"
 
     }
@@ -102,13 +102,13 @@ class VagaDAOTest extends Specification {
         when:
         dao.create(vaga)
 
-        def resultSet = connection.createStatement().executeQuery("SELECT * FROM \"Vaga\"")
+        def resultSet = connection.createStatement().executeQuery("SELECT * FROM vaga")
         resultSet.next()
         Long id = resultSet.getLong("id")
 
         then:
         Vaga foundVaga = dao.findById(id)
-        assert foundVaga.name == vaga.getName()
+        assert foundVaga.vaga_name == vaga.getVaga_name()
         assert foundVaga.description == vaga.getDescription()
         assert foundVaga.empresaId == vaga.getEmpresaId()
     }
@@ -117,7 +117,7 @@ class VagaDAOTest extends Specification {
         when:
         dao.create(vaga)
 
-        def resultSet = connection.createStatement().executeQuery("SELECT * FROM \"Vaga\"")
+        def resultSet = connection.createStatement().executeQuery("SELECT * FROM vaga")
         resultSet.next()
         Long id = resultSet.getLong("id")
 
@@ -125,7 +125,7 @@ class VagaDAOTest extends Specification {
         dao.delete(id)
 
         then:
-        def deletedResultSet = connection.createStatement().executeQuery("SELECT * FROM \"Vaga\" WHERE id = ${id}")
+        def deletedResultSet = connection.createStatement().executeQuery("SELECT * FROM vaga WHERE id = ${id}")
         assert !deletedResultSet.next()
     }
 

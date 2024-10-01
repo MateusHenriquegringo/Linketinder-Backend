@@ -28,7 +28,7 @@ class VagaBuilder implements Builder<Vaga>{
 
         return new Vaga (
                 resultSet.getLong("id"),
-                resultSet.getString("name"),
+                resultSet.getString("vaga_name"),
                 resultSet.getString("description"),
                 resultSet.getString("city"),
                 resultSet.getString("state"),

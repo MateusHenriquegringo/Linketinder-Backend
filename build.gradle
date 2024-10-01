@@ -31,6 +31,8 @@ dependencies {
     api libs.org.postgresql.postgresql
     api libs.org.apache.groovy.groovy.sql
 
+    implementation 'org.flywaydb:flyway-core:7.15.0'
+
 
     testImplementation 'com.h2database:h2:2.1.214'
     testImplementation 'org.spockframework:spock-core:2.3-groovy-4.0'
