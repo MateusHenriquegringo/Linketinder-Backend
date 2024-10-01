@@ -57,7 +57,7 @@ class CompetenciasDAO implements ModelsCRUD<Competencia, Long>{
 
     @Override
     List<Competencia> listAll() {
-        String command = "SELECT * FROM competencia_input;"
+        String command = "SELECT * FROM competencia_by_enum;"
 
         try (Statement stmt = connection.createStatement();
              ResultSet resultSet = stmt.executeQuery(command)) {
@@ -78,7 +78,7 @@ class CompetenciasDAO implements ModelsCRUD<Competencia, Long>{
 
     @Override
     Competencia findById(Long id) {
-        String command = "SELECT * FROM competencia_input WHERE id = ?"
+        String command = "SELECT * FROM competencia_by_enum WHERE id = ?"
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
             pstmt.setLong(1, id)

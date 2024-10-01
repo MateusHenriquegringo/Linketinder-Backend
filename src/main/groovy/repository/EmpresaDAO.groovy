@@ -12,6 +12,9 @@ class EmpresaDAO implements ModelsCRUD<Empresa, Long> {
         this.connection = connection
     }
 
+    EmpresaDAO() {
+    }
+
     @Override
     long create(Empresa empresa) {
         String command = "INSERT INTO empresa (empresa_name, description, email, cnpj, cep, country, password)" +

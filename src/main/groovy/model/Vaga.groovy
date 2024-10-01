@@ -1,6 +1,7 @@
 package model
 
 import DTO.Request.VagaRequestDTO
+import enums.CompetenciasENUM
 
 class Vaga {
 
@@ -12,7 +13,7 @@ class Vaga {
     String state
     long empresaId
 
-    List<String> competences
+    List<CompetenciasENUM> competences
 
     Vaga(String vaga_name, String description, long empresaId, String state, String city) {
         this.vaga_name = vaga_name

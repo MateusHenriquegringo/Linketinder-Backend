@@ -81,7 +81,12 @@ CREATE TABLE IF NOT EXISTS candidato (
     def "verifyAssociateCandidatoToCompetencies"(){
         given:
         def statement = connection.createStatement()
-        statement.execute( "INSERT INTO candidato (CPF, first_name) VALUES ('04155784009', 'Mateus');")
+        statement.execute( """
+INSERT INTO candidato (CPF, first_name, last_name, email, city, CEP, description, password)
+VALUES 
+('12345678900', 'John', 'Doe', 'john.doe@example.com', 'New York', '10001', 'Full Stack Developer', 'securepassword123');
+
+""")
 
         def candidatoId = 1
         List<Long> competenciasId = List.of(1L,2L,3L)
@@ -109,7 +114,12 @@ CREATE TABLE IF NOT EXISTS candidato (
     def "verifyThrownsExceptionWhenCompetenciaDoesNotExists"(){
         given:
         def statement = connection.createStatement()
-        statement.execute( "INSERT INTO candidato (CPF, first_name) VALUES ('04155784009', 'Mateus');")
+        statement.execute( """
+INSERT INTO candidato (CPF, first_name, last_name, email, city, CEP, description, password)
+VALUES 
+('12345678900', 'John', 'Doe', 'john.doe@example.com', 'New York', '10001', 'Full Stack Developer', 'securepassword123');
+
+""")
         def candidatoId = 1
         List<Long> competenciasId = List.of(1L,2L,-3L)
 

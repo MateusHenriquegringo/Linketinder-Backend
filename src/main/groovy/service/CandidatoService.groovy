@@ -1,7 +1,7 @@
 package service
 
 import DTO.Request.CandidatoRequestDTO
-import DTO.Response.CandidatoCompetenciaResponseDTO
+
 import DTO.Response.CandidatoResponseDTO
 import enums.CompetenciasENUM
 import model.Candidato
@@ -12,13 +12,12 @@ import repository.auxiliary.CandidatoCompetenciaDAO
 
 import java.util.stream.Collectors
 
-class CandidatoService {
+class CandidatoService implements BuildDTO<CandidatoResponseDTO, Candidato> {
 
     private ModelsCRUD<Candidato, Long> candidatoRepository = new CandidatoDAO()
     private AuxiliaryTablesCRUD<Candidato, Long> candidatoCompetenciaRepository = new CandidatoCompetenciaDAO()
 
     void createCandidato(CandidatoRequestDTO request) {
-
         long returnedID = candidatoRepository.create(new Candidato(request))
 
         if(request.competences().size() > 0 && request.competences()!==null){
@@ -33,21 +32,15 @@ class CandidatoService {
                 .collect(Collectors.toList()));
     }
 
-    CandidatoResponseDTO findCandidatoById(Long id) {
-        Candidato model = candidatoRepository.findById(id)
-
-        return buildCandidatoDTO(model)
-    }
-
     List<CandidatoResponseDTO> listAll() {
         return candidatoRepository.listAll().forEach {
-            it -> buildCandidatoDTO(it)
+            it -> buildDTO(it)
         }
     }
 
-    CandidatoCompetenciaResponseDTO findCandidatoAndCompetenciasById(Long id) {
+    CandidatoResponseDTO findCandidatoAndCompetenciasById(Long id) {
         Candidato model = candidatoCompetenciaRepository.findById(id)
-        return buildCandidatoWithCompetenciasDTO(buildCandidatoDTO(model), model.getCompetences())
+        return buildDTO(model)
     }
 
     void deleteCandidato(Long id) {
@@ -55,11 +48,12 @@ class CandidatoService {
     }
 
     void updateCandidato(CandidatoRequestDTO request, Long id) {
-        candidatoRepository.update(request, id)
+        candidatoRepository.update(new Candidato(request), id)
     }
 
 
-    private static buildCandidatoDTO(Candidato model) {
+    @Override
+    CandidatoResponseDTO buildDTO(Candidato model) {
         return new CandidatoResponseDTO(
                 model.getId(),
                 model.getFirst_name(),
@@ -68,16 +62,9 @@ class CandidatoService {
                 model.getDescription(),
                 model.getEmail(),
                 model.getCEP(),
-                model.getCity()
-        )
-    }
-
-    private static buildCandidatoWithCompetenciasDTO(CandidatoResponseDTO dto, List<CompetenciasENUM> competencias) {
-        return new CandidatoCompetenciaResponseDTO (
-                dto,
-                competencias.stream()
-                    .map {it-> it.getDescription()}
-                    .collect(Collectors.toList())
+                model.getCity(),
+                model.getCompetences()
+                        .forEach {it-> it.getDescription()}
         )
     }
 }

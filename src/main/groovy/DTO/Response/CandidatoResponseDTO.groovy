@@ -2,7 +2,7 @@ package DTO.Response
 
 import groovy.transform.ImmutableOptions
 
-@ImmutableOptions
+@ImmutableOptions()
 record CandidatoResponseDTO(
         long id,
         String first_name,
@@ -11,6 +11,7 @@ record CandidatoResponseDTO(
         String description,
         String email,
         String CEP,
-        String city
+        String city,
+        List<String> competences
 ) {
 }

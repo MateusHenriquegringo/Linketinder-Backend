@@ -112,5 +112,22 @@ class VagaDAO implements ModelsCRUD<Vaga, Long> {
         }
     }
 
+    List<Vaga> findAllByEmpresaId(Long id) {
+        String command = "SELECT * FROM vaga WHERE empresa_id = ?"
+
+        try(PreparedStatement pstmt = connection.prepareStatement(command)){
+            pstmt.setLong(1, id)
+            ResultSet resultSet = pstmt.executeQuery()
+            List<Vaga> responseList = new ArrayList<>()
+            while (resultSet.next()){
+                responseList.add(
+                        builder.buildModelFromResultSet(resultSet)
+                )
+            }
+            return responseList
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao consultar as vagas: " + e.getMessage())
+        }
+    }
 
 }

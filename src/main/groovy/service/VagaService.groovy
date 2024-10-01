@@ -1,11 +1,9 @@
 package service
 
-import DTO.Request.CandidatoRequestDTO
+
 import DTO.Request.VagaRequestDTO
-import DTO.Response.CandidatoCompetenciaResponseDTO
-import DTO.Response.CandidatoResponseDTO
+import DTO.Response.VagaResponseDTO
 import enums.CompetenciasENUM
-import model.Candidato
 import model.Vaga
 import repository.ModelsCRUD
 import repository.VagaDAO
@@ -14,7 +12,7 @@ import repository.auxiliary.VagaCompetenciaDAO
 
 import java.util.stream.Collectors
 
-class VagaService {
+class VagaService implements BuildDTO<VagaResponseDTO, Vaga> {
 
     private ModelsCRUD<Vaga, Long> vagaRepository = new VagaDAO()
     private AuxiliaryTablesCRUD<Vaga, Long> vagaCompetenciaRepository = new VagaCompetenciaDAO()
@@ -34,50 +32,44 @@ class VagaService {
                 .collect(Collectors.toList()))
     }
 
-
-    CandidatoResponseDTO findCandidatoById(Long id) {
-        Candidato model = candidatoRepository.findById(id)
-
-        return buildCandidatoDTO(model)
+    List<VagaResponseDTO> findVagasFromEmpresa(Long id) {
+        return vagaRepository.findAllByEmpresaId(id)
+                .forEach {
+                    it -> buildDTO(it)
+                }
     }
 
-    List<CandidatoResponseDTO> listAll() {
-        return candidatoRepository.listAll().forEach {
-            it -> buildCandidatoDTO(it)
+    VagaResponseDTO findVagaById(Long id) {
+        Vaga model = vagaRepository.findById(id)
+        return buildDTO(model)
+    }
+
+    List<VagaResponseDTO> listAll() {
+        return vagaRepository.listAll().forEach {
+            it -> buildDTO(it)
         }
     }
 
-    CandidatoCompetenciaResponseDTO findCandidatoAndCompetenciasById(Long id) {
-        Candidato model = candidatoCompetenciaRepository.findById(id)
-        return buildCandidatoWithCompetenciasDTO(buildCandidatoDTO(model), model.getCompetences())
+    void deleteVaga(Long id) {
+        vagaRepository.delete(id)
     }
 
-    void deleteCandidato(Long id) {
-        candidatoRepository.delete(id)
+    void updateVaga(VagaRequestDTO request, Long id) {
+        vagaRepository.update(new Vaga(request), id)
     }
 
-    void updateCandidato(CandidatoRequestDTO request, Long id) {
-        candidatoRepository.update(request, id)
-    }
-
-
-    private static buildCandidatoDTO(Candidato model) {
-        return new CandidatoResponseDTO(
+    @Override
+    VagaResponseDTO buildDTO(Vaga model) {
+        return new VagaResponseDTO(
                 model.getId(),
-                model.getFirst_name(),
-                model.getLast_name(),
-                model.getCPF(),
+                model.getVaga_name(),
                 model.getDescription(),
-                model.getEmail(),
-                model.getCEP(),
-                model.getCity()
-        )
-    }
-
-    private static buildCandidatoWithCompetenciasDTO(CandidatoResponseDTO dto, List<CompetenciasENUM> competencias) {
-        return new CandidatoCompetenciaResponseDTO(
-                dto,
-                competencias
+                model.getState(),
+                model.getCity(),
+                model.getEmpresaId(),
+                model.getCompetences().forEach {
+                    it -> it.getDescription()
+                }
         )
     }
 }

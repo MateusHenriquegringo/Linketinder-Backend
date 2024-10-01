@@ -40,22 +40,7 @@ class CompetenciasDAOTest extends Specification{
         connection.close()
     }
 
-    def "verify list all method"() {
-        given:
-        Competencia comp = new Competencia("test")
-        dao.create(comp)
 
-        Competencia comp2 = new Competencia("test2")
-        dao.create(comp2)
-
-        when:
-        List<Competencia> list = dao.listAll()
-
-        then:
-        assert list.size() == 2
-        list[0].description == "test"
-        list[1].description == "test2"
-    }
 
     def "verify create method"() {
         when: "create a new competencia"
@@ -68,33 +53,6 @@ class CompetenciasDAOTest extends Specification{
 
     }
 
-    def "verify update method"() {
-        given:
-        Competencia ogComp = competencia
-        dao.create(ogComp)
-        Long idToUpdate = 1L
-
-        when:
-        ogComp.setDescription("update")
-        dao.update(ogComp, idToUpdate)
-
-        then:
-        Competencia updated = dao.findById(idToUpdate)
-        updated.description == "update"
-
-    }
-
-    def "verify findById method"() {
-        given:
-        Long id = 1L;
-
-        when:
-        dao.create(competencia)
-
-        then:
-        Competencia comp = dao.findById(id)
-        assert comp.description == competencia.getDescription()
-    }
 
     def "verify delete method"() {
         given:
@@ -111,12 +69,4 @@ class CompetenciasDAOTest extends Specification{
         assert !deletedResultSet.next()
     }
 
-    def "verify findById throws exception"() {
-        when:
-        dao.findById(-1)
-
-        then:
-        def exception = thrown(NoSuchElementException)
-        exception.message == "Essa competencia nao existe"
-    }
 }

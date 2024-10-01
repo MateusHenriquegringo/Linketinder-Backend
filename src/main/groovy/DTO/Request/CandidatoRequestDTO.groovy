@@ -13,5 +13,4 @@ record CandidatoRequestDTO(
         String password,
         List<CompetenciasENUM> competences
 ) {
-
 }
