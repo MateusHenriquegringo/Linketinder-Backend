@@ -80,7 +80,7 @@ class CandidatoCompetenciaDAO implements AuxiliaryTablesCRUD<Candidato, Long> {
     }
 
     @Override
-    List<Candidato> findAllWithCompetence(Long competenceId) {
+    List<Candidato> listAllWithCompetence(Long competenceId) {
         String command = SQLQuerys.FIND_ALL_CANDIDATOS_WITH_COMPETENCE.getQuery()
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {

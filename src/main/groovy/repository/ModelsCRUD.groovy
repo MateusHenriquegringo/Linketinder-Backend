@@ -1,6 +1,6 @@
 package repository
 
-interface CRUD<T, ID> {
+interface ModelsCRUD<T, ID> {
 
     long create(T entity);
     void update(T entity, ID id);

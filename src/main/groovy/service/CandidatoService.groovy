@@ -4,14 +4,14 @@ import DTO.Request.CandidatoRequestDTO
 import DTO.Response.CandidatoCompetenciaResponseDTO
 import DTO.Response.CandidatoResponseDTO
 import model.Candidato
-import repository.CRUD
+import repository.ModelsCRUD
 import repository.CandidatoDAO
 import repository.auxiliary.AuxiliaryTablesCRUD
 import repository.auxiliary.CandidatoCompetenciaDAO
 
 class CandidatoService {
 
-    private CRUD<Candidato, Long> candidatoRepository = new CandidatoDAO()
+    private ModelsCRUD<Candidato, Long> candidatoRepository = new CandidatoDAO()
     private AuxiliaryTablesCRUD<Candidato, Long> candidatoCompetenciaRepository = new CandidatoCompetenciaDAO()
 
     void createCandidato(CandidatoRequestDTO request) {

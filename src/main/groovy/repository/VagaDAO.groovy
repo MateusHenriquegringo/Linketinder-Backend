@@ -7,7 +7,7 @@ import model.builder.VagaBuilder
 
 import java.sql.*
 
-class VagaDAO implements CRUD<Vaga, Long> {
+class VagaDAO implements ModelsCRUD<Vaga, Long> {
 
     private Builder<Vaga> builder = new VagaBuilder()
 

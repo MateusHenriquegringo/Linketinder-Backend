@@ -4,7 +4,7 @@ import model.Empresa
 
 import java.sql.*
 
-class EmpresaDAO implements CRUD<Empresa, Long> {
+class EmpresaDAO implements ModelsCRUD<Empresa, Long> {
 
     private Connection connection;
 

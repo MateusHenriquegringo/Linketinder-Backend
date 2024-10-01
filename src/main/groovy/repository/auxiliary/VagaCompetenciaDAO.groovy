@@ -76,7 +76,7 @@ class VagaCompetenciaDAO implements AuxiliaryTablesCRUD<Vaga, Long> {
     }
 
     @Override
-    List<Vaga> findAllWithCompetence(Long competenceId) {
+    List<Vaga> listAllWithCompetence(Long competenceId) {
         String command = SQLQuerys.FIND_ALL_VAGAS_WITH_COMPETENCE.getQuery();
 
         try(PreparedStatement pstmt = connection.prepareStatement(command)){

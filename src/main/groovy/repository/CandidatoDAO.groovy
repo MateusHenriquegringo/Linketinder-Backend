@@ -11,7 +11,7 @@ import java.sql.ResultSet
 import java.sql.SQLException
 import java.sql.Statement
 
-class CandidatoDAO implements CRUD<Candidato, Long> {
+class CandidatoDAO implements ModelsCRUD<Candidato, Long> {
 
     Builder<Candidato> builder = new CandidatoBuilder()
 

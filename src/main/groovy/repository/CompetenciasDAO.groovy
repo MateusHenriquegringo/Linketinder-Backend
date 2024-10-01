@@ -4,7 +4,7 @@ import model.Competencia
 
 import java.sql.*
 
-class CompetenciasDAO implements CRUD<Competencia, Long>{
+class CompetenciasDAO implements ModelsCRUD<Competencia, Long>{
 
     private Connection connection;
 
