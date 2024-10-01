@@ -20,11 +20,11 @@ class CandidatoBuilder implements Builder<Candidato> {
             competences = null;
         }
 
-        return buildCandidato(resultSet, competences)
+        return this.buildCandidato(resultSet, competences)
     }
 
 
-    private static Candidato buildCandidato(ResultSet resultSet, List<String> competences) throws SQLException {
+    private Candidato buildCandidato(ResultSet resultSet, List<String> competences) throws SQLException {
 
         return new Candidato(
                 resultSet.getLong("id"),

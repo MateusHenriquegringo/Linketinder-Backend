@@ -1,3 +1,5 @@
+package dao
+
 import repository.VagaDAO
 import DB.H2DatabaseConnection
 import model.Vaga

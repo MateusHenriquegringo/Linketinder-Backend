@@ -1,3 +1,5 @@
+package dao
+
 import repository.CompetenciasDAO
 import DB.H2DatabaseConnection
 import model.Competencia
@@ -24,7 +26,6 @@ class CompetenciasDAOTest extends Specification{
               id SERIAL PRIMARY KEY,
               description VARCHAR(50) NOT NULL
 );
-
 """
         )
 

@@ -6,6 +6,7 @@ plugins {
     id 'org.flywaydb.flyway' version '7.15.0'
 }
 
+
 flyway {
     driver = 'org.postgresql.Driver'
     url = 'jdbc:postgresql://localhost:5432/postgres'
@@ -26,6 +27,16 @@ repositories {
     }
 }
 
+sourceSets {
+    test{
+        resources.srcDirs("src/test/groovy")
+    }
+}
+
+test {
+    jvmArgs '-XX:+EnableDynamicAgentLoading'
+}
+
 dependencies {
     api libs.org.apache.groovy.groovy.all
     api libs.org.postgresql.postgresql
@@ -37,7 +48,9 @@ dependencies {
     testImplementation 'com.h2database:h2:2.1.214'
     testImplementation 'org.spockframework:spock-core:2.3-groovy-4.0'
     testImplementation 'org.spockframework:spock-junit4:2.3-groovy-4.0'
-    testImplementation libs.org.mockito.mockito.all
+
+    testImplementation 'org.mockito:mockito-core:5.12.0'
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.12.0'
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.7.1'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'

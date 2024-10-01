@@ -1,3 +1,5 @@
+package dao
+
 import repository.CandidatoDAO
 import DB.H2DatabaseConnection
 import model.Candidato

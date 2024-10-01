@@ -24,7 +24,7 @@ class VagaBuilder implements Builder<Vaga>{
     }
 
 
-    private static Vaga buildVaga(ResultSet resultSet, List<String> competences) throws SQLException {
+    private Vaga buildVaga(ResultSet resultSet, List<String> competences) throws SQLException {
 
         return new Vaga (
                 resultSet.getLong("id"),

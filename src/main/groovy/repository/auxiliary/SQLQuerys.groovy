@@ -3,14 +3,14 @@ package repository.auxiliary
 enum SQLQuerys {
     LIST_CANDIDATO_WITH_COMPETENCES(
             """
-            SELECT c.id, c.first_name, c.last_name, c.cpf, c.email, c.cep, c.city, c.description
-                STRING_AGG(comp.description::text, ', ') AS competences
-            FROM candidato c
-            JOIN candidato_competencia cc ON c.id = cc.candidato_id
-            JOIN competencia_by_enum comp ON cc.competencia_id = comp.id
-            WHERE c.id = ? 
-            GROUP BY c.id, c.first_name, c.last_name, c.cpf, c.email, c.cep, c.city, c.description;
-                """
+SELECT c.id, c.first_name, c.last_name, c.cpf, c.email, c.cep, c.city, c.description,
+       STRING_AGG(comp.description, ', ') AS competences
+FROM candidato c
+JOIN candidato_competencia cc ON c.id = cc.candidato_id
+JOIN competencia_by_enum comp ON cc.competencia_id = comp.id
+WHERE c.id = ? 
+GROUP BY c.id, c.first_name, c.last_name, c.cpf, c.email, c.cep, c.city, c.description;
+"""
     ),
 
     LIST_VAGA_WITH_COMPETENCES(

@@ -1,3 +1,5 @@
+package dao
+
 import repository.EmpresaDAO
 import DB.H2DatabaseConnection
 import model.Empresa
