@@ -1,5 +1,6 @@
 package repository.auxiliary
 
+import DB.PostgresDatabaseConnection
 import model.Candidato
 import model.builder.Builder
 import model.builder.CandidatoBuilder
@@ -11,12 +12,15 @@ import java.sql.SQLException
 
 class CandidatoCompetenciaDAO implements AuxiliaryTablesCRUD<Candidato, Long> {
 
-    Connection connection
+    Connection connection = PostgresDatabaseConnection.getConnection();
 
     Builder<Candidato> builder = new CandidatoBuilder()
 
     CandidatoCompetenciaDAO(Connection connection) {
         this.connection = connection
+    }
+
+    CandidatoCompetenciaDAO() {
     }
 
     @Override

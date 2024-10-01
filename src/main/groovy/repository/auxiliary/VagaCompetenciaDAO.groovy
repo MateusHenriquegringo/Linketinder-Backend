@@ -1,5 +1,6 @@
 package repository.auxiliary
 
+import DB.PostgresDatabaseConnection
 import model.Candidato
 import model.Vaga
 import model.builder.Builder
@@ -12,7 +13,7 @@ import java.sql.SQLException
 
 class VagaCompetenciaDAO implements AuxiliaryTablesCRUD<Vaga, Long> {
 
-    Connection connection
+    Connection connection =  PostgresDatabaseConnection.getConnection();
 
     Builder<Vaga> builder = new VagaBuilder()
 

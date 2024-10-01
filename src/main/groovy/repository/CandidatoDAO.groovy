@@ -1,5 +1,6 @@
 package repository
 
+import DB.PostgresDatabaseConnection
 import model.Candidato
 import model.builder.Builder
 import model.builder.CandidatoBuilder
@@ -14,7 +15,7 @@ class CandidatoDAO implements CRUD<Candidato, Long> {
 
     Builder<Candidato> builder = new CandidatoBuilder()
 
-    private Connection connection;
+    private Connection connection = PostgresDatabaseConnection.getConnection();
 
     CandidatoDAO(Connection connection) {
         this.connection = connection

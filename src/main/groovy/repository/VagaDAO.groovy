@@ -1,6 +1,6 @@
 package repository
 
-
+import DB.PostgresDatabaseConnection
 import model.Vaga
 import model.builder.Builder
 import model.builder.VagaBuilder
@@ -11,7 +11,7 @@ class VagaDAO implements CRUD<Vaga, Long> {
 
     private Builder<Vaga> builder = new VagaBuilder()
 
-    private Connection connection
+    private Connection connection =  PostgresDatabaseConnection.getConnection();
 
     VagaDAO(Connection connection) {
         this.connection = connection
