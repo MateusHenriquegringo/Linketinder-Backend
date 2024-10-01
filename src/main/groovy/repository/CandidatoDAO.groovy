@@ -2,26 +2,22 @@ package repository
 
 import DB.PostgresDatabaseConnection
 import model.Candidato
-import model.builder.Builder
+import model.builder.AbstractBuilder
 import model.builder.CandidatoBuilder
 
-import java.sql.Connection
-import java.sql.PreparedStatement
-import java.sql.ResultSet
-import java.sql.SQLException
-import java.sql.Statement
+import java.sql.*
 
 class CandidatoDAO implements ModelsCRUD<Candidato, Long> {
 
-    Builder<Candidato> builder = new CandidatoBuilder()
+    AbstractBuilder<Candidato> builder = new CandidatoBuilder()
 
-    private Connection connection = PostgresDatabaseConnection.getConnection();
+    private Connection connection = PostgresDatabaseConnection.getConnection()
 
     CandidatoDAO(Connection connection) {
         this.connection = connection
     }
 
-    CandidatoDAO(){}
+    CandidatoDAO() {}
 
     @Override
     long create(Candidato candidato) {
@@ -94,7 +90,7 @@ class CandidatoDAO implements ModelsCRUD<Candidato, Long> {
 
             while (resultSet.next()) {
                 responseList.add(
-                      builder.buildModelFromResultSet(resultSet)
+                        builder.buildModelFromResultSet(resultSet)
                 )
             }
 

@@ -2,23 +2,23 @@ package builder
 
 import model.Candidato
 import model.Vaga
-import model.builder.Builder
+import model.builder.AbstractBuilder
 import model.builder.CandidatoBuilder
 import model.builder.VagaBuilder
 import spock.lang.Specification
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import static org.mockito.Mockito.*;
-
 import java.sql.ResultSet
+
+import static org.junit.jupiter.api.Assertions.*
+import static org.mockito.Mockito.mock
+import static org.mockito.Mockito.when
 
 class ModelBuilderTest extends Specification {
 
-    private Builder<Candidato> candidatoBuilder = new CandidatoBuilder()
-    private Builder<Vaga> vagaBuilder = new VagaBuilder()
+    private AbstractBuilder<Candidato> candidatoBuilder = new CandidatoBuilder()
+    private AbstractBuilder<Vaga> vagaBuilder = new VagaBuilder()
 
-    void "testBuildModelFromResultSetForCandidatoWhenCompetencesEmpty"(){
+    void "testBuildModelFromResultSetForCandidatoWhenCompetencesEmpty"() {
         given:
         ResultSet resultSet = mock(ResultSet.class)
         when(resultSet.getLong("id")).thenReturn(1L)
@@ -36,20 +36,20 @@ class ModelBuilderTest extends Specification {
         Candidato candidato = candidatoBuilder.buildModelFromResultSet(resultSet)
 
         then:
-        assertNotNull(candidato);
-        assertEquals(1L, candidato.getId());
-        assertEquals("Mateus", candidato.getFirst_name());
-        assertEquals("Derossi", candidato.getLast_name());
-        assertEquals("mateus@gmail.com", candidato.getEmail());
-        assertEquals("description", candidato.getDescription());
-        assertEquals("99950000", candidato.getCEP());
-        assertEquals("city", candidato.getCity());
-        assertEquals("0000000000", candidato.getCPF());
+        assertNotNull(candidato)
+        assertEquals(1L, candidato.getId())
+        assertEquals("Mateus", candidato.getFirst_name())
+        assertEquals("Derossi", candidato.getLast_name())
+        assertEquals("mateus@gmail.com", candidato.getEmail())
+        assertEquals("description", candidato.getDescription())
+        assertEquals("99950000", candidato.getCEP())
+        assertEquals("city", candidato.getCity())
+        assertEquals("0000000000", candidato.getCPF())
         assertNull(candidato.getCompetences())
     }
 
 
-    void "testBuildModelFromResultSetWhenCompetencesIsNotEmpty"(){
+    void "testBuildModelFromResultSetWhenCompetencesIsNotEmpty"() {
         given:
         ResultSet resultSet = mock(ResultSet.class)
         when(resultSet.getLong("id")).thenReturn(1L)
@@ -67,22 +67,22 @@ class ModelBuilderTest extends Specification {
         Candidato candidato = candidatoBuilder.buildModelFromResultSet(resultSet)
 
         then:
-        assertNotNull(candidato);
-        assertEquals(1L, candidato.getId());
-        assertEquals("Mateus", candidato.getFirst_name());
-        assertEquals("Derossi", candidato.getLast_name());
-        assertEquals("mateus@gmail.com", candidato.getEmail());
-        assertEquals("description", candidato.getDescription());
-        assertEquals("99950000", candidato.getCEP());
-        assertEquals("city", candidato.getCity());
-        assertEquals("0000000000", candidato.getCPF());
-        assertTrue(candidato.getCompetences().size()==2);
-        assertTrue(candidato.getCompetences().contains("Java"));
-        assertTrue(candidato.getCompetences().contains("Python"));
+        assertNotNull(candidato)
+        assertEquals(1L, candidato.getId())
+        assertEquals("Mateus", candidato.getFirst_name())
+        assertEquals("Derossi", candidato.getLast_name())
+        assertEquals("mateus@gmail.com", candidato.getEmail())
+        assertEquals("description", candidato.getDescription())
+        assertEquals("99950000", candidato.getCEP())
+        assertEquals("city", candidato.getCity())
+        assertEquals("0000000000", candidato.getCPF())
+        assertTrue(candidato.getCompetences().size() == 2)
+        assertTrue(candidato.getCompetences().contains("Java"))
+        assertTrue(candidato.getCompetences().contains("Python"))
     }
 
 
-    void "testBuildModelFromResultSetForVagaWhenCompetencesEmpty"(){
+    void "testBuildModelFromResultSetForVagaWhenCompetencesEmpty"() {
         given:
         ResultSet resultSet = mock(ResultSet.class)
         when(resultSet.getLong("id")).thenReturn(1L)
@@ -108,7 +108,7 @@ class ModelBuilderTest extends Specification {
         assertNull(vaga.getCompetences())
     }
 
-    void "testBuildModelFromResultSetForVagaWhenCompetencesIsNotEmpty"(){
+    void "testBuildModelFromResultSetForVagaWhenCompetencesIsNotEmpty"() {
         given:
         ResultSet resultSet = mock(ResultSet.class)
         when(resultSet.getLong("id")).thenReturn(1L)

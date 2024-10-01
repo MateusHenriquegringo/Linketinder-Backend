@@ -2,20 +2,21 @@ package repository
 
 import DB.PostgresDatabaseConnection
 import model.Vaga
-import model.builder.Builder
+import model.builder.AbstractBuilder
 import model.builder.VagaBuilder
 
 import java.sql.*
 
 class VagaDAO implements ModelsCRUD<Vaga, Long> {
 
-    private Builder<Vaga> builder = new VagaBuilder()
+    private AbstractBuilder<Vaga> builder = new VagaBuilder()
 
-    private Connection connection =  PostgresDatabaseConnection.getConnection();
+    private Connection connection = PostgresDatabaseConnection.getConnection()
 
     VagaDAO(Connection connection) {
         this.connection = connection
     }
+
     VagaDAO() {
     }
 
@@ -115,11 +116,11 @@ class VagaDAO implements ModelsCRUD<Vaga, Long> {
     List<Vaga> findAllByEmpresaId(Long id) {
         String command = "SELECT * FROM vaga WHERE empresa_id = ?"
 
-        try(PreparedStatement pstmt = connection.prepareStatement(command)){
+        try (PreparedStatement pstmt = connection.prepareStatement(command)) {
             pstmt.setLong(1, id)
             ResultSet resultSet = pstmt.executeQuery()
             List<Vaga> responseList = new ArrayList<>()
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 responseList.add(
                         builder.buildModelFromResultSet(resultSet)
                 )

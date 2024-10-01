@@ -5,28 +5,12 @@ import model.Vaga
 import java.sql.ResultSet
 import java.sql.SQLException
 
-class VagaBuilder implements Builder<Vaga>{
+class VagaBuilder extends AbstractBuilder<Vaga> {
 
     @Override
-    Vaga buildModelFromResultSet(ResultSet resultSet) throws SQLException {
+    protected Vaga createModel(ResultSet resultSet, List<String> competences) throws SQLException {
 
-        List<String> competences = null;
-        try {
-            String competenciasStr = resultSet.getString("competences");
-            if (competenciasStr != null && !competenciasStr.trim().isEmpty()) {
-                competences = Arrays.asList(competenciasStr.split(", "));
-            }
-        } catch (SQLException ignored) {
-            competences = null;
-        }
-
-        return buildVaga(resultSet, competences)
-    }
-
-
-    private Vaga buildVaga(ResultSet resultSet, List<String> competences) throws SQLException {
-
-        return new Vaga (
+        return new Vaga(
                 resultSet.getLong("id"),
                 resultSet.getString("vaga_name"),
                 resultSet.getString("description"),
@@ -36,5 +20,6 @@ class VagaBuilder implements Builder<Vaga>{
                 competences
         )
     }
+
 
 }
