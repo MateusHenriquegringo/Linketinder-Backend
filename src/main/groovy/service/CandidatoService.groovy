@@ -3,7 +3,7 @@ package service
 import DTO.Request.CandidatoRequestDTO
 
 import DTO.Response.CandidatoResponseDTO
-import enums.CompetenciasENUM
+import enums.CompetenciaENUM
 import model.Candidato
 import repository.CandidatoDAO
 import repository.ModelsCRUD
@@ -25,7 +25,7 @@ class CandidatoService implements BuildDTO<CandidatoResponseDTO, Candidato> {
         }
     }
 
-    void addCompetencesToCandidato(Long candidatoID, List<CompetenciasENUM> competences){
+    void addCompetencesToCandidato(Long candidatoID, List<CompetenciaENUM> competences){
         candidatoCompetenciaRepository.create(candidatoID, competences
                 .stream()
                 .map {it -> it.getId()}

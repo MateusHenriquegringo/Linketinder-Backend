@@ -1,6 +1,6 @@
 package DTO.Request
 
-import enums.CompetenciasENUM
+import enums.CompetenciaENUM
 
 record CandidatoRequestDTO(
         String first_name,
@@ -11,6 +11,6 @@ record CandidatoRequestDTO(
         String CEP,
         String city,
         String password,
-        List<CompetenciasENUM> competences
+        List<CompetenciaENUM> competences
 ) {
 }

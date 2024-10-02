@@ -3,7 +3,7 @@ package service
 
 import DTO.Request.VagaRequestDTO
 import DTO.Response.VagaResponseDTO
-import enums.CompetenciasENUM
+import enums.CompetenciaENUM
 import model.Vaga
 import repository.ModelsCRUD
 import repository.VagaDAO
@@ -25,7 +25,7 @@ class VagaService implements BuildDTO<VagaResponseDTO, Vaga> {
         }
     }
 
-    void addCompetencesToVaga(Long vagaId, List<CompetenciasENUM> competences) {
+    void addCompetencesToVaga(Long vagaId, List<CompetenciaENUM> competences) {
         vagaCompetenciaRepository.create(vagaId, competences
                 .stream()
                 .map { it -> it.getId() }

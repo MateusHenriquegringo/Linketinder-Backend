@@ -1,7 +1,7 @@
 package model
 
 import DTO.Request.CandidatoRequestDTO
-import enums.CompetenciasENUM
+import enums.CompetenciaENUM
 
 class Candidato {
 
@@ -18,18 +18,7 @@ class Candidato {
 
     Set<Empresa> matches
     Set<Empresa> likes
-    List<CompetenciasENUM> competences
-
-    Candidato(long id, String first_name, String last_name, String email, String description, String CEP, String city, String CPF) {
-        this.id = id
-        this.first_name = first_name
-        this.last_name = last_name
-        this.email = email
-        this.description = description
-        this.CEP = CEP
-        this.city = city
-        this.CPF = CPF
-    }
+    List<CompetenciaENUM> competences
 
     Candidato(String first_name, String last_name, String email, String description, String CEP, String city, String CPF, String password) {
         this.first_name = first_name
@@ -54,7 +43,7 @@ class Candidato {
         this.competences = request.competences()
     }
 
-    Candidato(long id, String first_name, String last_name, String email, String description, String CEP, String city, String CPF, List<String> competences) {
+    Candidato(long id, String first_name, String last_name, String email, String description, String CEP, String city, String CPF, List<CompetenciaENUM> competences) {
         this.id = id
         this.first_name = first_name
         this.last_name = last_name
@@ -63,7 +52,7 @@ class Candidato {
         this.CEP = CEP
         this.city = city
         this.CPF = CPF
-        this.competences = competences
+        this.competences = competences as List<CompetenciaENUM>
     }
 
 }

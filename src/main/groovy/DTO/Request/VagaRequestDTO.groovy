@@ -1,6 +1,6 @@
 package DTO.Request
 
-import enums.CompetenciasENUM
+import enums.CompetenciaENUM
 
 record VagaRequestDTO(
         String vaga_name,
@@ -8,7 +8,7 @@ record VagaRequestDTO(
         Long empresa_id,
         String state,
         String city,
-        List<CompetenciasENUM> competences
+        List<CompetenciaENUM> competences
 ) {
 
 }
