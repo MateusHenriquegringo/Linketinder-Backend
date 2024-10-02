@@ -31,7 +31,7 @@ class Vaga {
         this.city = city
     }
 
-    Vaga(long id, String vaga_name, String description, String city, String state, long empresaId, List<String> competences) {
+    Vaga(long id, String vaga_name, String description, String city, String state, long empresaId, List<CompetenciasENUM> competences) {
         this.id = id
         this.vaga_name = vaga_name
         this.description = description

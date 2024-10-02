@@ -6,7 +6,7 @@ record VagaResponseDTO(
         String description,
         String city,
         String state,
-        long empresaID,
+        Long empresaID,
         List<String> competences
 ) {
 

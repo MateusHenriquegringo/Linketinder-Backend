@@ -1,7 +1,7 @@
 package DTO.Response
 
 record EmpresaResponseDTO(
-        long id,
+        Long id,
         String name,
         String description,
         String email,

@@ -4,7 +4,7 @@ import groovy.transform.ImmutableOptions
 
 @ImmutableOptions()
 record CandidatoResponseDTO(
-        long id,
+        Long id,
         String first_name,
         String last_name,
         String CPF,
