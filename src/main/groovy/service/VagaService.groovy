@@ -15,7 +15,7 @@ import java.util.stream.Collectors
 class VagaService implements BuildDTO<VagaResponseDTO, Vaga> {
 
     private ModelsCRUD<Vaga, Long> vagaRepository = new VagaDAO()
-    private AuxiliaryTablesCRUD<Vaga, Long> vagaCompetenciaRepository = new VagaCompetenciaDAO()
+    private AuxiliaryTablesCRUD<Vaga, Long, CompetenciaENUM> vagaCompetenciaRepository = new VagaCompetenciaDAO()
 
     void createVaga(VagaRequestDTO request) {
         Long returnedID = vagaRepository.create(new Vaga(request))

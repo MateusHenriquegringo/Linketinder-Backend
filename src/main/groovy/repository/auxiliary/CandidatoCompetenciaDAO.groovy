@@ -1,6 +1,7 @@
 package repository.auxiliary
 
 import DB.PostgresDatabaseConnection
+import enums.CompetenciaENUM
 import model.Candidato
 import model.builder.AbstractBuilder
 import model.builder.CandidatoBuilder
@@ -10,7 +11,7 @@ import java.sql.PreparedStatement
 import java.sql.ResultSet
 import java.sql.SQLException
 
-class CandidatoCompetenciaDAO implements AuxiliaryTablesCRUD<Candidato, Long> {
+class CandidatoCompetenciaDAO implements AuxiliaryTablesCRUD<Candidato,Long, CompetenciaENUM> {
 
     Connection connection = PostgresDatabaseConnection.getConnection();
 
@@ -24,14 +25,14 @@ class CandidatoCompetenciaDAO implements AuxiliaryTablesCRUD<Candidato, Long> {
     }
 
     @Override
-    void create(Long candidatoID, List<Long> competenciasID) {
+    void create(Long candidatoID, List<CompetenciaENUM> competencias) {
 
-        String command = "INSERT INTO candidato_competencia (candidato_id, competencia_id) VALUES (?, ?);"
+        String command = "INSERT INTO candidato_competencia (candidato_id, competences) VALUES (?, ?);"
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
-            for (Long id : competenciasID) {
+            for (CompetenciaENUM competencia : competencias) {
                 pstmt.setLong(1, candidatoID)
-                pstmt.setLong(2, id)
+                pstmt.setString(2, competencia.getDescription())
                 pstmt.addBatch()
             }
             pstmt.executeBatch()
@@ -42,15 +43,15 @@ class CandidatoCompetenciaDAO implements AuxiliaryTablesCRUD<Candidato, Long> {
     }
 
     @Override
-    void delete(Long candidatoID, List<Long> competenciasID) {
+    void delete(Long candidatoID, List<CompetenciaENUM> competencias) {
 
-        String command = "DELETE FROM candidato_competencia WHERE candidato_id = ? AND competencia_id = ?;"
+        String command = "DELETE FROM candidato_competencia WHERE candidato_id = ? AND competences = ?;"
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
 
-            for (Long id : competenciasID) {
+            for (CompetenciaENUM competencia : competencias) {
                 pstmt.setLong(1, candidatoID)
-                pstmt.setLong(2, id)
+                pstmt.setString(2, competencia.getDescription())
                 pstmt.addBatch()
             }
 
@@ -75,16 +76,16 @@ class CandidatoCompetenciaDAO implements AuxiliaryTablesCRUD<Candidato, Long> {
 
             }
         } catch (SQLException e) {
-            throw new RuntimeException("nao foi possivel retornar o candidato e as competencias " + e)
+            throw new RuntimeException("nao foi possivel retornar o candidato e as competences " + e)
         }
     }
 
     @Override
-    List<Candidato> listAllWithCompetence(Long competenceId) {
+    List<Candidato> listAllWithCompetence(CompetenciaENUM competence) {
         String command = SQLQuerys.FIND_ALL_CANDIDATOS_WITH_COMPETENCE.getQuery()
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
-            pstmt.setLong(1, competenceId)
+            pstmt.setString(1, competence.getDescription())
             ResultSet resultSet = pstmt.executeQuery()
 
             List<Candidato> responseList = new ArrayList<>()
@@ -98,8 +99,6 @@ class CandidatoCompetenciaDAO implements AuxiliaryTablesCRUD<Candidato, Long> {
         } catch (SQLException e) {
             throw new RuntimeException("erro ao buscar candidatos por competencia " + e)
         }
-
-
     }
 
 }

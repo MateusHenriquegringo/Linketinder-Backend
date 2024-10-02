@@ -15,7 +15,7 @@ import java.util.stream.Collectors
 class CandidatoService implements BuildDTO<CandidatoResponseDTO, Candidato> {
 
     private ModelsCRUD<Candidato, Long> candidatoRepository = new CandidatoDAO()
-    private AuxiliaryTablesCRUD<Candidato, Long> candidatoCompetenciaRepository = new CandidatoCompetenciaDAO()
+    private AuxiliaryTablesCRUD<Candidato, Long, CompetenciaENUM> candidatoCompetenciaRepository = new CandidatoCompetenciaDAO()
 
     void createCandidato(CandidatoRequestDTO request) {
         long returnedID = candidatoRepository.create(new Candidato(request))

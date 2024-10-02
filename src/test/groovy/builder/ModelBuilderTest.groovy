@@ -1,5 +1,6 @@
 package builder
 
+import enums.CompetenciaENUM
 import model.Candidato
 import model.Vaga
 import model.builder.AbstractBuilder
@@ -45,7 +46,7 @@ class ModelBuilderTest extends Specification {
         assertEquals("99950000", candidato.getCEP())
         assertEquals("city", candidato.getCity())
         assertEquals("0000000000", candidato.getCPF())
-        assertNull(candidato.getCompetences())
+        assertTrue(candidato.getCompetences().isEmpty())
     }
 
 
@@ -77,8 +78,8 @@ class ModelBuilderTest extends Specification {
         assertEquals("city", candidato.getCity())
         assertEquals("0000000000", candidato.getCPF())
         assertTrue(candidato.getCompetences().size() == 2)
-        assertTrue(candidato.getCompetences().contains("Java"))
-        assertTrue(candidato.getCompetences().contains("Python"))
+        assertTrue(candidato.getCompetences().contains(CompetenciaENUM.JAVA))
+        assertTrue(candidato.getCompetences().contains(CompetenciaENUM.PYTHON))
     }
 
 
@@ -105,7 +106,7 @@ class ModelBuilderTest extends Specification {
         assertEquals("state", vaga.getState())
         assertEquals("city", vaga.getCity())
         assertEquals(2L, vaga.getEmpresaId())
-        assertNull(vaga.getCompetences())
+        assertTrue(vaga.getCompetences().isEmpty())
     }
 
     void "testBuildModelFromResultSetForVagaWhenCompetencesIsNotEmpty"() {
@@ -132,9 +133,8 @@ class ModelBuilderTest extends Specification {
         assertEquals("city", vaga.getCity())
         assertEquals(2L, vaga.getEmpresaId())
         assertTrue(vaga.getCompetences().size() == 2)
-        assertTrue(vaga.getCompetences().contains("Java"))
-        assertTrue(vaga.getCompetences().contains("Python"))
-
+        assertTrue(vaga.getCompetences().contains(CompetenciaENUM.JAVA))
+        assertTrue(vaga.getCompetences().contains(CompetenciaENUM.PYTHON))
     }
 
 

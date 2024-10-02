@@ -1,6 +1,7 @@
 package repository.auxiliary
 
 import DB.PostgresDatabaseConnection
+import enums.CompetenciaENUM
 import model.Vaga
 import model.builder.AbstractBuilder
 import model.builder.VagaBuilder
@@ -10,7 +11,7 @@ import java.sql.PreparedStatement
 import java.sql.ResultSet
 import java.sql.SQLException
 
-class VagaCompetenciaDAO implements AuxiliaryTablesCRUD<Vaga, Long> {
+class VagaCompetenciaDAO implements AuxiliaryTablesCRUD<Vaga, Long, CompetenciaENUM> {
 
     Connection connection = PostgresDatabaseConnection.getConnection();
 
@@ -23,13 +24,13 @@ class VagaCompetenciaDAO implements AuxiliaryTablesCRUD<Vaga, Long> {
     }
 
     @Override
-    void create(Long vagaID, List<Long> competenciasID) {
-        String command = "INSERT INTO vaga_competencia (vaga_id, competencia_id) VALUES (?, ?);"
+    void create(Long vagaID, List<CompetenciaENUM> competences) {
+        String command = "INSERT INTO vaga_competencia (vaga_id, competences) VALUES (?, ?);"
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
-            for (Long id : competenciasID) {
+            for (CompetenciaENUM competencia : competenciasID) {
                 pstmt.setLong(1, vagaID)
-                pstmt.setLong(2, id)
+                pstmt.setString(2, competencia.getDescription())
                 pstmt.addBatch()
             }
             pstmt.executeBatch()
@@ -40,14 +41,14 @@ class VagaCompetenciaDAO implements AuxiliaryTablesCRUD<Vaga, Long> {
     }
 
     @Override
-    void delete(Long vagaID, List<Long> competenciasID) {
-        String command = "DELETE FROM candidato_competencia WHERE candidato_id = ? AND competencia_id = ?;"
+    void delete(Long vagaID, List<CompetenciaENUM> competences) {
+        String command = "DELETE FROM candidato_competencia WHERE candidato_id = ? AND competences = ?;"
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
 
-            for (Long id : competenciasID) {
+            for (CompetenciaENUM competence : competenciasID) {
                 pstmt.setLong(1, vagaID)
-                pstmt.setLong(2, id)
+                pstmt.setLong(2, competence.getDescription())
                 pstmt.addBatch()
             }
 
@@ -77,11 +78,11 @@ class VagaCompetenciaDAO implements AuxiliaryTablesCRUD<Vaga, Long> {
     }
 
     @Override
-    List<Vaga> listAllWithCompetence(Long competenceId) {
+    List<Vaga> listAllWithCompetence(CompetenciaENUM competence) {
         String command = SQLQuerys.FIND_ALL_VAGAS_WITH_COMPETENCE.getQuery();
 
         try(PreparedStatement pstmt = connection.prepareStatement(command)){
-            pstmt.setLong(1, competenceId)
+            pstmt.setString(1, competence.getDescription())
             ResultSet resultSet = pstmt.executeQuery()
 
             List<Vaga> responseList = new ArrayList<>()

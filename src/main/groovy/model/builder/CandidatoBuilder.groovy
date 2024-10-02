@@ -1,5 +1,6 @@
 package model.builder
 
+import enums.CompetenciaENUM
 import model.Candidato
 
 import java.sql.ResultSet
@@ -8,7 +9,7 @@ import java.sql.SQLException
 class CandidatoBuilder extends AbstractBuilder<Candidato> {
 
     @Override
-    protected Candidato createModel(ResultSet resultSet, List<String> competences) throws SQLException {
+    protected Candidato createModel(ResultSet resultSet, List<CompetenciaENUM> competences) throws SQLException {
         return new Candidato(
                 resultSet.getLong("id"),
                 resultSet.getString("first_name"),

@@ -1,29 +1,34 @@
 package model.builder
 
+import enums.CompetenciaENUM
+
 import java.sql.ResultSet
 import java.sql.SQLException
 
 abstract class AbstractBuilder<T> {
 
     T buildModelFromResultSet(ResultSet resultSet) throws SQLException {
-        List<String> competences = extractCompetences(resultSet)
+        List<CompetenciaENUM> competences = extractCompetences(resultSet)
         return createModel(resultSet, competences)
     }
 
-    private List<String> extractCompetences (ResultSet resultSet) throws SQLException {
-        List<String> competences = null;
+    private List<CompetenciaENUM> extractCompetences(ResultSet resultSet) throws SQLException {
+        List<CompetenciaENUM> competences = new ArrayList<>()
 
         try {
-            String competenciasStr = resultSet.getString("competences");
+            String competenciasStr = resultSet.getString("competences")
             if (competenciasStr != null && !competenciasStr.trim().isEmpty()) {
-                competences = Arrays.asList(competenciasStr.split(", "));
+                for (String competenciaString : competenciasStr.split(", ")) {
+                    competences.add(CompetenciaENUM.fromString(competenciaString))
+                }
             }
         } catch (SQLException ignored) {
-            competences = null;
+            ignored.printStackTrace()
         }
 
         return competences
     }
 
-    protected abstract T createModel(ResultSet resultSet, List<String> competences) throws SQLException;
+
+    protected abstract T createModel(ResultSet resultSet, List<CompetenciaENUM> competences) throws SQLException;
 }
