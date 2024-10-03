@@ -6,10 +6,9 @@ import model.Vaga
 import java.sql.ResultSet
 import java.sql.SQLException
 
-class VagaBuilder extends AbstractBuilder<Vaga> {
+class VagaBuilder extends AbstractCompetencesBuilder<Vaga> implements IBuilder<Vaga> {
 
-    @Override
-    protected Vaga createModel(ResultSet resultSet, List<CompetenciaENUM> competences) throws SQLException {
+    private static Vaga createModel(ResultSet resultSet, List<CompetenciaENUM> competences) throws SQLException {
 
         return new Vaga(
                 resultSet.getLong("id"),
@@ -22,5 +21,9 @@ class VagaBuilder extends AbstractBuilder<Vaga> {
         )
     }
 
-
+    @Override
+    Vaga buildModelFromResultSet(ResultSet resultSet) throws SQLException {
+        List<CompetenciaENUM> competences = extractCompetences(resultSet)
+        return createModel(resultSet, competences)
+    }
 }

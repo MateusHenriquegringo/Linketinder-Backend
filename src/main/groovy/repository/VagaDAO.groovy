@@ -2,14 +2,15 @@ package repository
 
 import DB.PostgresDatabaseConnection
 import model.Vaga
-import model.builder.AbstractBuilder
+import model.builder.AbstractCompetencesBuilder
+import model.builder.IBuilder
 import model.builder.VagaBuilder
 
 import java.sql.*
 
 class VagaDAO implements ModelsCRUD<Vaga, Long> {
 
-    private AbstractBuilder<Vaga> builder = new VagaBuilder()
+    private IBuilder<Vaga> builder = new VagaBuilder()
 
     private Connection connection = PostgresDatabaseConnection.getConnection()
 

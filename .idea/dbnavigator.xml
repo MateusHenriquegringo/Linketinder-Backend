@@ -6,7 +6,7 @@
   </component>
   <component name="DBNavigator.Project.DataEditorManager">
     <record-view-column-sorting-type value="BY_INDEX" />
-    <value-preview-text-wrapping value="true" />
+    <value-preview-text-wrapping value="false" />
     <value-preview-pinned value="false" />
   </component>
   <component name="DBNavigator.Project.DatabaseBrowserManager">
@@ -32,8 +32,11 @@
   <component name="DBNavigator.Project.DatasetFilterManager">
     <filter-actions connection-id="13d5e3a5-9fd5-44f3-8d63-01d677b0b509" dataset="flyway.candidato" active-filter-id="" />
   </component>
+  <component name="DBNavigator.Project.ExecutionManager">
+    <retain-sticky-names value="false" />
+  </component>
   <component name="DBNavigator.Project.FileConnectionMappingManager">
-    <mapping file-url="file://$PROJECT_DIR$/src/main/resources/db/migration/V1__create-table-candidato.sql" connection-id="13d5e3a5-9fd5-44f3-8d63-01d677b0b509" session-id="MAIN" current-schema="postgres" />
+    <mapping file-url="file://$PROJECT_DIR$/src/main/resources/db/migration/V3__change-name-column-competencia-to-competence.sql" connection-id="13d5e3a5-9fd5-44f3-8d63-01d677b0b509" session-id="MAIN" current-schema="flyway" />
   </component>
   <component name="DBNavigator.Project.ObjectQuickFilterManager">
     <last-used-operator value="EQUAL" />

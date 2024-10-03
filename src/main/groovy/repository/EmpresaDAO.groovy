@@ -1,12 +1,17 @@
 package repository
 
 import model.Empresa
+import model.builder.AbstractCompetencesBuilder
+import model.builder.EmpresaBuilder
+import model.builder.IBuilder
 
 import java.sql.*
 
 class EmpresaDAO implements ModelsCRUD<Empresa, Long> {
 
-    private Connection connection;
+    private Connection connection
+
+    private IBuilder<Empresa> builder = new EmpresaBuilder()
 
     EmpresaDAO(Connection connection) {
         this.connection = connection
@@ -80,18 +85,12 @@ class EmpresaDAO implements ModelsCRUD<Empresa, Long> {
         ) {
             List<Empresa> responseList = new ArrayList<>()
             while (resultSet.next()) {
-                responseList.add(new Empresa(
-                        resultSet.getLong("id"),
-                        resultSet.getString("empresa_name"),
-                        resultSet.getString("description"),
-                        resultSet.getString("email"),
-                        resultSet.getString("cnpj"),
-                        resultSet.getString("cep"),
-                        resultSet.getString("country"))
-                )
-            }
 
+                responseList.add(builder.buildModelFromResultSet(resultSet))
+
+            }
             return responseList
+
         } catch (SQLException e) {
             throw new RuntimeException("ocorreu um erro ao listar as empresas " + e.getMessage())
         }
@@ -107,15 +106,9 @@ class EmpresaDAO implements ModelsCRUD<Empresa, Long> {
             ResultSet resultSet = pstmt.executeQuery()
 
             if (resultSet.next()) {
-                return new Empresa(
-                        resultSet.getLong("id"),
-                        resultSet.getString("empresa_name"),
-                        resultSet.getString("description"),
-                        resultSet.getString("email"),
-                        resultSet.getString("cnpj"),
-                        resultSet.getString("cep"),
-                        resultSet.getString("country")
-                )
+
+                return builder.buildModelFromResultSet(resultSet)
+
             } else throw new NoSuchElementException("Empresa nao encontrada")
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao consultar " + e.getMessage())

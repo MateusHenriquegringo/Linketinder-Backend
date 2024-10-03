@@ -16,8 +16,6 @@ class Candidato {
     String city
     String password
 
-    Set<Empresa> matches
-    Set<Empresa> likes
     List<CompetenciaENUM> competences
 
     Candidato(String first_name, String last_name, String email, String description, String CEP, String city, String CPF, String password) {
@@ -52,8 +50,23 @@ class Candidato {
         this.CEP = CEP
         this.city = city
         this.CPF = CPF
-        this.competences = competences as List<CompetenciaENUM>
+        this.competences = competences
     }
 
+    @Override
+    public String toString() {
+        return "Candidato{" +
+                "id=" + id +
+                ", first_name='" + first_name + '\'' +
+                ", last_name='" + last_name + '\'' +
+                ", CPF='" + CPF + '\'' +
+                ", description='" + description + '\'' +
+                ", email='" + email + '\'' +
+                ", CEP='" + CEP + '\'' +
+                ", city='" + city + '\'' +
+                ", password='" + password + '\'' +
+                ", competences=" + competences +
+                '}';
+    }
 }
 

@@ -14,8 +14,6 @@ class Empresa {
     String country
     String password
 
-    Set<Candidato> likes
-    Set<Candidato> matches
 
     Empresa(String empresa_name, String description, String email, String CNPJ, String CEP, String country, String password) {
         this.empresa_name = empresa_name

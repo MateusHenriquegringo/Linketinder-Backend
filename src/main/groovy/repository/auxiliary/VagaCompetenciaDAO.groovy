@@ -3,7 +3,7 @@ package repository.auxiliary
 import DB.PostgresDatabaseConnection
 import enums.CompetenciaENUM
 import model.Vaga
-import model.builder.AbstractBuilder
+import model.builder.AbstractCompetencesBuilder
 import model.builder.VagaBuilder
 
 import java.sql.Connection
@@ -15,7 +15,7 @@ class VagaCompetenciaDAO implements AuxiliaryTablesCRUD<Vaga, Long, CompetenciaE
 
     Connection connection = PostgresDatabaseConnection.getConnection();
 
-    AbstractBuilder<Vaga> builder = new VagaBuilder()
+    AbstractCompetencesBuilder<Vaga> builder = new VagaBuilder()
 
     VagaCompetenciaDAO(Connection connection) {
         this.connection = connection

@@ -3,7 +3,7 @@ package builder
 import enums.CompetenciaENUM
 import model.Candidato
 import model.Vaga
-import model.builder.AbstractBuilder
+import model.builder.AbstractCompetencesBuilder
 import model.builder.CandidatoBuilder
 import model.builder.VagaBuilder
 import spock.lang.Specification
@@ -16,8 +16,8 @@ import static org.mockito.Mockito.when
 
 class ModelBuilderTest extends Specification {
 
-    private AbstractBuilder<Candidato> candidatoBuilder = new CandidatoBuilder()
-    private AbstractBuilder<Vaga> vagaBuilder = new VagaBuilder()
+    private AbstractCompetencesBuilder<Candidato> candidatoBuilder = new CandidatoBuilder()
+    private AbstractCompetencesBuilder<Vaga> vagaBuilder = new VagaBuilder()
 
     void "testBuildModelFromResultSetForCandidatoWhenCompetencesEmpty"() {
         given:

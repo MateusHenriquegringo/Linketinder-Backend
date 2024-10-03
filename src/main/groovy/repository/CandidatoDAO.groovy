@@ -2,14 +2,15 @@ package repository
 
 import DB.PostgresDatabaseConnection
 import model.Candidato
-import model.builder.AbstractBuilder
+import model.builder.AbstractCompetencesBuilder
 import model.builder.CandidatoBuilder
+import model.builder.IBuilder
 
 import java.sql.*
 
 class CandidatoDAO implements ModelsCRUD<Candidato, Long> {
 
-    AbstractBuilder<Candidato> builder = new CandidatoBuilder()
+    IBuilder<Candidato> builder = new CandidatoBuilder()
 
     private Connection connection = PostgresDatabaseConnection.getConnection()
 

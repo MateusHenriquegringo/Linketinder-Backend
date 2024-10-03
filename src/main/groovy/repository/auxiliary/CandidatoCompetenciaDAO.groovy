@@ -3,8 +3,8 @@ package repository.auxiliary
 import DB.PostgresDatabaseConnection
 import enums.CompetenciaENUM
 import model.Candidato
-import model.builder.AbstractBuilder
 import model.builder.CandidatoBuilder
+import model.builder.IBuilder
 
 import java.sql.Connection
 import java.sql.PreparedStatement
@@ -15,7 +15,7 @@ class CandidatoCompetenciaDAO implements AuxiliaryTablesCRUD<Candidato,Long, Com
 
     Connection connection = PostgresDatabaseConnection.getConnection();
 
-    AbstractBuilder<Candidato> builder = new CandidatoBuilder()
+    IBuilder<Candidato> builder = new CandidatoBuilder()
 
     CandidatoCompetenciaDAO(Connection connection) {
         this.connection = connection

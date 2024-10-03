@@ -6,10 +6,16 @@ import model.Candidato
 import java.sql.ResultSet
 import java.sql.SQLException
 
-class CandidatoBuilder extends AbstractBuilder<Candidato> {
+class CandidatoBuilder extends AbstractCompetencesBuilder<Candidato> implements IBuilder<Candidato>{
+
 
     @Override
-    protected Candidato createModel(ResultSet resultSet, List<CompetenciaENUM> competences) throws SQLException {
+    Candidato buildModelFromResultSet(ResultSet resultSet) throws SQLException {
+        List<CompetenciaENUM> competences = extractCompetences(resultSet)
+        return createModel(resultSet, competences)
+    }
+
+    private static Candidato createModel(ResultSet resultSet, List<CompetenciaENUM> competences) throws SQLException {
         return new Candidato(
                 resultSet.getLong("id"),
                 resultSet.getString("first_name"),
@@ -22,4 +28,5 @@ class CandidatoBuilder extends AbstractBuilder<Candidato> {
                 competences
         )
     }
+
 }
