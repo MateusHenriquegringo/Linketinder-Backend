@@ -13,7 +13,7 @@ GROUP BY c.id, c.first_name, c.last_name, c.cpf, c.email, c.cep, c.city, c.descr
 """
     ),
 
-    LIST_VAGA_WITH_COMPETENCES(
+    RETURN_VAGA_WITH_COMPETENCES(
             """
             SELECT v.id, v.vaga_name, v.empresa_id, v.state, v.city, v.description, 
                 STRING_AGG(comp.description::text, ', ') AS competences
@@ -24,25 +24,6 @@ GROUP BY c.id, c.first_name, c.last_name, c.cpf, c.email, c.cep, c.city, c.descr
             GROUP BY v.id, v.vaga_name, v.empresa_id, v.state, v.city, v.description;
 """
     ),
-
-    FIND_ALL_CANDIDATOS_WITH_COMPETENCE(
-            """
-        SELECT  c.id, c.first_name, c.last_name, c.cpf, c.email, c.cep, c.city, c.description, 
-            STRING_AGG(comp.description::text, ', ') AS competences
-            FROM candidato c
-            JOIN candidato_competencia cc ON c.id = cc.candidato_id
-            JOIN competencia_by_enum comp ON cc.competencia_id = comp.id
-        WHERE c.id IN (
-           SELECT c.id
-            FROM candidato c
-            JOIN candidato_competencia cc ON c.id = cc.candidato_id
-           WHERE cc.competencia_id = ? )   
-           
-           GROUP BY c.id, c.first_name, c.last_name, c.cpf, c.email, c.cep, c.city, c.description;          
-"""
-    ),
-
-
 
     FIND_ALL_VAGAS_WITH_COMPETENCE(
             """
@@ -59,8 +40,26 @@ GROUP BY c.id, c.first_name, c.last_name, c.cpf, c.email, c.cep, c.city, c.descr
     )
     GROUP BY v.id, v.vaga_name, v.empresa_id, v.state, v.city, v.description;
     """
-    )
+    ),
 
+    LIST_ALL_CANDIDATOS_JOIN_COMPETENCIAS (
+            """
+SELECT 
+    c.*,
+    STRING_AGG(cc.competences::TEXT, ', ') AS competences
+FROM 
+    candidato c
+LEFT JOIN 
+    candidato_competencia cc ON c.id = cc.candidato_id
+GROUP BY 
+    c.id, c.first_name, c.last_name, c.cep, c.cpf, c.description;
+"""
+    ),
+    LIST_ALL_VAGAS_JOIN_COMPETENCIAS(
+            """
+    
+"""
+    )
 
     String getQuery() {
         return query

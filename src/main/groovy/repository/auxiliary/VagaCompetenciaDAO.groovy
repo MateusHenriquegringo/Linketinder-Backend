@@ -2,20 +2,24 @@ package repository.auxiliary
 
 import DB.PostgresDatabaseConnection
 import enums.CompetenciaENUM
+import model.Candidato
 import model.Vaga
-import model.builder.AbstractCompetencesBuilder
+import model.builder.IVagaBuilder
 import model.builder.VagaBuilder
+import model.builder.director.VagaDirector
 
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet
 import java.sql.SQLException
+import java.sql.Statement
 
 class VagaCompetenciaDAO implements AuxiliaryTablesCRUD<Vaga, Long, CompetenciaENUM> {
 
     Connection connection = PostgresDatabaseConnection.getConnection();
 
-    AbstractCompetencesBuilder<Vaga> builder = new VagaBuilder()
+    VagaDirector director = new VagaDirector()
+    IVagaBuilder builder = new VagaBuilder()
 
     VagaCompetenciaDAO(Connection connection) {
         this.connection = connection
@@ -28,9 +32,9 @@ class VagaCompetenciaDAO implements AuxiliaryTablesCRUD<Vaga, Long, CompetenciaE
         String command = "INSERT INTO vaga_competencia (vaga_id, competences) VALUES (?, ?);"
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
-            for (CompetenciaENUM competencia : competenciasID) {
+            for (CompetenciaENUM competencia : competences) {
                 pstmt.setLong(1, vagaID)
-                pstmt.setString(2, competencia.getDescription())
+                pstmt.setString(2, competencia.toString())
                 pstmt.addBatch()
             }
             pstmt.executeBatch()
@@ -46,9 +50,9 @@ class VagaCompetenciaDAO implements AuxiliaryTablesCRUD<Vaga, Long, CompetenciaE
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
 
-            for (CompetenciaENUM competence : competenciasID) {
+            for (CompetenciaENUM competence : competences) {
                 pstmt.setLong(1, vagaID)
-                pstmt.setLong(2, competence.getDescription())
+                pstmt.setString(2, competence.toString())
                 pstmt.addBatch()
             }
 
@@ -61,7 +65,7 @@ class VagaCompetenciaDAO implements AuxiliaryTablesCRUD<Vaga, Long, CompetenciaE
 
     @Override
     Vaga findById(Long vagaID) {
-        String command = SQLQuerys.LIST_VAGA_WITH_COMPETENCES.getQuery()
+        String command = SQLQuerys.RETURN_VAGA_WITH_COMPETENCES.getQuery()
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
             pstmt.setLong(1, vagaID)
@@ -69,7 +73,7 @@ class VagaCompetenciaDAO implements AuxiliaryTablesCRUD<Vaga, Long, CompetenciaE
 
             if (resultSet.next()) {
 
-                return builder.buildModelFromResultSet(resultSet)
+                return director.constructFromResultSetWithCompetences(resultSet, builder)
 
             }
         } catch (SQLException e) {
@@ -78,23 +82,24 @@ class VagaCompetenciaDAO implements AuxiliaryTablesCRUD<Vaga, Long, CompetenciaE
     }
 
     @Override
-    List<Vaga> listAllWithCompetence(CompetenciaENUM competence) {
-        String command = SQLQuerys.FIND_ALL_VAGAS_WITH_COMPETENCE.getQuery();
+    List<Vaga> listAll(){
+        String command = SQLQuerys.LIST_ALL_VAGAS_JOIN_COMPETENCIAS.getQuery()
 
-        try(PreparedStatement pstmt = connection.prepareStatement(command)){
-            pstmt.setString(1, competence.getDescription())
-            ResultSet resultSet = pstmt.executeQuery()
+        List<Vaga> resultList = new ArrayList<>()
+        try (Statement stmt = connection.createStatement()
+             ResultSet resultSet = stmt.executeQuery(command)) {
 
-            List<Vaga> responseList = new ArrayList<>()
             while (resultSet.next()) {
-
-                responseList.add(builder.buildModelFromResultSet(resultSet))
-
+                resultList.add(
+                        director.constructFromResultSetWithCompetences(resultSet, builder)
+                )
             }
-            return responseList
+
+            return resultList
 
         } catch (SQLException e) {
-            throw new RuntimeException("erro ao buscar vagas por competencia "+ e)
+            throw new RuntimeException("Erro ao retornar as vagas e as competencias exigidas " + e.getMessage())
         }
     }
+
 }

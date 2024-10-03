@@ -1,9 +1,9 @@
 package repository
 
 import model.Empresa
-import model.builder.AbstractCompetencesBuilder
 import model.builder.EmpresaBuilder
-import model.builder.IBuilder
+import model.builder.IEmpresaBuilder
+import model.builder.director.EmpresaDirector
 
 import java.sql.*
 
@@ -11,7 +11,8 @@ class EmpresaDAO implements ModelsCRUD<Empresa, Long> {
 
     private Connection connection
 
-    private IBuilder<Empresa> builder = new EmpresaBuilder()
+    private EmpresaDirector director = new EmpresaDirector()
+    private IEmpresaBuilder builder = new EmpresaBuilder()
 
     EmpresaDAO(Connection connection) {
         this.connection = connection
@@ -86,7 +87,9 @@ class EmpresaDAO implements ModelsCRUD<Empresa, Long> {
             List<Empresa> responseList = new ArrayList<>()
             while (resultSet.next()) {
 
-                responseList.add(builder.buildModelFromResultSet(resultSet))
+                responseList.add(
+                        director.constructFromResultSet(resultSet, builder)
+                )
 
             }
             return responseList
@@ -107,7 +110,8 @@ class EmpresaDAO implements ModelsCRUD<Empresa, Long> {
 
             if (resultSet.next()) {
 
-                return builder.buildModelFromResultSet(resultSet)
+                return director.constructFromResultSet(resultSet, builder)
+
 
             } else throw new NoSuchElementException("Empresa nao encontrada")
         } catch (SQLException e) {

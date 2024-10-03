@@ -3,30 +3,84 @@ package model.builder
 import enums.CompetenciaENUM
 import model.Candidato
 
-import java.sql.ResultSet
-import java.sql.SQLException
+class CandidatoBuilder implements ICandidatoBuilder {
 
-class CandidatoBuilder extends AbstractCompetencesBuilder<Candidato> implements IBuilder<Candidato>{
+    Candidato model
+
+    CandidatoBuilder() {
+        this.reset()
+    }
 
 
     @Override
-    Candidato buildModelFromResultSet(ResultSet resultSet) throws SQLException {
-        List<CompetenciaENUM> competences = extractCompetences(resultSet)
-        return createModel(resultSet, competences)
+    void reset() {
+        model = new Candidato()
     }
 
-    private static Candidato createModel(ResultSet resultSet, List<CompetenciaENUM> competences) throws SQLException {
-        return new Candidato(
-                resultSet.getLong("id"),
-                resultSet.getString("first_name"),
-                resultSet.getString("last_name"),
-                resultSet.getString("email"),
-                resultSet.getString("description"),
-                resultSet.getString("cep"),
-                resultSet.getString("city"),
-                resultSet.getString("cpf"),
-                competences
-        )
+    @Override
+    CandidatoBuilder setFirstName(String firstName) {
+        model.setFirst_name(firstName)
+        return this
     }
 
+    @Override
+    CandidatoBuilder setLastName(String lastName) {
+        model.setLast_name(lastName)
+        return this
+    }
+
+    @Override
+    CandidatoBuilder setCPF(String cpf) {
+        model.setCPF(cpf)
+        return this
+    }
+
+    @Override
+    CandidatoBuilder setDescription(String description) {
+        model.setDescription(description)
+        return this
+    }
+
+    @Override
+    CandidatoBuilder setCEP(String cep) {
+        model.setCEP(cep)
+        return this
+    }
+
+    @Override
+    CandidatoBuilder setCity(String city) {
+        model.setCity(city)
+        return this
+    }
+
+    @Override
+    CandidatoBuilder setId(Long id) {
+        model.setId(id)
+        return this
+    }
+
+    @Override
+    CandidatoBuilder setEmail(String email) {
+        model.setEmail(email)
+        return this
+    }
+
+    @Override
+    CandidatoBuilder setPassword(String password) {
+        model.setPassword(password)
+        return this
+    }
+
+    @Override
+    CandidatoBuilder setCompetences(List<CompetenciaENUM> competences) {
+        model.setCompetences(competences)
+        return this
+    }
+
+    @Override
+    Candidato build() {
+        Candidato builded = this.model
+        this.reset()
+        return builded
+    }
 }

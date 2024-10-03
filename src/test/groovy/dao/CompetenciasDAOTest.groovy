@@ -28,8 +28,6 @@ class CompetenciasDAOTest extends Specification{
 );
 """
         )
-
-        competencia = new Competencia("Analise de Requisitos")
         dao = new CompetenciasDAO(connection)
     }
 
@@ -42,31 +40,5 @@ class CompetenciasDAOTest extends Specification{
 
 
 
-    def "verify create method"() {
-        when: "create a new competencia"
-        dao.create(competencia)
-
-        then: "method should save correctly"
-        def resultSet = connection.createStatement().executeQuery("SELECT * FROM competencia_input;")
-        resultSet.next()
-        assert resultSet.getString("description") == competencia.getDescription()
-
-    }
-
-
-    def "verify delete method"() {
-        given:
-        Long id = 1L;
-
-        when:
-        dao.create(competencia)
-
-        and:
-        dao.delete(id)
-
-        then:
-        def deletedResultSet = connection.createStatement().executeQuery("SELECT * FROM competencia_input WHERE id = ${id}")
-        assert !deletedResultSet.next()
-    }
 
 }

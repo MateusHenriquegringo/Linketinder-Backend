@@ -1,0 +1,33 @@
+package model.builder.director
+
+import enums.CompetenciaENUM
+import model.builder.IBuilder
+
+import java.sql.ResultSet
+import java.sql.SQLException
+
+abstract class AbstractDirector<T, DTO> {
+
+     abstract T constructFromResultSet(ResultSet resultSet, IBuilder <? extends IBuilder> builder);
+
+    abstract T constructFromResultSetWithCompetences(ResultSet resultSet, IBuilder <? extends IBuilder> builder);
+
+    abstract T constructFromRequestDTO(DTO dto, IBuilder <? extends IBuilder> builder);
+
+    protected List<CompetenciaENUM> extractCompetencesFromResultSet(ResultSet resultSet) throws SQLException {
+
+        String competences = resultSet.getString('competences')
+
+        List<CompetenciaENUM> result = new ArrayList<>()
+
+        if (competences !== null && !competences.trim().isEmpty()) {
+            List<String> competencesList = competences.split(", ")
+            competencesList.forEach {
+                result.add(CompetenciaENUM.valueOf(it.trim()))
+            }
+        }
+
+        return result
+    }
+
+}

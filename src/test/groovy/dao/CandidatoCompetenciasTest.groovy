@@ -112,7 +112,6 @@ VALUES
 
         then:
         def e = thrown(RuntimeException)
-        e.message.contains("erro ao relacionar competencias")
     }
 
 

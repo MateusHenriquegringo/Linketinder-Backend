@@ -1,20 +1,24 @@
 package app
 
-import DTO.Request.CandidatoRequestDTO
-import enums.CompetenciaENUM
 
+import repository.auxiliary.CandidatoCompetenciaDAO
+import repository.auxiliary.VagaCompetenciaDAO
 import service.CandidatoService
 
 class Main {
 
     static CandidatoService service = new CandidatoService()
+
+    static CandidatoCompetenciaDAO dao = new CandidatoCompetenciaDAO()
+    static VagaCompetenciaDAO vaga = new VagaCompetenciaDAO()
+
     static void main(String[] args) {
 
-        service.createCandidato(new CandidatoRequestDTO("mateus","derossi", "041888900", "descricao", "obrabogordin@gmail.com", "tape", "033939303", "senah1243", List.of(CompetenciaENUM.JAVASCRIPT, CompetenciaENUM.ANGULAR)))
 
-        service.listAll().forEach {
+        vaga.listAll().forEach {
             print(it.toString())
         }
+
 
     }
 }

@@ -2,15 +2,16 @@ package repository
 
 import DB.PostgresDatabaseConnection
 import model.Candidato
-import model.builder.AbstractCompetencesBuilder
 import model.builder.CandidatoBuilder
-import model.builder.IBuilder
+import model.builder.director.CandidatoDirector
+import model.builder.ICandidatoBuilder
 
 import java.sql.*
 
 class CandidatoDAO implements ModelsCRUD<Candidato, Long> {
 
-    IBuilder<Candidato> builder = new CandidatoBuilder()
+    ICandidatoBuilder builder = new CandidatoBuilder()
+    CandidatoDirector director = new CandidatoDirector()
 
     private Connection connection = PostgresDatabaseConnection.getConnection()
 
@@ -91,7 +92,7 @@ class CandidatoDAO implements ModelsCRUD<Candidato, Long> {
 
             while (resultSet.next()) {
                 responseList.add(
-                        builder.buildModelFromResultSet(resultSet)
+                       director.constructFromResultSet(resultSet, builder)
                 )
             }
 
@@ -111,7 +112,7 @@ class CandidatoDAO implements ModelsCRUD<Candidato, Long> {
 
             if (resultSet.next()) {
 
-                return builder.buildModelFromResultSet(resultSet)
+                return director.constructFromResultSet(resultSet, builder)
 
             } else throw new NoSuchElementException("Candidato nao encontrado")
 

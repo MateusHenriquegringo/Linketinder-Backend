@@ -3,27 +3,64 @@ package model.builder
 import enums.CompetenciaENUM
 import model.Vaga
 
-import java.sql.ResultSet
-import java.sql.SQLException
+class VagaBuilder implements IVagaBuilder{
 
-class VagaBuilder extends AbstractCompetencesBuilder<Vaga> implements IBuilder<Vaga> {
+    Vaga model;
 
-    private static Vaga createModel(ResultSet resultSet, List<CompetenciaENUM> competences) throws SQLException {
-
-        return new Vaga(
-                resultSet.getLong("id"),
-                resultSet.getString("vaga_name"),
-                resultSet.getString("description"),
-                resultSet.getString("city"),
-                resultSet.getString("state"),
-                resultSet.getLong("empresa_id"),
-                competences
-        )
+    VagaBuilder(){
+        this.reset()
     }
 
     @Override
-    Vaga buildModelFromResultSet(ResultSet resultSet) throws SQLException {
-        List<CompetenciaENUM> competences = extractCompetences(resultSet)
-        return createModel(resultSet, competences)
+    Vaga build() {
+        return null
+    }
+
+    @Override
+    void reset() {
+        this.model = new Vaga()
+    }
+
+    @Override
+    IVagaBuilder setId(Long id) {
+        model.setId(id)
+        return this
+    }
+
+    @Override
+    IVagaBuilder setVagaName(String name) {
+        model.setVaga_name(name)
+        return this
+    }
+
+    @Override
+    IVagaBuilder setDescription(String description) {
+        model.setDescription(description)
+        return this
+    }
+
+    @Override
+    IVagaBuilder setCity(String city) {
+        model.setCity(city)
+        return this
+    }
+
+    @Override
+    IVagaBuilder setState(String state) {
+        model.setState(state)
+        return this
+    }
+
+    @Override
+    IVagaBuilder setEmpresaID(Long empresaId) {
+        model.setEmpresaId(empresaId)
+        return this
+    }
+
+
+    @Override
+    IVagaBuilder setCompetences(List<CompetenciaENUM> competences) {
+        model.setCompetences(competences)
+        return this
     }
 }

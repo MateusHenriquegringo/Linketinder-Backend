@@ -4,18 +4,16 @@ import DB.PostgresDatabaseConnection
 import enums.CompetenciaENUM
 import model.Candidato
 import model.builder.CandidatoBuilder
-import model.builder.IBuilder
+import model.builder.director.CandidatoDirector
 
-import java.sql.Connection
-import java.sql.PreparedStatement
-import java.sql.ResultSet
-import java.sql.SQLException
+import java.sql.*
 
-class CandidatoCompetenciaDAO implements AuxiliaryTablesCRUD<Candidato,Long, CompetenciaENUM> {
+class CandidatoCompetenciaDAO implements AuxiliaryTablesCRUD<Candidato, Long, CompetenciaENUM> {
 
-    Connection connection = PostgresDatabaseConnection.getConnection();
+    private Connection connection = PostgresDatabaseConnection.getConnection()
 
-    IBuilder<Candidato> builder = new CandidatoBuilder()
+    private CandidatoDirector director = new CandidatoDirector()
+    private CandidatoBuilder builder = new CandidatoBuilder()
 
     CandidatoCompetenciaDAO(Connection connection) {
         this.connection = connection
@@ -26,19 +24,20 @@ class CandidatoCompetenciaDAO implements AuxiliaryTablesCRUD<Candidato,Long, Com
 
     @Override
     void create(Long candidatoID, List<CompetenciaENUM> competencias) {
-
         String command = "INSERT INTO candidato_competencia (candidato_id, competences) VALUES (?, ?);"
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
             for (CompetenciaENUM competencia : competencias) {
                 pstmt.setLong(1, candidatoID)
-                pstmt.setString(2, competencia.getDescription())
+                pstmt.setString(2, competencia.toString())
                 pstmt.addBatch()
             }
             pstmt.executeBatch()
 
         } catch (SQLException e) {
-            throw new RuntimeException("erro ao relacionar competencias " + e.getMessage())
+            SQLException nextException = e.getNextException()
+            throw new RuntimeException("Erro ao relacionar competências: " + e.getMessage() +
+                    (nextException != null ? " Causa adicional: " + nextException.getMessage() : ""))
         }
     }
 
@@ -51,7 +50,7 @@ class CandidatoCompetenciaDAO implements AuxiliaryTablesCRUD<Candidato,Long, Com
 
             for (CompetenciaENUM competencia : competencias) {
                 pstmt.setLong(1, candidatoID)
-                pstmt.setString(2, competencia.getDescription())
+                pstmt.setString(2, competencia.toString())
                 pstmt.addBatch()
             }
 
@@ -72,7 +71,7 @@ class CandidatoCompetenciaDAO implements AuxiliaryTablesCRUD<Candidato,Long, Com
 
             if (resultSet.next()) {
 
-                return builder.buildModelFromResultSet(resultSet)
+                return director.constructFromResultSetWithCompetences(resultSet, builder)
 
             }
         } catch (SQLException e) {
@@ -81,24 +80,26 @@ class CandidatoCompetenciaDAO implements AuxiliaryTablesCRUD<Candidato,Long, Com
     }
 
     @Override
-    List<Candidato> listAllWithCompetence(CompetenciaENUM competence) {
-        String command = SQLQuerys.FIND_ALL_CANDIDATOS_WITH_COMPETENCE.getQuery()
+    List<Candidato> listAll() {
+        String command = SQLQuerys.LIST_ALL_CANDIDATOS_JOIN_COMPETENCIAS.getQuery()
 
-        try (PreparedStatement pstmt = connection.prepareStatement(command)) {
-            pstmt.setString(1, competence.getDescription())
-            ResultSet resultSet = pstmt.executeQuery()
+        List<Candidato> resultList = new ArrayList<>()
+        try (Statement stmt = connection.createStatement()
+             ResultSet resultSet = stmt.executeQuery(command)) {
 
-            List<Candidato> responseList = new ArrayList<>()
             while (resultSet.next()) {
-
-                responseList.add(builder.buildModelFromResultSet(resultSet))
-
+                resultList.add(
+                        director.constructFromResultSetWithCompetences(resultSet, builder)
+                )
             }
-            return responseList
+
+            return resultList
 
         } catch (SQLException e) {
-            throw new RuntimeException("erro ao buscar candidatos por competencia " + e)
+            throw new RuntimeException("Erro ao retornar os candidatos e suas competencias " + e.getMessage())
         }
     }
+
+
 
 }

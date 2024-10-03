@@ -1,5 +1,6 @@
 package DTO.Response
 
+import enums.CompetenciaENUM
 import groovy.transform.ImmutableOptions
 
 @ImmutableOptions()
@@ -11,7 +12,6 @@ record CandidatoResponseDTO(
         String description,
         String email,
         String CEP,
-        String city,
-        List<String> competences
+        String city
 ) {
 }

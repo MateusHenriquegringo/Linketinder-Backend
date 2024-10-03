@@ -26,16 +26,13 @@ class CandidatoService implements BuildDTO<CandidatoResponseDTO, Candidato> {
     }
 
     void addCompetencesToCandidato(Long candidatoID, List<CompetenciaENUM> competences){
-        candidatoCompetenciaRepository.create(candidatoID, competences
-                .stream()
-                .map {it -> it.getId()}
-                .collect(Collectors.toList()));
+        candidatoCompetenciaRepository.create(candidatoID, competences)
     }
 
     List<CandidatoResponseDTO> listAll() {
-        return candidatoRepository.listAll().forEach {
+        return candidatoRepository.listAll().stream().map {
             it -> buildDTO(it)
-        }
+        }.collect(Collectors.toList())
     }
 
     CandidatoResponseDTO findCandidatoAndCompetenciasById(Long id) {
@@ -62,9 +59,7 @@ class CandidatoService implements BuildDTO<CandidatoResponseDTO, Candidato> {
                 model.getDescription(),
                 model.getEmail(),
                 model.getCEP(),
-                model.getCity(),
-                model.getCompetences()
-                        .forEach {it-> it.getDescription()}
+                model.getCity()
         )
     }
 }

@@ -2,15 +2,16 @@ package repository
 
 import DB.PostgresDatabaseConnection
 import model.Vaga
-import model.builder.AbstractCompetencesBuilder
-import model.builder.IBuilder
+import model.builder.IVagaBuilder
 import model.builder.VagaBuilder
+import model.builder.director.VagaDirector
 
 import java.sql.*
 
 class VagaDAO implements ModelsCRUD<Vaga, Long> {
 
-    private IBuilder<Vaga> builder = new VagaBuilder()
+    private VagaDirector director = new VagaDirector()
+    private IVagaBuilder builder = new VagaBuilder()
 
     private Connection connection = PostgresDatabaseConnection.getConnection()
 
@@ -83,7 +84,7 @@ class VagaDAO implements ModelsCRUD<Vaga, Long> {
             List<Vaga> responseList = new ArrayList<>()
             while (resultSet.next()) {
                 responseList.add(
-                        builder.buildModelFromResultSet(resultSet)
+                        director.constructFromResultSet(resultSet, builder)
                 )
             }
 
@@ -103,7 +104,7 @@ class VagaDAO implements ModelsCRUD<Vaga, Long> {
 
             if (resultSet.next()) {
 
-                return builder.buildModelFromResultSet(resultSet)
+                return director.constructFromResultSet(resultSet, builder)
 
             } else {
                 throw new NoSuchElementException("Essa vaga nao existe")
