@@ -61,9 +61,26 @@ class CandidatoCompetenciaDAO implements AuxiliaryTablesCRUD<Candidato, Long, Co
         }
     }
 
+    void update(Long id, List<CompetenciaENUM> competences){
+        this.deleteAllCompetences(id)
+        this.create(id, competences)
+    }
+
+    void deleteAllCompetences(Long id) {
+        String command = "DELETE FROM candidato_competencia WHERE candidato_id = ?;";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(command)) {
+            pstmt.setLong(1, id)
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao remover todas as competências", e);
+        }
+    }
+
     @Override
     Candidato findById(Long candidatoID) {
-        String command = SQLQuerys.LIST_CANDIDATO_WITH_COMPETENCES.getQuery()
+        String command = SQLQuerys.RETURN_CANDIDATO_WITH_COMPETENCES.getQuery()
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
             pstmt.setLong(1, candidatoID)

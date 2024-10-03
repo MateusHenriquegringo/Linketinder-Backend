@@ -1,8 +1,6 @@
 package service
 
 
-import DTO.Request.VagaRequestDTO
-import DTO.Response.VagaResponseDTO
 import enums.CompetenciaENUM
 import model.Vaga
 import repository.ModelsCRUD
@@ -12,12 +10,12 @@ import repository.auxiliary.VagaCompetenciaDAO
 
 import java.util.stream.Collectors
 
-class VagaService implements BuildDTO<VagaResponseDTO, Vaga> {
+class VagaService {
 
     private ModelsCRUD<Vaga, Long> vagaRepository = new VagaDAO()
     private AuxiliaryTablesCRUD<Vaga, Long, CompetenciaENUM> vagaCompetenciaRepository = new VagaCompetenciaDAO()
 
-    void createVaga(VagaRequestDTO request) {
+    void createVaga(Vaga request) {
         Long returnedID = vagaRepository.create(new Vaga(request))
 
         if (request.competences().size() > 0 && request.competences() !== null) {
@@ -32,44 +30,20 @@ class VagaService implements BuildDTO<VagaResponseDTO, Vaga> {
                 .collect(Collectors.toList()))
     }
 
-    List<VagaResponseDTO> findVagasFromEmpresa(Long id) {
-        return vagaRepository.findAllByEmpresaId(id)
-                .forEach {
-                    it -> buildDTO(it)
-                }
+
+    Vaga findVagaById(Long id) {
+        return vagaRepository.findById(id)
     }
 
-    VagaResponseDTO findVagaById(Long id) {
-        Vaga model = vagaRepository.findById(id)
-        return buildDTO(model)
-    }
-
-    List<VagaResponseDTO> listAll() {
-        return vagaRepository.listAll().forEach {
-            it -> buildDTO(it)
-        }
+    List<Vaga> listAll() {
+        return vagaRepository.listAll()
     }
 
     void deleteVaga(Long id) {
         vagaRepository.delete(id)
     }
 
-    void updateVaga(VagaRequestDTO request, Long id) {
+    void updateVaga(Vaga request, Long id) {
         vagaRepository.update(new Vaga(request), id)
-    }
-
-    @Override
-    VagaResponseDTO buildDTO(Vaga model) {
-        return new VagaResponseDTO(
-                model.getId(),
-                model.getVaga_name(),
-                model.getDescription(),
-                model.getState(),
-                model.getCity(),
-                model.getEmpresaId(),
-                model.getCompetences().forEach {
-                    it -> it.getDescription()
-                }
-        )
     }
 }

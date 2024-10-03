@@ -6,13 +6,11 @@ import model.builder.IBuilder
 import java.sql.ResultSet
 import java.sql.SQLException
 
-abstract class AbstractDirector<T, DTO> {
+abstract class AbstractDirector<T> {
 
-     abstract T constructFromResultSet(ResultSet resultSet, IBuilder <? extends IBuilder> builder);
+    abstract T constructFromResultSet(ResultSet resultSet, IBuilder <? extends IBuilder> builder);
 
     abstract T constructFromResultSetWithCompetences(ResultSet resultSet, IBuilder <? extends IBuilder> builder);
-
-    abstract T constructFromRequestDTO(DTO dto, IBuilder <? extends IBuilder> builder);
 
     protected List<CompetenciaENUM> extractCompetencesFromResultSet(ResultSet resultSet) throws SQLException {
 

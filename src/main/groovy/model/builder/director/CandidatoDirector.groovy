@@ -1,13 +1,12 @@
 package model.builder.director
 
-import DTO.Request.CandidatoRequestDTO
 import model.Candidato
 import model.builder.IBuilder
 
 import java.sql.ResultSet
 import java.sql.SQLException
 
-class CandidatoDirector extends AbstractDirector<Candidato, CandidatoRequestDTO> {
+class CandidatoDirector extends AbstractDirector<Candidato> {
 
     @Override
     Candidato constructFromResultSet(ResultSet resultSet, IBuilder<? extends IBuilder> builder) {
@@ -45,23 +44,6 @@ class CandidatoDirector extends AbstractDirector<Candidato, CandidatoRequestDTO>
         } catch (SQLException e) {
             throw new RuntimeException(e)
         }
-
-    }
-
-    @Override
-    Candidato constructFromRequestDTO(CandidatoRequestDTO dto, IBuilder<? extends IBuilder> builder) {
-
-        return builder
-                .setFirstName(dto.first_name())
-                .setLastName(dto.last_name())
-                .setCity(dto.city())
-                .setCompetences(dto.competences())
-                .setEmail(dto.email())
-                .setDescription(dto.email())
-                .setPassword(dto.password())
-                .setCPF(dto.CPF())
-                .setCEP(dto.CEP())
-                .build()
 
     }
 

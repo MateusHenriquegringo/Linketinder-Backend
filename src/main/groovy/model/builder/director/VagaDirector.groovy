@@ -1,13 +1,12 @@
 package model.builder.director
 
-import DTO.Request.VagaRequestDTO
 import model.Vaga
 import model.builder.IBuilder
 
 import java.sql.ResultSet
 import java.sql.SQLException
 
-class VagaDirector extends AbstractDirector<Vaga, VagaRequestDTO> {
+class VagaDirector extends AbstractDirector<Vaga> {
 
     @Override
     Vaga constructFromResultSet(ResultSet resultSet, IBuilder<? extends IBuilder> builder) {
@@ -45,15 +44,4 @@ class VagaDirector extends AbstractDirector<Vaga, VagaRequestDTO> {
         }
     }
 
-    @Override
-    Vaga constructFromRequestDTO(VagaRequestDTO dto, IBuilder<? extends IBuilder> builder) {
-        return builder
-                .setVagaName(dto.vaga_name())
-                .setDescription(dto.description())
-                .setCity(dto.city())
-                .setState(dto.state())
-                .setEmpresaID(dto.empresa_id())
-                .setCompetences(dto.competences())
-                .build()
-    }
 }
