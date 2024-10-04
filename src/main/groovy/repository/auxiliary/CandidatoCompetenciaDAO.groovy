@@ -1,5 +1,7 @@
 package repository.auxiliary
 
+import DB.ConnectionFactory
+import DB.DBTypes
 import DB.PostgresDatabaseConnection
 import enums.CompetenciaENUM
 import model.Candidato
@@ -10,7 +12,7 @@ import java.sql.*
 
 class CandidatoCompetenciaDAO implements AuxiliaryTablesCRUD<Candidato, Long, CompetenciaENUM> {
 
-    private Connection connection = PostgresDatabaseConnection.getConnection()
+    private Connection connection = ConnectionFactory.getConnection(DBTypes.POSTGRES)
 
     private CandidatoDirector director = new CandidatoDirector()
     private CandidatoBuilder builder = new CandidatoBuilder()

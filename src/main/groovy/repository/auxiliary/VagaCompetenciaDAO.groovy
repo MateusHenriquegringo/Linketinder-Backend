@@ -1,5 +1,7 @@
 package repository.auxiliary
 
+import DB.ConnectionFactory
+import DB.DBTypes
 import DB.PostgresDatabaseConnection
 import enums.CompetenciaENUM
 import model.Candidato
@@ -16,7 +18,7 @@ import java.sql.Statement
 
 class VagaCompetenciaDAO implements AuxiliaryTablesCRUD<Vaga, Long, CompetenciaENUM> {
 
-    Connection connection = PostgresDatabaseConnection.getConnection();
+    private Connection connection = ConnectionFactory.getConnection(DBTypes.POSTGRES)
 
     VagaDirector director = new VagaDirector()
     IVagaBuilder builder = new VagaBuilder()

@@ -1,5 +1,7 @@
 package dao
 
+import DB.ConnectionFactory
+import DB.DBTypes
 import repository.CandidatoDAO
 import DB.H2DatabaseConnection
 import model.Candidato
@@ -9,7 +11,7 @@ import java.sql.Connection
 
 class CandidatoDAOTest extends Specification {
 
-    Connection connection = H2DatabaseConnection.getConnection()
+    private Connection connection = ConnectionFactory.getConnection(DBTypes.H2DATABASE)
 
     @Shared
     Candidato candidato

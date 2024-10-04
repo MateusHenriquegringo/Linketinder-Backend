@@ -1,5 +1,8 @@
 package dao
 
+import DB.ConnectionFactory
+import DB.DBTypes
+import DB.DatabaseConnection
 import repository.VagaDAO
 import DB.H2DatabaseConnection
 import model.Vaga
@@ -10,7 +13,7 @@ import java.sql.Connection
 
 class VagaDAOTest extends Specification {
 
-    Connection connection = H2DatabaseConnection.getConnection()
+    Connection connection = ConnectionFactory.getConnection(DBTypes.H2DATABASE)
 
     @Shared
     Vaga vaga

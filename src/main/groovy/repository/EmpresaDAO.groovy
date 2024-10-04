@@ -1,5 +1,7 @@
 package repository
 
+import DB.ConnectionFactory
+import DB.DBTypes
 import model.Empresa
 import model.builder.EmpresaBuilder
 import model.builder.IEmpresaBuilder
@@ -9,7 +11,7 @@ import java.sql.*
 
 class EmpresaDAO implements ModelsCRUD<Empresa, Long> {
 
-    private Connection connection
+    private Connection connection = ConnectionFactory.getConnection(DBTypes.POSTGRES)
 
     private EmpresaDirector director = new EmpresaDirector()
     private IEmpresaBuilder builder = new EmpresaBuilder()

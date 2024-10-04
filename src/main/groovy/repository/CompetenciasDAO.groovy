@@ -1,12 +1,14 @@
 package repository
 
+import DB.ConnectionFactory
+import DB.DBTypes
 import model.Competencia
 
 import java.sql.*
 
 class CompetenciasDAO implements ModelsCRUD<Competencia, Long>{
 
-    private Connection connection;
+    private Connection connection = ConnectionFactory.getConnection(DBTypes.POSTGRES)
 
     CompetenciasDAO(Connection connection) {
         this.connection = connection

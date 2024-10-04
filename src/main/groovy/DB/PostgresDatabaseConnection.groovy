@@ -4,7 +4,7 @@ import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.SQLException
 
-class PostgresDatabaseConnection {
+class PostgresDatabaseConnection implements DatabaseConnection{
 
     private static final String URL = "jdbc:postgresql://localhost:5432/postgres"
     private static final String DRIVER = 'org.postgresql.Driver'
@@ -17,16 +17,19 @@ class PostgresDatabaseConnection {
         properties.setProperty("currentSchema", "flyway")
     }
 
-    static setConnectionProperties(String key, String value){
-        properties.setProperty(key, value)
+    static void setConnectionProperties(String key, String value) {
+        properties.setProperty(key, value);
+    }
+    PostgresDatabaseConnection(){
+
     }
 
-
-    static Connection getConnection(){
+    @Override
+    Connection getConnection(){
         try {
             Class.forName(DRIVER);
             return DriverManager.getConnection(URL, properties)
-        } catch (ClassCastException | SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException("erro ao conectar "+ e)
         }
     }

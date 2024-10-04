@@ -1,5 +1,7 @@
 package dao
 
+import DB.ConnectionFactory
+import DB.DBTypes
 import DB.H2DatabaseConnection
 import enums.CompetenciaENUM
 import repository.auxiliary.CandidatoCompetenciaDAO
@@ -17,7 +19,7 @@ class CandidatoCompetenciasTest extends Specification {
     CandidatoCompetenciaDAO dao
 
     def setupSpec() {
-        connection = H2DatabaseConnection.getConnection()
+        connection = ConnectionFactory.getConnection(DBTypes.H2DATABASE)
         def statement = connection.createStatement()
 
         statement.execute(
