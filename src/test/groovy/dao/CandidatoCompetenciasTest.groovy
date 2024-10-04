@@ -4,7 +4,7 @@ import DB.ConnectionFactory
 import DB.DBTypes
 import DB.H2DatabaseConnection
 import enums.CompetenciaENUM
-import repository.auxiliary.CandidatoCompetenciaDAO
+import dao.auxiliary.CandidatoCompetenciaDAO
 import spock.lang.Shared
 import spock.lang.Specification
 

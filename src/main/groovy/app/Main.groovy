@@ -1,8 +1,8 @@
 package app
 
 
-import repository.auxiliary.CandidatoCompetenciaDAO
-import repository.auxiliary.VagaCompetenciaDAO
+import dao.auxiliary.CandidatoCompetenciaDAO
+import dao.auxiliary.VagaCompetenciaDAO
 import service.CandidatoService
 
 class Main {

@@ -1,4 +1,4 @@
-package repository.auxiliary
+package dao.auxiliary
 
 enum SQLQuerys {
     RETURN_CANDIDATO_WITH_COMPETENCES(

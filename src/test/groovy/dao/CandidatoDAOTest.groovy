@@ -2,8 +2,6 @@ package dao
 
 import DB.ConnectionFactory
 import DB.DBTypes
-import repository.CandidatoDAO
-import DB.H2DatabaseConnection
 import model.Candidato
 import spock.lang.Shared
 import spock.lang.Specification

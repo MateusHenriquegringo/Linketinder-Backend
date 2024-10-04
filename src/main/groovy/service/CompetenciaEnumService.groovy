@@ -2,8 +2,8 @@ package service
 
 
 import model.Competencia
-import repository.CompetenciasDAO
-import repository.ModelsCRUD
+import dao.CompetenciasDAO
+import dao.ModelsCRUD
 
 class CompetenciaEnumService {
 

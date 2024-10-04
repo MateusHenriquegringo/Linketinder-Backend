@@ -3,10 +3,10 @@ package service
 
 import enums.CompetenciaENUM
 import model.Vaga
-import repository.ModelsCRUD
-import repository.VagaDAO
-import repository.auxiliary.AuxiliaryTablesCRUD
-import repository.auxiliary.VagaCompetenciaDAO
+import dao.ModelsCRUD
+import dao.VagaDAO
+import dao.auxiliary.AuxiliaryTablesCRUD
+import dao.auxiliary.VagaCompetenciaDAO
 
 
 class VagaService {

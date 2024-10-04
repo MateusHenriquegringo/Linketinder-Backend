@@ -1,8 +1,7 @@
-package repository
+package dao
 
 import DB.ConnectionFactory
 import DB.DBTypes
-import DB.PostgresDatabaseConnection
 import model.Candidato
 import model.builder.CandidatoBuilder
 import model.builder.director.CandidatoDirector

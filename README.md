@@ -23,7 +23,7 @@ Aplicação Java que utiliza JDBC para operações CRUD em **Candidatos**, **Emp
 ## Estrutura do Projeto
 
 - **src/main/groovy**: Código-fonte.
-    - **repository**: Data Access Objects.
+    - **dao**: Data Access Objects.
     - **DTO**: Data Transfer Objects.
     - **model**: Classes de modelo.
     - **app.Main**: Ponto de entrada.

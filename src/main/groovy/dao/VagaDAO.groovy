@@ -1,9 +1,7 @@
-package repository
+package dao
 
 import DB.ConnectionFactory
 import DB.DBTypes
-import DB.DatabaseConnection
-import DB.PostgresDatabaseConnection
 import model.Vaga
 import model.builder.IVagaBuilder
 import model.builder.VagaBuilder
@@ -114,6 +112,17 @@ class VagaDAO implements ModelsCRUD<Vaga, Long> {
 
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao consultar a vaga: " + e.getMessage())
+        }
+    }
+
+    void deleteFromEmpresaId(Long id){
+        String command = "DELETE FROM vaga WHERE empresa_id = ?"
+
+        try (PreparedStatement pstmt = connection.prepareStatement(command)) {
+            pstmt.setLong(1, id)
+            pstmt.executeUpdate()
+        } catch (SQLException e) {
+            throw new RuntimeException("nao foi possivel excluir " + e.getMessage())
         }
     }
 }

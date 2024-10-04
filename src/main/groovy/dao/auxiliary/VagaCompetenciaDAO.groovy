@@ -1,20 +1,14 @@
-package repository.auxiliary
+package dao.auxiliary
 
 import DB.ConnectionFactory
 import DB.DBTypes
-import DB.PostgresDatabaseConnection
 import enums.CompetenciaENUM
-import model.Candidato
 import model.Vaga
 import model.builder.IVagaBuilder
 import model.builder.VagaBuilder
 import model.builder.director.VagaDirector
 
-import java.sql.Connection
-import java.sql.PreparedStatement
-import java.sql.ResultSet
-import java.sql.SQLException
-import java.sql.Statement
+import java.sql.*
 
 class VagaCompetenciaDAO implements AuxiliaryTablesCRUD<Vaga, Long, CompetenciaENUM> {
 
@@ -26,11 +20,15 @@ class VagaCompetenciaDAO implements AuxiliaryTablesCRUD<Vaga, Long, CompetenciaE
     VagaCompetenciaDAO(Connection connection) {
         this.connection = connection
     }
+
     VagaCompetenciaDAO() {
     }
 
     @Override
-    void create(Long vagaID, List<CompetenciaENUM> competences) {
+    void updateCompetences(Long id, List<CompetenciaENUM> competences){}
+
+    @Override
+    void createAssociation(Long vagaID, List<CompetenciaENUM> competences) {
         String command = "INSERT INTO vaga_competencia (vaga_id, competences) VALUES (?, ?);"
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
@@ -47,18 +45,14 @@ class VagaCompetenciaDAO implements AuxiliaryTablesCRUD<Vaga, Long, CompetenciaE
     }
 
     @Override
-    void delete(Long vagaID, List<CompetenciaENUM> competences) {
+    void deleteCompetence(Long vagaID, CompetenciaENUM competence) {
         String command = "DELETE FROM candidato_competencia WHERE candidato_id = ? AND competences = ?;"
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
 
-            for (CompetenciaENUM competence : competences) {
-                pstmt.setLong(1, vagaID)
-                pstmt.setString(2, competence.toString())
-                pstmt.addBatch()
-            }
-
-            pstmt.executeBatch()
+            pstmt.setLong(1, vagaID)
+            pstmt.setString(2, competence.toString())
+            pstmt.executeUpdate()
 
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao remover competências da vaga com ID " + vagaID.toString() + e)
@@ -84,20 +78,20 @@ class VagaCompetenciaDAO implements AuxiliaryTablesCRUD<Vaga, Long, CompetenciaE
     }
 
     @Override
-    void deleteAllCompetences(Long aLong) {
+    void deleteAllCompetences(Long id) {
         String command = "DELETE FROM vaga_competencia WHERE vaga_id = ?;"
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
             pstmt.setLong(1, id)
-            pstmt.executeUpdate();
+            pstmt.executeUpdate()
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao remover todas as competências", e);
+            throw new RuntimeException("Erro ao remover todas as competências", e)
         }
     }
 
     @Override
-    List<Vaga> listAll(){
+    List<Vaga> listAll() {
         String command = SQLQuerys.LIST_ALL_VAGAS_JOIN_COMPETENCIAS.getQuery()
 
         List<Vaga> resultList = new ArrayList<>()

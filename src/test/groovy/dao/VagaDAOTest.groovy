@@ -2,9 +2,6 @@ package dao
 
 import DB.ConnectionFactory
 import DB.DBTypes
-import DB.DatabaseConnection
-import repository.VagaDAO
-import DB.H2DatabaseConnection
 import model.Vaga
 import spock.lang.Shared
 import spock.lang.Specification

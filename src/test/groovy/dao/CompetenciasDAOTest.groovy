@@ -2,8 +2,6 @@ package dao
 
 import DB.ConnectionFactory
 import DB.DBTypes
-import repository.CompetenciasDAO
-import DB.H2DatabaseConnection
 import model.Competencia
 import spock.lang.Shared
 import spock.lang.Specification

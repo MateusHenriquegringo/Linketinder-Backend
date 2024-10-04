@@ -1,8 +1,7 @@
-package repository.auxiliary
+package dao.auxiliary
 
 import DB.ConnectionFactory
 import DB.DBTypes
-import DB.PostgresDatabaseConnection
 import enums.CompetenciaENUM
 import model.Candidato
 import model.builder.CandidatoBuilder
@@ -25,7 +24,7 @@ class CandidatoCompetenciaDAO implements AuxiliaryTablesCRUD<Candidato, Long, Co
     }
 
     @Override
-    void create(Long candidatoID, List<CompetenciaENUM> competencias) {
+    void createAssociation(Long candidatoID, List<CompetenciaENUM> competencias) {
         String command = "INSERT INTO candidato_competencia (candidato_id, competences) VALUES (?, ?);"
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
@@ -44,40 +43,37 @@ class CandidatoCompetenciaDAO implements AuxiliaryTablesCRUD<Candidato, Long, Co
     }
 
     @Override
-    void delete(Long candidatoID, List<CompetenciaENUM> competencias) {
+    void deleteCompetence(Long candidatoID, CompetenciaENUM competencia) {
 
         String command = "DELETE FROM candidato_competencia WHERE candidato_id = ? AND competences = ?;"
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
+            pstmt.setLong(1, candidatoID)
+            pstmt.setString(2, competencia.toString())
 
-            for (CompetenciaENUM competencia : competencias) {
-                pstmt.setLong(1, candidatoID)
-                pstmt.setString(2, competencia.toString())
-                pstmt.addBatch()
-            }
-
-            pstmt.executeBatch()
+            pstmt.executeUpdate()
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao remover competências do candidato com ID " + candidatoID.toString() + e)
+            throw new RuntimeException("Erro ao remover competencia do candidato com ID " + candidatoID.toString() + e)
         }
     }
 
-    void update(Long id, List<CompetenciaENUM> competences){
+    @Override
+    void updateCompetences(Long id, List<CompetenciaENUM> competences) {
         this.deleteAllCompetences(id)
-        this.create(id, competences)
+        this.createAssociation(id, competences)
     }
 
     @Override
     void deleteAllCompetences(Long id) {
-        String command = "DELETE FROM candidato_competencia WHERE candidato_id = ?;";
+        String command = "DELETE FROM candidato_competencia WHERE candidato_id = ?;"
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
             pstmt.setLong(1, id)
-            pstmt.executeUpdate();
+            pstmt.executeUpdate()
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao remover todas as competências", e);
+            throw new RuntimeException("Erro ao remover todas as competências", e)
         }
     }
 
@@ -119,7 +115,6 @@ class CandidatoCompetenciaDAO implements AuxiliaryTablesCRUD<Candidato, Long, Co
             throw new RuntimeException("Erro ao retornar os candidatos e suas competencias " + e.getMessage())
         }
     }
-
 
 
 }

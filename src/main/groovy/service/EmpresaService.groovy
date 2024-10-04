@@ -2,8 +2,8 @@ package service
 
 
 import model.Empresa
-import repository.EmpresaDAO
-import repository.ModelsCRUD
+import dao.EmpresaDAO
+import dao.ModelsCRUD
 
 class EmpresaService {
 
