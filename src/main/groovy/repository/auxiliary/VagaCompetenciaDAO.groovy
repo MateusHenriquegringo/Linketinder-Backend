@@ -82,6 +82,19 @@ class VagaCompetenciaDAO implements AuxiliaryTablesCRUD<Vaga, Long, CompetenciaE
     }
 
     @Override
+    void deleteAllCompetences(Long aLong) {
+        String command = "DELETE FROM vaga_competencia WHERE vaga_id = ?;"
+
+        try (PreparedStatement pstmt = connection.prepareStatement(command)) {
+            pstmt.setLong(1, id)
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao remover todas as competências", e);
+        }
+    }
+
+    @Override
     List<Vaga> listAll(){
         String command = SQLQuerys.LIST_ALL_VAGAS_JOIN_COMPETENCIAS.getQuery()
 

@@ -66,6 +66,7 @@ class CandidatoCompetenciaDAO implements AuxiliaryTablesCRUD<Candidato, Long, Co
         this.create(id, competences)
     }
 
+    @Override
     void deleteAllCompetences(Long id) {
         String command = "DELETE FROM candidato_competencia WHERE candidato_id = ?;";
 

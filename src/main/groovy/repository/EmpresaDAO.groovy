@@ -112,7 +112,6 @@ class EmpresaDAO implements ModelsCRUD<Empresa, Long> {
 
                 return director.constructFromResultSet(resultSet, builder)
 
-
             } else throw new NoSuchElementException("Empresa nao encontrada")
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao consultar " + e.getMessage())

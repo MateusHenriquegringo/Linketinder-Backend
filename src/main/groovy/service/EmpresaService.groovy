@@ -10,7 +10,7 @@ class EmpresaService {
     private ModelsCRUD<Empresa, Long> empresaRepository = new EmpresaDAO()
 
     void createEmpresa(Empresa request) {
-        empresaRepository.create(new Empresa(request))
+        empresaRepository.create(request)
     }
 
     Empresa findEmpresaById(Long id) {
@@ -26,6 +26,6 @@ class EmpresaService {
     }
 
     void update(Empresa request, long id) {
-        empresaRepository.update(new Empresa(request), id)
+        empresaRepository.update(request, id)
     }
 }

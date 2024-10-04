@@ -8,7 +8,6 @@ import repository.VagaDAO
 import repository.auxiliary.AuxiliaryTablesCRUD
 import repository.auxiliary.VagaCompetenciaDAO
 
-import java.util.stream.Collectors
 
 class VagaService {
 
@@ -16,20 +15,9 @@ class VagaService {
     private AuxiliaryTablesCRUD<Vaga, Long, CompetenciaENUM> vagaCompetenciaRepository = new VagaCompetenciaDAO()
 
     void createVaga(Vaga request) {
-        Long returnedID = vagaRepository.create(new Vaga(request))
-
-        if (request.competences().size() > 0 && request.competences() !== null) {
-            addCompetencesToVaga(returnedID, request.competences())
-        }
+        Long returnedID = vagaRepository.create(request)
+        addCompetencesIfPresent(returnedID, request.getCompetences())
     }
-
-    void addCompetencesToVaga(Long vagaId, List<CompetenciaENUM> competences) {
-        vagaCompetenciaRepository.create(vagaId, competences
-                .stream()
-                .map { it -> it.getId() }
-                .collect(Collectors.toList()))
-    }
-
 
     Vaga findVagaById(Long id) {
         return vagaRepository.findById(id)
@@ -44,6 +32,17 @@ class VagaService {
     }
 
     void updateVaga(Vaga request, Long id) {
-        vagaRepository.update(new Vaga(request), id)
+        vagaRepository.update(request, id)
+
+        vagaCompetenciaRepository.deleteAllCompetences(id)
+        addCompetencesIfPresent(request.getCompetences())
     }
+
+
+    private void addCompetencesIfPresent(Long vagaID, List<CompetenciaENUM> competences) {
+        Optional.ofNullable(competences)
+                .filter(comp -> !comp.isEmpty() && comp !== null)
+                .ifPresent(comp -> vagaCompetenciaRepository.create(vagaID, comp))
+    }
+
 }

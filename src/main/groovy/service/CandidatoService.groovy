@@ -23,9 +23,7 @@ class CandidatoService {
 
 
     List<Candidato> listAll() {
-        return candidatoRepository.listAll().stream()
-                .map(this::buildDTO)
-                .collect(Collectors.toList())
+        return candidatoRepository.listAll()
     }
 
 
