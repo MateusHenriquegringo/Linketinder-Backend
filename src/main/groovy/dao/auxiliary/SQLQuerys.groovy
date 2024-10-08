@@ -43,9 +43,24 @@ SELECT
     v.*,
     STRING_AGG(vc.competences::TEXT, ', ') AS competences
 FROM 
-    flyway.vaga v
+    vaga v
 LEFT JOIN 
-    flyway.vaga_competencia vc ON v.id = vc.vaga_id
+    vaga_competencia vc ON v.id = vc.vaga_id
+GROUP BY 
+    v.id, v.vaga_name, v.description, v.empresa_id;
+"""
+    ),
+    LIST_ALL_VAGAS_JOIN_COMPETENCIAS_BY_EMPRESA(
+            """
+SELECT 
+    v.*,
+    STRING_AGG(vc.competences::TEXT, ', ') AS competences
+FROM 
+    vaga v
+LEFT JOIN 
+    vaga_competencia vc ON v.id = vc.vaga_id
+WHERE 
+    v.empresa_id = ? 
 GROUP BY 
     v.id, v.vaga_name, v.description, v.empresa_id;
 """

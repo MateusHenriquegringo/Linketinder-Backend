@@ -10,7 +10,7 @@ import model.Candidato
 class CandidatoRepository {
 
     ModelsCRUD<Candidato, Long> candidatoDAO = new CandidatoDAO()
-    AuxiliaryTablesCRUD<Candidato, Long, CompetenciaENUM> competenciaCandidatoDAO = new CandidatoCompetenciaDAO();
+    AuxiliaryTablesCRUD<Candidato, Long, CompetenciaENUM> competenciaCandidatoDAO = new CandidatoCompetenciaDAO()
 
 
     void createCandidato(Candidato request) {
@@ -30,11 +30,11 @@ class CandidatoRepository {
         return competenciaCandidatoDAO.findById(id)
     }
 
-    void removeCompetence(Long id,  CompetenciaENUM competence){
+    void removeCompetence(Long id, CompetenciaENUM competence) {
         competenciaCandidatoDAO.deleteCompetence(id, competence)
     }
 
-    void addCompetence(Long id, List<CompetenciaENUM> competences){
+    void addCompetence(Long id, List<CompetenciaENUM> competences) {
         competenciaCandidatoDAO.createAssociation(id, competences)
     }
 

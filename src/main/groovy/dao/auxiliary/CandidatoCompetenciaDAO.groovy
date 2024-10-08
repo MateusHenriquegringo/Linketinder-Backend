@@ -5,6 +5,7 @@ import DB.DBTypes
 import enums.CompetenciaENUM
 import model.Candidato
 import model.builder.CandidatoBuilder
+import model.builder.ICandidatoBuilder
 import model.builder.director.CandidatoDirector
 
 import java.sql.*
@@ -14,7 +15,7 @@ class CandidatoCompetenciaDAO implements AuxiliaryTablesCRUD<Candidato, Long, Co
     private Connection connection = ConnectionFactory.getConnection(DBTypes.POSTGRES)
 
     private CandidatoDirector director = new CandidatoDirector()
-    private CandidatoBuilder builder = new CandidatoBuilder()
+    private ICandidatoBuilder builder = new CandidatoBuilder()
 
     CandidatoCompetenciaDAO(Connection connection) {
         this.connection = connection

@@ -16,6 +16,7 @@ class CandidatoDirector extends AbstractDirector<Candidato> {
                     .setFirstName(resultSet.getString('first_name'))
                     .setLastName(resultSet.getString('last_name'))
                     .setCEP(resultSet.getString('cep'))
+                    .setEmail(resultSet.getString('email'))
                     .setCPF(resultSet.getString('cpf'))
                     .setId(resultSet.getLong('id'))
                     .setDescription(resultSet.getString('description'))

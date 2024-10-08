@@ -42,9 +42,10 @@ class CandidatoDAO implements ModelsCRUD<Candidato, Long> {
 
             ResultSet keys = pstmt.getGeneratedKeys()
 
-            return keys.next() ? keys.getLong(1) : -1
+            return keys.next() ? keys.getLong("id") : -1
 
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             throw new RuntimeException("ocorreu um erro ao salvar " + e.getMessage())
         }
     }
@@ -63,7 +64,9 @@ class CandidatoDAO implements ModelsCRUD<Candidato, Long> {
             pstmt.setString(7, candidato.getDescription())
             pstmt.setLong(8, id)
 
-            pstmt.executeUpdate()
+            int rowsAffected = pstmt.executeUpdate()
+
+            if(rowsAffected==0) throw new RuntimeException("Candidato nao encontrado")
 
         } catch (SQLException e) {
             throw new RuntimeException("ocorreu um erro ao editar " + e.getMessage())
@@ -90,7 +93,6 @@ class CandidatoDAO implements ModelsCRUD<Candidato, Long> {
              ResultSet resultSet = stmt.executeQuery(command)) {
 
             List<Candidato> responseList = new ArrayList<>()
-
             while (resultSet.next()) {
                 responseList.add(
                        director.constructFromResultSet(resultSet, builder)

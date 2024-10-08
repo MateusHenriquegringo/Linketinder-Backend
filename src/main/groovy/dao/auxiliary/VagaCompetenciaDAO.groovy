@@ -25,7 +25,7 @@ class VagaCompetenciaDAO implements AuxiliaryTablesCRUD<Vaga, Long, CompetenciaE
     }
 
     @Override
-    void updateCompetences(Long id, List<CompetenciaENUM> competences){}
+    void updateCompetences(Long id, List<CompetenciaENUM> competences) {}
 
     @Override
     void createAssociation(Long vagaID, List<CompetenciaENUM> competences) {
@@ -108,6 +108,27 @@ class VagaCompetenciaDAO implements AuxiliaryTablesCRUD<Vaga, Long, CompetenciaE
 
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao retornar as vagas e as competencias exigidas " + e.getMessage())
+        }
+    }
+
+    List<Vaga> listAllByEmpresaId(Long id) {
+        String command = SQLQuerys.LIST_ALL_VAGAS_JOIN_COMPETENCIAS_BY_EMPRESA.getQuery()
+
+        List<Vaga> resultList = new ArrayList<>()
+        try (PreparedStatement pstmt = connection.prepareStatement(command)) {
+            pstmt.setLong(1, id)
+            ResultSet resultSet = pstmt.executeQuery()
+
+            while (resultSet.next()) {
+                resultList.add(
+                        director.constructFromResultSetWithCompetences(resultSet, builder)
+                )
+            }
+
+            return resultList
+
+        } catch (SQLException e) {
+            throw new RuntimeException("nao foi possivel buscar as vagas" + e.getMessage())
         }
     }
 

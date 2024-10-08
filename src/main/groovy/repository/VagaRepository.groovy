@@ -25,6 +25,9 @@ class VagaRepository {
         vagaDAO.deleteFromEmpresaId(empresaId)
     }
 
+    void updateVaga(Vaga vaga, Long id){
+        vagaDAO.update(vaga, id)
+    }
 
     private void addCompetencesIfPresent(Long candidatoID, List<CompetenciaENUM> competences) {
         Optional.ofNullable(competences)
