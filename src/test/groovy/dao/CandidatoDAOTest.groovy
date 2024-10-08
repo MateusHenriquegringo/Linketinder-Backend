@@ -3,11 +3,9 @@ package dao
 import DB.ConnectionFactory
 import DB.DBTypes
 import model.Candidato
-import model.builder.CandidatoBuilder
-import model.builder.IBuilder
-import model.builder.director.CandidatoDirector
 import spock.lang.Shared
 import spock.lang.Specification
+
 import java.sql.Connection
 import java.sql.ResultSet
 import java.sql.Statement
@@ -23,7 +21,7 @@ class CandidatoDAOTest extends Specification {
     @Shared
     CandidatoDAO dao
 
-    def setupSpec(){
+    def setupSpec() {
         def statement = connection.createStatement()
 
         statement.execute(
@@ -63,14 +61,14 @@ class CandidatoDAOTest extends Specification {
         statement.execute("DELETE FROM candidato")
     }
 
-    def cleanupSpec(){
+    def cleanupSpec() {
         def statement = connection.createStatement()
         statement.execute("DROP TABLE candidato")
         statement.close()
         connection.close()
     }
 
-    void "testCreateCandidatoWorksCorrectly" () {
+    void "testCreateCandidatoWorksCorrectly"() {
         given:
         candidato
 
@@ -96,7 +94,7 @@ class CandidatoDAOTest extends Specification {
 
     }
 
-    void "testCreateCandidatoThrowsException" () {
+    void "testCreateCandidatoThrowsException"() {
         given:
         candidato
         candidato.setEmail(null)
@@ -122,7 +120,7 @@ class CandidatoDAOTest extends Specification {
 
     }
 
-    void "testCreateCandidatoThrowsExceptionWhenEmailDuplicate" () {
+    void "testCreateCandidatoThrowsExceptionWhenEmailDuplicate"() {
 
         given:
         candidato
@@ -141,7 +139,7 @@ class CandidatoDAOTest extends Specification {
         ResultSet resultSet = pstmt.executeQuery()
 
         resultSet.next()
-        resultSet.getRow()==1
+        resultSet.getRow() == 1
     }
 
     void "testUpdateCandidatoSuccess"() {
@@ -185,7 +183,7 @@ class CandidatoDAOTest extends Specification {
         error.message.contains("Candidato nao encontrado")
     }
 
-    void "testDeleteCorrectly"(){
+    void "testDeleteCorrectly"() {
         given:
         long id = dao.create(candidato)
 
@@ -195,7 +193,7 @@ class CandidatoDAOTest extends Specification {
 
         then:
         resultSet.next()
-        resultSet.getRow()==1
+        resultSet.getRow() == 1
 
         and:
         dao.delete(id)
@@ -206,11 +204,11 @@ class CandidatoDAOTest extends Specification {
 
         then:
         !resultSet2.next()
-        resultSet2.getRow()==0
+        resultSet2.getRow() == 0
     }
 
 
-    void "testListAllAFterAndBeforeDelete"(){
+    void "testListAllAFterAndBeforeDelete"() {
         given:
         dao.create(candidato)
         def anotherCandidato = candidato
@@ -233,7 +231,7 @@ class CandidatoDAOTest extends Specification {
         list2.size() == 1
     }
 
-    void "tesFindByIdWorksCorrectly"(){
+    void "tesFindByIdWorksCorrectly"() {
         given:
         long id = dao.create(candidato)
 
@@ -249,9 +247,9 @@ class CandidatoDAOTest extends Specification {
 
     }
 
-    void "tesFindByIdWhenIdDoesNotExists"(){
+    void "tesFindByIdWhenIdDoesNotExists"() {
         when:
-        dao.findById(-1 )
+        dao.findById(-1)
 
         then:
         def error = thrown(NoSuchElementException)
@@ -259,7 +257,7 @@ class CandidatoDAOTest extends Specification {
 
     }
 
-    void "testFindByIdAfterDelete"(){
+    void "testFindByIdAfterDelete"() {
         given:
         long id = dao.create(candidato)
 
@@ -281,6 +279,34 @@ class CandidatoDAOTest extends Specification {
         then:
         def error = thrown(NoSuchElementException)
         error.message.contains("Candidato nao encontrado")
+    }
+
+    void "testListAll"(){
+        given:
+        dao.create(candidato)
+
+        def anotherCandidato = new Candidato()
+
+        anotherCandidato.setDescription("desc")
+        anotherCandidato.setFirst_name("name")
+        anotherCandidato.setLast_name("last_name")
+        anotherCandidato.setCity("city")
+        anotherCandidato.setCEP("cep")
+        anotherCandidato.setCPF("cpf")
+        anotherCandidato.setPassword("supersenha")
+        anotherCandidato.setEmail("outroEmail")
+
+        dao.create(anotherCandidato)
+
+        when:
+        def list = dao.listAll()
+
+        then:
+        list.size()==2
+        list[0].getEmail() == candidato.getEmail()
+        list[0].getFirst_name() == candidato.getFirst_name()
+        list[1].getEmail() == anotherCandidato.getEmail()
+        list[1].getFirst_name() == anotherCandidato.getFirst_name()
     }
 }
 
