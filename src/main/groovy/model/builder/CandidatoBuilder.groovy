@@ -79,8 +79,6 @@ class CandidatoBuilder implements ICandidatoBuilder {
 
     @Override
     Candidato build() {
-        Candidato builded = this.model
-        this.reset()
-        return builded
+        return model
     }
 }

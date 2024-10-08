@@ -56,8 +56,9 @@ class VagaDAO implements ModelsCRUD<Vaga, Long> {
             pstmt.setLong(5, vagaUpdate.getEmpresaId())
             pstmt.setLong(6, id)
 
-            pstmt.executeUpdate()
+            int affectedRows = pstmt.executeUpdate()
 
+            if(affectedRows == 0) throw new RuntimeException("Vaga nao encontrada")
         } catch (SQLException e) {
             throw new RuntimeException("ocorreu um erro ao editar " + e.getMessage())
         }
@@ -107,7 +108,7 @@ class VagaDAO implements ModelsCRUD<Vaga, Long> {
                 return director.constructFromResultSet(resultSet, builder)
 
             } else {
-                throw new NoSuchElementException("Essa vaga nao existe")
+                throw new NoSuchElementException("Vaga nao encontrada")
             }
 
         } catch (SQLException e) {

@@ -9,9 +9,10 @@ import java.sql.SQLException
 class VagaDirector extends AbstractDirector<Vaga> {
 
     @Override
-    Vaga constructFromResultSet(ResultSet resultSet, IBuilder<? extends IBuilder> builder) {
+    Vaga constructFromResultSet(ResultSet resultSet, IBuilder<Vaga> builder) {
 
         try {
+            builder.reset()
             return builder
                     .setId(resultSet.getLong("id"))
                     .setVagaName(resultSet.getString("vaga_name"))
@@ -27,9 +28,10 @@ class VagaDirector extends AbstractDirector<Vaga> {
     }
 
     @Override
-    Vaga constructFromResultSetWithCompetences(ResultSet resultSet, IBuilder<? extends IBuilder> builder) {
+    Vaga constructFromResultSetWithCompetences(ResultSet resultSet, IBuilder<Vaga> builder) {
 
         try {
+            builder.reset()
             return builder
                     .setId(resultSet.getLong("id"))
                     .setVagaName(resultSet.getString("vaga_name"))

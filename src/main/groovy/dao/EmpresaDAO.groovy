@@ -40,7 +40,7 @@ class EmpresaDAO implements ModelsCRUD<Empresa, Long> {
             pstm.executeUpdate()
 
             ResultSet keys = pstm.getGeneratedKeys()
-            return keys.next() ? keys.getLong(1) : -1
+            return keys.next() ? keys.getLong("id") : -1
         } catch (SQLException e) {
             throw new RuntimeException("nao foi possivel criar empresa " + e.getMessage())
         }
@@ -61,7 +61,9 @@ class EmpresaDAO implements ModelsCRUD<Empresa, Long> {
             pstmt.setString(7, empresaUpdate.getPassword())
             pstmt.setLong(8, id)
 
-            pstmt.executeUpdate()
+            int affectedRows = pstmt.executeUpdate()
+
+            if(affectedRows==0) throw new RuntimeException("Empresa nao encontrada")
         } catch (SQLException e) {
             throw new RuntimeException("ocorreu um erro ao editar " + e.getMessage())
         }
@@ -81,7 +83,7 @@ class EmpresaDAO implements ModelsCRUD<Empresa, Long> {
 
     @Override
     List<Empresa> listAll() {
-        String command = "SELECT * FROM empresa;"
+        String command = "SELECT * FROM empresa";
 
         try (Statement stmt = connection.createStatement()
              ResultSet resultSet = stmt.executeQuery(command)

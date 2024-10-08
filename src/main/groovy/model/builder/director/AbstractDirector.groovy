@@ -8,9 +8,9 @@ import java.sql.SQLException
 
 abstract class AbstractDirector<T> {
 
-    abstract T constructFromResultSet(ResultSet resultSet, IBuilder <? extends IBuilder> builder);
+    abstract T constructFromResultSet(ResultSet resultSet, IBuilder<T> builder);
 
-    abstract T constructFromResultSetWithCompetences(ResultSet resultSet, IBuilder <? extends IBuilder> builder);
+    abstract T constructFromResultSetWithCompetences(ResultSet resultSet, IBuilder<T> builder);
 
     protected List<CompetenciaENUM> extractCompetencesFromResultSet(ResultSet resultSet) throws SQLException {
 

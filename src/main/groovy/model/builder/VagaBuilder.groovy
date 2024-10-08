@@ -13,7 +13,7 @@ class VagaBuilder implements IVagaBuilder{
 
     @Override
     Vaga build() {
-        return null
+        return model
     }
 
     @Override
