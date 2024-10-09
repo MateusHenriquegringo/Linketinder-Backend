@@ -6,6 +6,8 @@ import java.sql.SQLException
 
 class PostgresDatabaseConnection implements DatabaseConnection{
 
+    private static PostgresDatabaseConnection INSTANCE
+
     private static final String URL = "jdbc:postgresql://localhost:5432/postgres"
     private static final String DRIVER = 'org.postgresql.Driver'
 
@@ -20,7 +22,8 @@ class PostgresDatabaseConnection implements DatabaseConnection{
     static void setConnectionProperties(String key, String value) {
         properties.setProperty(key, value);
     }
-    PostgresDatabaseConnection(){
+
+    private PostgresDatabaseConnection(){
 
     }
 
@@ -32,6 +35,13 @@ class PostgresDatabaseConnection implements DatabaseConnection{
         } catch (SQLException e) {
             throw new RuntimeException("erro ao conectar "+ e)
         }
+    }
+
+    static PostgresDatabaseConnection getINSTANCE() {
+        if (INSTANCE == null) {
+            INSTANCE = new PostgresDatabaseConnection();
+        }
+        return INSTANCE;
     }
 
 }

@@ -6,9 +6,11 @@ import java.sql.SQLException
 
 class H2DatabaseConnection  implements DatabaseConnection{
 
+    private static H2DatabaseConnection INSTANCE;
+
     private static final String URL = "jdbc:h2:mem:test;MODE=PostgreSQL"
 
-    H2DatabaseConnection(){
+    private H2DatabaseConnection(){
     }
 
     Connection getConnection() {
@@ -17,5 +19,12 @@ class H2DatabaseConnection  implements DatabaseConnection{
         } catch (SQLException e) {
             throw new RuntimeException("erro ao conectar " + e)
         }
+    }
+
+    static getINSTANCE() {
+        if(INSTANCE == null){
+            INSTANCE = new H2DatabaseConnection()
+        }
+        return INSTANCE
     }
 }
