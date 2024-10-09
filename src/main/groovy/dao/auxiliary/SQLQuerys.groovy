@@ -4,7 +4,7 @@ enum SQLQuerys {
     RETURN_CANDIDATO_WITH_COMPETENCES(
             """
 SELECT c.id, c.first_name, c.last_name, c.cpf, c.email, c.cep, c.city, c.description,
-       STRING_AGG(comp.description::TEXT, ', ') AS competences
+       STRING_AGG(cc.competences::TEXT, ', ') AS competences
 FROM candidato c
 JOIN candidato_competencia cc ON c.id = cc.candidato_id
 WHERE c.id = ? 

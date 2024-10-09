@@ -37,9 +37,7 @@ class CandidatoCompetenciaDAO implements AuxiliaryTablesCRUD<Candidato, Long, Co
             pstmt.executeBatch()
 
         } catch (SQLException e) {
-            SQLException nextException = e.getNextException()
-            throw new RuntimeException("Erro ao relacionar competências: " + e.getMessage() +
-                    (nextException != null ? " Causa adicional: " + nextException.getMessage() : ""))
+            throw new RuntimeException("Erro ao relacionar competências: " + e.getMessage())
         }
     }
 
@@ -87,9 +85,7 @@ class CandidatoCompetenciaDAO implements AuxiliaryTablesCRUD<Candidato, Long, Co
             ResultSet resultSet = pstmt.executeQuery()
 
             if (resultSet.next()) {
-
                 return director.constructFromResultSetWithCompetences(resultSet, builder)
-
             }
         } catch (SQLException e) {
             throw new RuntimeException("nao foi possivel retornar o candidato e as competences " + e)

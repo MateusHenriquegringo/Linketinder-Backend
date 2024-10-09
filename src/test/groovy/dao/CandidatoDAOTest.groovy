@@ -121,7 +121,6 @@ class CandidatoDAOTest extends Specification {
     }
 
     void "testCreateCandidatoThrowsExceptionWhenEmailDuplicate"() {
-
         given:
         candidato
         def anotherCandidato = candidato

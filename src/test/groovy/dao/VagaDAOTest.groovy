@@ -209,4 +209,5 @@ class VagaDAOTest extends Specification {
             list[1].getDescription() == anotherVaga.getDescription()
             list[1].getVaga_name() == anotherVaga.getVaga_name()
         }
+
 }

@@ -116,14 +116,4 @@ class VagaDAO implements ModelsCRUD<Vaga, Long> {
         }
     }
 
-    void deleteFromEmpresaId(Long id){
-        String command = "DELETE FROM vaga WHERE empresa_id = ?"
-
-        try (PreparedStatement pstmt = connection.prepareStatement(command)) {
-            pstmt.setLong(1, id)
-            pstmt.executeUpdate()
-        } catch (SQLException e) {
-            throw new RuntimeException("nao foi possivel excluir " + e.getMessage())
-        }
-    }
 }
