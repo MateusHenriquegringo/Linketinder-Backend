@@ -25,7 +25,10 @@ class VagaCompetenciaDAO implements AuxiliaryTablesCRUD<Vaga, Long, CompetenciaE
     }
 
     @Override
-    void updateCompetences(Long id, List<CompetenciaENUM> competences) {}
+    void updateCompetences(Long id, List<CompetenciaENUM> competences) {
+        this.deleteAllCompetences(id)
+        this.createAssociation(id, competences)
+    }
 
     @Override
     void createAssociation(Long vagaID, List<CompetenciaENUM> competences) {
@@ -46,7 +49,7 @@ class VagaCompetenciaDAO implements AuxiliaryTablesCRUD<Vaga, Long, CompetenciaE
 
     @Override
     void deleteCompetence(Long vagaID, CompetenciaENUM competence) {
-        String command = "DELETE FROM candidato_competencia WHERE candidato_id = ? AND competences = ?;"
+        String command = "DELETE FROM vaga_competencia WHERE vaga_id = ? AND competences = ?;"
 
         try (PreparedStatement pstmt = connection.prepareStatement(command)) {
 
