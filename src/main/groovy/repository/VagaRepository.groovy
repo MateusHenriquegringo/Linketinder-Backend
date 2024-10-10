@@ -21,8 +21,25 @@ class VagaRepository {
         vagaDAO.delete(id)
     }
 
-    void deleteAllVagasFromEmpresa(Long empresaId){
-        vagaDAO.deleteFromEmpresaId(empresaId)
+    List<Vaga> listVagasWithNoCompetences(){
+        return vagaDAO.listAll()
+    }
+
+    List<Vaga> listAll(){
+        return vagaCompetenciaDAO.listAll()
+    }
+
+    Vaga findById(Long id){
+        return vagaCompetenciaDAO.findById(id)
+    }
+
+    void editCompetences(Long id, List<CompetenciaENUM> enumList){
+        vagaCompetenciaDAO.updateCompetences(id, enumList)
+    }
+
+
+    List<Vaga> listAllFromEmpresa(Long id) {
+        return vagaCompetenciaDAO.listAllByEmpresaId(id)
     }
 
     void updateVaga(Vaga vaga, Long id){

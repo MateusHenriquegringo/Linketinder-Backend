@@ -28,7 +28,7 @@ repositories {
 }
 
 sourceSets {
-    test{
+    test {
         resources.srcDirs("src/test/groovy")
     }
 }
@@ -43,7 +43,8 @@ dependencies {
     api libs.org.apache.groovy.groovy.sql
 
     implementation 'org.flywaydb:flyway-core:7.15.0'
-
+    implementation 'javax.servlet:javax.servlet-api:4.0.1'
+    implementation 'org.modelmapper:modelmapper:3.1.1'
 
     testImplementation 'com.h2database:h2:2.1.214'
     testImplementation 'org.spockframework:spock-core:2.3-groovy-4.0'

@@ -12,7 +12,6 @@ class CandidatoRepository {
     ModelsCRUD<Candidato, Long> candidatoDAO = new CandidatoDAO()
     AuxiliaryTablesCRUD<Candidato, Long, CompetenciaENUM> competenciaCandidatoDAO = new CandidatoCompetenciaDAO()
 
-
     void createCandidato(Candidato request) {
         long returnedID = candidatoDAO.create(request)
         addCompetencesIfPresent(returnedID, request.getCompetences())
