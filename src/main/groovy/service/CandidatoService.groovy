@@ -12,7 +12,13 @@ import java.util.stream.Collectors
 class CandidatoService {
 
     private CandidatoRepository repository = new CandidatoRepository()
-    private ModelMapper mapper = new ModelMapper();
+
+    CandidatoService(CandidatoRepository repository) {
+        this.repository = repository
+    }
+    CandidatoService( ) {
+
+    }
 
     void createCandidato(Candidato request) {
         repository.createCandidato(request)
@@ -22,7 +28,7 @@ class CandidatoService {
         return repository.listAllWithoutCompetences()
                 .stream()
                 .map {
-                    it -> mapper.map(it, CandidatoResponseDTO.class)
+                    it -> mapToDto(it)
                 }
                 .collect(Collectors.toList())
     }
@@ -31,15 +37,13 @@ class CandidatoService {
         return repository.listAll()
                 .stream()
                 .map {
-                    it -> mapper.map(it, CandidatoResponseDTO.class)
+                    it -> mapToDto(it)
                 }
                 .collect(Collectors.toList())
     }
 
     CandidatoResponseDTO findCandidatoById(Long id) {
-        return mapper.map(
-                repository.findCandidatoById(id), CandidatoResponseDTO.class
-        )
+        return mapToDto(repository.findCandidatoById(id))
     }
 
     void removeCompetence(Long id, CompetenciaENUM competence) {
@@ -62,4 +66,17 @@ class CandidatoService {
         repository.updateCompetences(id, competences)
     }
 
+    private static CandidatoResponseDTO mapToDto(Candidato candidato){
+        return new CandidatoResponseDTO (
+                candidato.getId(),
+                candidato.getFirst_name(),
+                candidato.getLast_name(),
+                candidato.getCPF(),
+                candidato.getDescription(),
+                candidato.getEmail(),
+                candidato.getCEP(),
+                candidato.getCity(),
+                candidato.getCompetences()
+        )
+    }
 }

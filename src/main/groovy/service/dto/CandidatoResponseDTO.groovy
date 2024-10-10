@@ -2,26 +2,51 @@ package service.dto
 
 import enums.CompetenciaENUM
 
-class CandidatoResponseDTO {
-    long id
-    String first_name
-    String last_name
-    String CPF
-    String description
-    String email
-    String CEP
-    String city
-    List<CompetenciaENUM> competences
+record CandidatoResponseDTO(
+        long id,
+        String first_name,
+        String last_name,
+        String CPF,
+        String description,
+        String email,
+        String CEP,
+        String city,
+        List<CompetenciaENUM> competences
+) {
 
-    CandidatoResponseDTO(Long id, String first_name, String last_name, String CPF, String description, String email, String CEP, String city, List<CompetenciaENUM> competences) {
-        this.id = id
-        this.first_name = first_name
-        this.last_name = last_name
-        this.CPF = CPF
-        this.description = description
-        this.email = email
-        this.CEP = CEP
-        this.city = city
-        this.competences = competences
+    long getId() {
+        return id
+    }
+
+    String getFirst_name() {
+        return first_name
+    }
+
+    String getLast_name() {
+        return last_name
+    }
+
+    String getCPF() {
+        return CPF
+    }
+
+    String getDescription() {
+        return description
+    }
+
+    String getEmail() {
+        return email
+    }
+
+    String getCEP() {
+        return CEP
+    }
+
+    String getCity() {
+        return city
+    }
+
+    List<CompetenciaENUM> getCompetences() {
+        return competences
     }
 }

@@ -1,22 +1,39 @@
 package service.dto
 
-class EmpresaResponseDTO {
+record EmpresaResponseDTO(
+        long id,
+        String empresa_name,
+        String description,
+        String email,
+        String CNPJ,
+        String CEP,
+        String country
+) {
+    long getId() {
+        return id
+    }
 
-    long id
-    String empresa_name
-    String description
-    String email
-    String CNPJ
-    String CEP
-    String country
+    String getEmpresa_name() {
+        return empresa_name
+    }
 
-    EmpresaResponseDTO(long id, String empresa_name, String description, String email, String CNPJ, String CEP, String country) {
-        this.id = id
-        this.empresa_name = empresa_name
-        this.description = description
-        this.email = email
-        this.CNPJ = CNPJ
-        this.CEP = CEP
-        this.country = country
+    String getDescription() {
+        return description
+    }
+
+    String getEmail() {
+        return email
+    }
+
+    String getCNPJ() {
+        return CNPJ
+    }
+
+    String getCEP() {
+        return CEP
+    }
+
+    String getCountry() {
+        return country
     }
 }
