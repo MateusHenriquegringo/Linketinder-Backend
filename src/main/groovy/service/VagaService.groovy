@@ -2,7 +2,6 @@ package service
 
 import enums.CompetenciaENUM
 import model.Vaga
-import org.modelmapper.ModelMapper
 import repository.VagaRepository
 import service.dto.VagaResponseDTO
 

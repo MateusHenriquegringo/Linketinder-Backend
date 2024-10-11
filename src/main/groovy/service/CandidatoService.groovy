@@ -3,7 +3,6 @@ package service
 
 import enums.CompetenciaENUM
 import model.Candidato
-import org.modelmapper.ModelMapper
 import repository.CandidatoRepository
 import service.dto.CandidatoResponseDTO
 
