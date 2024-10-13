@@ -6,7 +6,7 @@ enum SQLQuerys {
 SELECT c.id, c.first_name, c.last_name, c.cpf, c.email, c.cep, c.city, c.description,
        STRING_AGG(cc.competences::TEXT, ', ') AS competences
 FROM candidato c
-JOIN candidato_competencia cc ON c.id = cc.candidato_id
+LEFT JOIN candidato_competencia cc ON c.id = cc.candidato_id
 WHERE c.id = ? 
 GROUP BY c.id, c.first_name, c.last_name, c.cpf, c.email, c.cep, c.city, c.description;
 """

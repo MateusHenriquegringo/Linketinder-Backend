@@ -88,7 +88,7 @@ class CandidatoCompetenciaDAO implements AuxiliaryTablesCRUD<Candidato, Long, Co
                 return director.constructFromResultSetWithCompetences(resultSet, builder)
             }
         } catch (SQLException e) {
-            throw new RuntimeException("nao foi possivel retornar o candidato e as competences " + e)
+            throw new RuntimeException("nao foi possivel retornar o candidato e as competencias " + e)
         }
     }
 

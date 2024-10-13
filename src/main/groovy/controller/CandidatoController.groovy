@@ -1,17 +1,19 @@
 package controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import jakarta.servlet.ServletException
 import model.Candidato
 import service.CandidatoService
 import service.dto.CandidatoResponseDTO
 
-import javax.servlet.ServletException
-import javax.servlet.annotation.WebServlet
-import javax.servlet.http.HttpServlet
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
 
-@WebServlet("/candidato")
+import jakarta.servlet.annotation.WebServlet
+import jakarta.servlet.http.HttpServlet
+import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
+
+
+@WebServlet("/candidato/*")
 class CandidatoController extends HttpServlet {
 
     private final CandidatoService service = new CandidatoService()
@@ -69,13 +71,11 @@ class CandidatoController extends HttpServlet {
 
     private Long extractIdFromPath(String pathInfo) {
         try {
-            String[] parts = pathInfo.split("/")
-            return Long.parseLong(parts[1])
-        } catch (Exception e) {
+            return Long.parseLong(pathInfo.substring(1))
+        } catch (NumberFormatException e) {
             return null
         }
     }
-
     private void sendResponse(HttpServletResponse resp, Object data) throws IOException {
         resp.setContentType("application/json")
         resp.setCharacterEncoding("UTF-8")
