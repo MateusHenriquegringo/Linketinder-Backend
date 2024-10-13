@@ -4,8 +4,9 @@ plugins {
     id 'groovy'
     id 'application'
     id 'org.flywaydb.flyway' version '7.15.0'
-}
 
+    id 'war'
+}
 
 flyway {
     driver = 'org.postgresql.Driver'
