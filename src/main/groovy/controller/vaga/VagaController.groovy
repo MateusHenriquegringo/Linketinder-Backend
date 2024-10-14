@@ -7,13 +7,11 @@ import jakarta.servlet.annotation.WebServlet
 import jakarta.servlet.http.HttpServlet
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
-import model.Candidato
 import model.Vaga
-import service.CandidatoService
 import service.VagaService
 
 @WebServlet("/vaga/*")
-class VagaController extends HttpServlet{
+class VagaController extends HttpServlet {
 
     private final VagaService service = new VagaService()
     private final ObjectMapper mapper = new ObjectMapper()
