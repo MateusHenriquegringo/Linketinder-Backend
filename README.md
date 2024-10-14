@@ -7,7 +7,6 @@ Aplicação Java que utiliza JDBC para operações CRUD em **Candidatos**, **Emp
 - **CRUD Candidatos**: Gerenciar candidatos e suas competências.
 - **CRUD Empresas**: Gerenciar empresas.
 - **CRUD Vagas**: Gerenciar vagas e suas competências.
-- **CRUD Competências**: Gerenciar competências.
 
 ## Tecnologias
 
@@ -18,18 +17,20 @@ Aplicação Java que utiliza JDBC para operações CRUD em **Candidatos**, **Emp
 - **H2 Database**
 - **Spock**
 - **Flyway**
+- **Tomcat**
 
 
 ## Estrutura do Projeto
 
 - **src/main/groovy**: Código-fonte.
     - **dao**: Data Access Objects.
-    - **DTO**: Data Transfer Objects.
+    - **controller**: Classes que tratam requisicoes HTTP.
     - **model**: Classes de modelo.
-    - **app.Main**: Ponto de entrada.
+    - **repository**: Classes que gerenciam os DAOs e fornecem as funcionalidades abstraidas.
+    - **service**: Classes que mapeiam os DTO de resposta e a logica de negocio.
     - **DB**: Configuracoes de Conexao.
 - **src/test/groovy**: Testes.
-- **sql/** : Definicao e populacao do banco de dados
+- **webapp/** : Configuracao de servlets Tomcat
 
 ## Exemplos
 
