@@ -4,13 +4,13 @@ import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.SQLException
 
-class H2DatabaseConnection  implements DatabaseConnection{
+class H2IDatabaseConnection implements IDatabaseConnection{
 
-    private static H2DatabaseConnection INSTANCE;
+    private static H2IDatabaseConnection INSTANCE;
 
     private static final String URL = "jdbc:h2:mem:test;MODE=PostgreSQL"
 
-    private H2DatabaseConnection(){
+    private H2IDatabaseConnection(){
     }
 
     Connection getConnection() {
@@ -23,7 +23,7 @@ class H2DatabaseConnection  implements DatabaseConnection{
 
     static getINSTANCE() {
         if(INSTANCE == null){
-            INSTANCE = new H2DatabaseConnection()
+            INSTANCE = new H2IDatabaseConnection()
         }
         return INSTANCE
     }

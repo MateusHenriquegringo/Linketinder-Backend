@@ -9,9 +9,9 @@ abstract class ConnectionFactory {
     static Connection getConnection(DBTypes type) {
         switch (type){
             case DBTypes.POSTGRES :
-                return PostgresDatabaseConnection.getINSTANCE().getConnection();
+                return PostgresIDatabaseConnection.getINSTANCE().getConnection();
             case DBTypes.H2DATABASE :
-                return H2DatabaseConnection.getINSTANCE().getConnection();
+                return H2IDatabaseConnection.getINSTANCE().getConnection();
             default:
                 throw new IllegalArgumentException("tipo de banco de dados nao suportado")
         }

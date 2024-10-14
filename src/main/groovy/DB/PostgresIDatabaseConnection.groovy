@@ -4,9 +4,9 @@ import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.SQLException
 
-class PostgresDatabaseConnection implements DatabaseConnection{
+class PostgresIDatabaseConnection implements IDatabaseConnection{
 
-    private static PostgresDatabaseConnection INSTANCE
+    private static PostgresIDatabaseConnection INSTANCE
 
     private static final String URL = "jdbc:postgresql://localhost:5432/postgres"
     private static final String DRIVER = 'org.postgresql.Driver'
@@ -23,7 +23,7 @@ class PostgresDatabaseConnection implements DatabaseConnection{
         properties.setProperty(key, value);
     }
 
-    private PostgresDatabaseConnection(){
+    private PostgresIDatabaseConnection(){
 
     }
 
@@ -37,9 +37,9 @@ class PostgresDatabaseConnection implements DatabaseConnection{
         }
     }
 
-    static PostgresDatabaseConnection getINSTANCE() {
+    static PostgresIDatabaseConnection getINSTANCE() {
         if (INSTANCE == null) {
-            INSTANCE = new PostgresDatabaseConnection();
+            INSTANCE = new PostgresIDatabaseConnection();
         }
         return INSTANCE;
     }

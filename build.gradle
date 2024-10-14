@@ -8,6 +8,11 @@ plugins {
     id 'war'
 }
 
+war {
+    archiveBaseName = 'Linketinder-Backend'
+    version = '1.0-SNAPSHOT'
+}
+
 flyway {
     driver = 'org.postgresql.Driver'
     url = 'jdbc:postgresql://localhost:5432/postgres'
