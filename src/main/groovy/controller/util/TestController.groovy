@@ -1,4 +1,4 @@
-package controller
+package controller.util
 
 import jakarta.servlet.annotation.WebServlet
 import jakarta.servlet.http.HttpServlet

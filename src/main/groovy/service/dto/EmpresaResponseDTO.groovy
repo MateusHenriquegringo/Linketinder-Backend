@@ -5,8 +5,8 @@ record EmpresaResponseDTO(
         String empresa_name,
         String description,
         String email,
-        String CNPJ,
-        String CEP,
+        String cnpj,
+        String cep,
         String country
 ) {
     long getId() {
@@ -26,11 +26,11 @@ record EmpresaResponseDTO(
     }
 
     String getCNPJ() {
-        return CNPJ
+        return cnpj
     }
 
     String getCEP() {
-        return CEP
+        return cep
     }
 
     String getCountry() {

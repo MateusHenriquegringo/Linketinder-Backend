@@ -5,7 +5,7 @@ import model.Candidato
 
 class CandidatoBuilder implements ICandidatoBuilder {
 
-    Candidato model
+    private Candidato model
 
     CandidatoBuilder() {
         this.reset()

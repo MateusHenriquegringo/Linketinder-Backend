@@ -3,6 +3,7 @@ package dao.auxiliary
 import DB.ConnectionFactory
 import DB.DBTypes
 import enums.CompetenciaENUM
+import jakarta.persistence.EntityNotFoundException
 import model.Candidato
 import model.builder.CandidatoBuilder
 import model.builder.ICandidatoBuilder
@@ -88,7 +89,7 @@ class CandidatoCompetenciaDAO implements AuxiliaryTablesCRUD<Candidato, Long, Co
                 return director.constructFromResultSetWithCompetences(resultSet, builder)
             }
         } catch (SQLException e) {
-            throw new RuntimeException("nao foi possivel retornar o candidato e as competencias " + e)
+            throw new EntityNotFoundException("nao foi possivel retornar o candidato e as competencias " + e)
         }
     }
 

@@ -44,6 +44,9 @@ class VagaRepository {
 
     void updateVaga(Vaga vaga, Long id){
         vagaDAO.update(vaga, id)
+
+        vagaCompetenciaDAO.deleteAllCompetences(id)
+        addCompetencesIfPresent(id, vaga.getCompetences())
     }
 
     private void addCompetencesIfPresent(Long candidatoID, List<CompetenciaENUM> competences) {

@@ -48,8 +48,9 @@ class EmpresaService {
                 id: it.getId(),
                 empresa_name: it.getEmpresa_name(),
                 email: it.getEmail(),
-                CNPJ: it.getCNPJ(),
-                CEP: it.getCEP(),
+                description: it.getDescription(),
+                cnpj: it.getCNPJ(),
+                cep: it.getCEP(),
                 country: it.getCountry()
         )
     }

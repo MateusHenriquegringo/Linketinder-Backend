@@ -17,7 +17,7 @@ GROUP BY c.id, c.first_name, c.last_name, c.cpf, c.email, c.cep, c.city, c.descr
             SELECT v.id, v.vaga_name, v.empresa_id, v.state, v.city, v.description, 
                 STRING_AGG(vc.competences::text, ', ') AS competences
             FROM vaga v
-            JOIN vaga_competencia vc ON v.id = vc.vaga_id
+            LEFT JOIN vaga_competencia vc ON v.id = vc.vaga_id
             WHERE v.id = ?
             GROUP BY v.id, v.vaga_name, v.empresa_id, v.state, v.city, v.description;
 """

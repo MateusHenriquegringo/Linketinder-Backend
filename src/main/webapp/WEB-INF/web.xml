@@ -8,12 +8,38 @@
 
     <servlet>
         <servlet-name>candidato</servlet-name>
-        <servlet-class>controller.CandidatoController</servlet-class>
+        <servlet-class>controller.candidato.CandidatoController</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>allCandidatos</servlet-name>
+        <servlet-class>controller.candidato.AllCandidatosController</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>empresa</servlet-name>
+        <servlet-class>controller.empresa.EmpresaController</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>allEmpresas</servlet-name>
+        <servlet-class>controller.empresa.AllEmpresasController</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>vaga</servlet-name>
+        <servlet-class>controller.vaga.VagaController</servlet-class>
+    </servlet>
+
+
+    <servlet>
+        <servlet-name>allVagas</servlet-name>
+        <servlet-class>controller.vaga.AllVagasController</servlet-class>
     </servlet>
 
     <servlet>
         <servlet-name>test</servlet-name>
-        <servlet-class>controller.TestController</servlet-class>
+        <servlet-class>controller.util.TestController</servlet-class>
     </servlet>
 
 </web-app>
