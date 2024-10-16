@@ -1,5 +1,7 @@
 package repository
 
+import DB.ConnectionFactory
+import DB.DBTypes
 import dao.CandidatoDAO
 import dao.ModelsCRUD
 import dao.auxiliary.AuxiliaryTablesCRUD
@@ -10,7 +12,8 @@ import model.Candidato
 class CandidatoRepository {
 
     ModelsCRUD<Candidato, Long> candidatoDAO = new CandidatoDAO()
-    AuxiliaryTablesCRUD<Candidato, Long, CompetenciaENUM> competenciaCandidatoDAO = new CandidatoCompetenciaDAO()
+    AuxiliaryTablesCRUD<Candidato, Long, CompetenciaENUM> competenciaCandidatoDAO =
+            new CandidatoCompetenciaDAO(ConnectionFactory.getConnection(DBTypes.POSTGRES))
 
     void createCandidato(Candidato request) {
         long returnedID = candidatoDAO.create(request)

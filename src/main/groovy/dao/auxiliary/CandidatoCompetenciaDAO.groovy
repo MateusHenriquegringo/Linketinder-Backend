@@ -13,16 +13,13 @@ import java.sql.*
 
 class CandidatoCompetenciaDAO implements AuxiliaryTablesCRUD<Candidato, Long, CompetenciaENUM> {
 
-    private Connection connection = ConnectionFactory.getConnection(DBTypes.POSTGRES)
+    private Connection connection
 
     private CandidatoDirector director = new CandidatoDirector()
     private ICandidatoBuilder builder = new CandidatoBuilder()
 
     CandidatoCompetenciaDAO(Connection connection) {
         this.connection = connection
-    }
-
-    CandidatoCompetenciaDAO() {
     }
 
     @Override

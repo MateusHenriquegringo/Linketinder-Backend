@@ -4,8 +4,8 @@ import DB.ConnectionFactory
 import DB.DBTypes
 import model.Candidato
 import model.builder.CandidatoBuilder
-import model.builder.director.CandidatoDirector
 import model.builder.ICandidatoBuilder
+import model.builder.director.CandidatoDirector
 
 import java.sql.*
 
@@ -14,13 +14,11 @@ class CandidatoDAO implements ModelsCRUD<Candidato, Long> {
     ICandidatoBuilder builder = new CandidatoBuilder()
     CandidatoDirector director = new CandidatoDirector()
 
-    private Connection connection = ConnectionFactory.getConnection(DBTypes.POSTGRES)
+    private Connection connection
 
     CandidatoDAO(Connection connection) {
         this.connection = connection
     }
-
-    CandidatoDAO() {}
 
     @Override
     long create(Candidato candidato) {
@@ -32,9 +30,9 @@ class CandidatoDAO implements ModelsCRUD<Candidato, Long> {
             pstmt.setString(1, candidato.getFirst_name())
             pstmt.setString(2, candidato.getLast_name())
             pstmt.setString(3, candidato.getEmail())
-            pstmt.setString(4, candidato.getCPF())
+            pstmt.setString(4, candidato.getCpf())
             pstmt.setString(5, candidato.getCity())
-            pstmt.setString(6, candidato.getCEP())
+            pstmt.setString(6, candidato.getCep())
             pstmt.setString(7, candidato.getDescription())
             pstmt.setString(8, candidato.getPassword())
 
@@ -58,15 +56,15 @@ class CandidatoDAO implements ModelsCRUD<Candidato, Long> {
             pstmt.setString(1, candidato.getFirst_name())
             pstmt.setString(2, candidato.getLast_name())
             pstmt.setString(3, candidato.getEmail())
-            pstmt.setString(4, candidato.getCEP())
-            pstmt.setString(5, candidato.getCPF())
+            pstmt.setString(4, candidato.getCep())
+            pstmt.setString(5, candidato.getCpf())
             pstmt.setString(6, candidato.getCity())
             pstmt.setString(7, candidato.getDescription())
             pstmt.setLong(8, id)
 
             int rowsAffected = pstmt.executeUpdate()
 
-            if(rowsAffected==0) throw new RuntimeException("Candidato nao encontrado")
+            if (rowsAffected == 0) throw new RuntimeException("Candidato nao encontrado")
 
         } catch (SQLException e) {
             throw new RuntimeException("ocorreu um erro ao editar " + e.getMessage())
@@ -95,7 +93,7 @@ class CandidatoDAO implements ModelsCRUD<Candidato, Long> {
             List<Candidato> responseList = new ArrayList<>()
             while (resultSet.next()) {
                 responseList.add(
-                       director.constructFromResultSet(resultSet, builder)
+                        director.constructFromResultSet(resultSet, builder)
                 )
             }
 

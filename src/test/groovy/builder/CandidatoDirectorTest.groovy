@@ -64,8 +64,8 @@ class CandidatoDirectorTest extends Specification {
         candidato.getId() == 1L
         candidato.getFirst_name() == "primeiro nome"
         candidato.getLast_name() == "último nome"
-        candidato.getCEP() == "cep"
-        candidato.getCPF() == "cpf"
+        candidato.getCep() == "cep"
+        candidato.getCpf() == "cpf"
         candidato.getDescription() == "description"
         candidato.getEmail() == "email"
         candidato.getCity() == "city"
@@ -94,8 +94,8 @@ class CandidatoDirectorTest extends Specification {
         candidato.getId() == 1L
         candidato.getFirst_name() == "primeiro nome"
         candidato.getLast_name() == "último nome"
-        candidato.getCEP() == "cep"
-        candidato.getCPF() == "cpf"
+        candidato.getCep() == "cep"
+        candidato.getCpf() == "cpf"
         candidato.getDescription() == "description"
         candidato.getEmail() == "email"
         candidato.getCity() == "city"

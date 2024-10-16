@@ -20,10 +20,10 @@ class CandidatoServiceTest extends Specification{
                 id: 1L,
                 first_name: "John",
                 last_name: "Doe",
-                CPF: "12345678900",
+                cpf: "12345678900",
                 description: "Software Developer",
                 email: "john.doe@example.com",
-                CEP: "12345678",
+                cep: "12345678",
                 city: "Tapejara",
                 competences: [CompetenciaENUM.JAVA, CompetenciaENUM.ANGULAR]
         )
@@ -147,10 +147,10 @@ class CandidatoServiceTest extends Specification{
                 id: 1L,
                 first_name: "John",
                 last_name: "Doe",
-                CPF: "12345678900",
+                cpf: "12345678900",
                 description: "Software Developer",
                 email: "john.doe@example.com",
-                CEP: "12345678",
+                cep: "12345678",
                 city: "Tapejara",
                 competences: [CompetenciaENUM.JAVA, CompetenciaENUM.ANGULAR]
         )
@@ -164,10 +164,10 @@ class CandidatoServiceTest extends Specification{
         result.getId() == candidato.getId()
         result.getFirst_name() == candidato.getFirst_name()
         result.getLast_name() == candidato.getLast_name()
-        result.getCPF() == candidato.getCPF()
+        result.getCPF() == candidato.getCpf()
         result.getDescription() == candidato.getDescription()
         result.getEmail() == candidato.getEmail()
-        result.getCEP() == candidato.getCEP()
+        result.getCEP() == candidato.getCep()
         result.getCity() == candidato.getCity()
         result.getCompetences() == candidato.getCompetences()
     }
@@ -175,13 +175,13 @@ class CandidatoServiceTest extends Specification{
     def "should list all Candidatos and map to CandidatoResponseDTO"() {
         given:
         List<Candidato> candidatos = [
-                new Candidato(id: 1L, first_name: "John", last_name: "Doe", CPF: "12345678900",
+                new Candidato(id: 1L, first_name: "John", last_name: "Doe", cpf: "12345678900",
                         description: "Software Developer", email: "john.doe@example.com",
-                        CEP: "12345678", city: "Tapejara",
+                        cep: "12345678", city: "Tapejara",
                         competences: [CompetenciaENUM.JAVA, CompetenciaENUM.ANGULAR]),
-                new Candidato(id: 2L, first_name: "Jane", last_name: "Smith", CPF: "98765432100",
+                new Candidato(id: 2L, first_name: "Jane", last_name: "Smith", cpf: "98765432100",
                         description: "Frontend Developer", email: "jane.smith@example.com",
-                        CEP: "87654321", city: "Tapejara",
+                        cep: "87654321", city: "Tapejara",
                         competences: [CompetenciaENUM.ANGULAR])
         ]
 

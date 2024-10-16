@@ -12,7 +12,7 @@ import java.sql.*
 
 class VagaCompetenciaDAO implements AuxiliaryTablesCRUD<Vaga, Long, CompetenciaENUM> {
 
-    private Connection connection = ConnectionFactory.getConnection(DBTypes.POSTGRES)
+    private Connection connection
 
     VagaDirector director = new VagaDirector()
     IVagaBuilder builder = new VagaBuilder()
@@ -21,8 +21,6 @@ class VagaCompetenciaDAO implements AuxiliaryTablesCRUD<Vaga, Long, CompetenciaE
         this.connection = connection
     }
 
-    VagaCompetenciaDAO() {
-    }
 
     @Override
     void updateCompetences(Long id, List<CompetenciaENUM> competences) {

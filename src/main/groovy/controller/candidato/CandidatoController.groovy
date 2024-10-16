@@ -13,15 +13,19 @@ import service.CandidatoService
 @WebServlet("/candidato/*")
 class CandidatoController extends HttpServlet {
 
-    private final CandidatoService service = new CandidatoService()
-    private final ObjectMapper mapper = new ObjectMapper()
+    private CandidatoService service = new CandidatoService()
+    private ObjectMapper mapper = new ObjectMapper()
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String pathInfo = req.getPathInfo()
         Long id = Tools.extractIdFromPath(pathInfo)
         if (id != null) {
+            resp.setStatus(HttpServletResponse.SC_OK)
             mapper.writeValue(resp.getWriter(), service.findCandidatoById(id))
+        }  else {
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
     }
 

@@ -1,5 +1,7 @@
 package repository
 
+import DB.ConnectionFactory
+import DB.DBTypes
 import dao.ModelsCRUD
 import dao.VagaDAO
 import dao.auxiliary.AuxiliaryTablesCRUD
@@ -10,7 +12,9 @@ import model.Vaga
 class VagaRepository {
 
     ModelsCRUD<Vaga, Long> vagaDAO = new VagaDAO()
-    AuxiliaryTablesCRUD<Vaga, Long, CompetenciaENUM> vagaCompetenciaDAO = new VagaCompetenciaDAO()
+    AuxiliaryTablesCRUD<Vaga, Long, CompetenciaENUM> vagaCompetenciaDAO = new VagaCompetenciaDAO(
+            ConnectionFactory.getConnection(DBTypes.POSTGRES)
+    )
 
     void createVaga(Vaga vaga){
         Long returnedId = vagaDAO.create(vaga)

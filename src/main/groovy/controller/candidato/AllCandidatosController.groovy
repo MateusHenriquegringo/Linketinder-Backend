@@ -13,8 +13,10 @@ import service.dto.CandidatoResponseDTO
 @WebServlet("/candidato")
 class AllCandidatosController extends HttpServlet {
 
-    private final CandidatoService service = new CandidatoService()
-    private final ObjectMapper mapper = new ObjectMapper()
+    private CandidatoService service = new CandidatoService()
+    private ObjectMapper mapper = new ObjectMapper()
+
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -30,4 +32,17 @@ class AllCandidatosController extends HttpServlet {
         resp.setStatus(HttpServletResponse.SC_OK)
     }
 
+    @Override
+    protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setHeader("Allow", "GET, POST, OPTIONS");
+        resp.setStatus(HttpServletResponse.SC_OK);
+    }
+
+    @Override
+    protected void doHead(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        List<CandidatoResponseDTO> responseList = service.listAll();
+        resp.setStatus(HttpServletResponse.SC_OK);
+        resp.setHeader("Content-Length", String.valueOf(mapper.writeValueAsString(responseList).length()));
+        resp.setHeader("Content-Type", "application/json");
+    }
 }

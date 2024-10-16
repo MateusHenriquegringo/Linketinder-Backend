@@ -14,14 +14,12 @@ class VagaDAO implements ModelsCRUD<Vaga, Long> {
     private VagaDirector director = new VagaDirector()
     private IVagaBuilder builder = new VagaBuilder()
 
-    private Connection connection = ConnectionFactory.getConnection(DBTypes.POSTGRES)
+    private Connection connection
 
     VagaDAO(Connection connection) {
         this.connection = connection
     }
 
-    VagaDAO() {
-    }
 
     @Override
     long create(Vaga vaga) {

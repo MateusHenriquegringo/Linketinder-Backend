@@ -68,12 +68,12 @@ CREATE TABLE candidato_competencia (
 
     void setup(){
         candidato = new Candidato(
-                CPF: '12345678900',
+                cpf: '12345678900',
                 first_name: 'João',
                 last_name: 'Silva',
                 email: 'joao.silva@email.com',
                 city: 'Cidade X',
-                CEP: '12345678',
+                cep: '12345678',
                 description: 'Descrição',
                 password: 'senha123'
         )
@@ -227,7 +227,7 @@ CREATE TABLE candidato_competencia (
             getLast_name() == candidato.getLast_name()
             getDescription() == candidato.getDescription()
             getCity() == candidato.getCity()
-            getCEP() == candidato.getCEP()
+            getCep() == candidato.getCep()
             getCompetences().contains(CompetenciaENUM.ANGULAR)
             getCompetences().contains(CompetenciaENUM.AWS)
         }
@@ -237,8 +237,8 @@ CREATE TABLE candidato_competencia (
         given:
         long returnedId1 = candidatoDAO.create(candidato)
         long returnedId2 = candidatoDAO.create(new Candidato(
-                CPF: "0000000",
-                CEP: "9995000",
+                cpf: "0000000",
+                cep: "9995000",
                 first_name: "mateus",
                 last_name: "henrique",
                 description: "description",

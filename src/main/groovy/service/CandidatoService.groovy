@@ -70,10 +70,10 @@ class CandidatoService {
                 candidato.getId(),
                 candidato.getFirst_name(),
                 candidato.getLast_name(),
-                candidato.getCPF(),
+                candidato.getCpf(),
                 candidato.getDescription(),
                 candidato.getEmail(),
-                candidato.getCEP(),
+                candidato.getCep(),
                 candidato.getCity(),
                 candidato.getCompetences()
         )

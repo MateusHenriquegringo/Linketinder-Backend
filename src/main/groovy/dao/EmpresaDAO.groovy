@@ -11,16 +11,13 @@ import java.sql.*
 
 class EmpresaDAO implements ModelsCRUD<Empresa, Long> {
 
-    private Connection connection = ConnectionFactory.getConnection(DBTypes.POSTGRES)
+    private Connection connection
 
     private EmpresaDirector director = new EmpresaDirector()
     private IEmpresaBuilder builder = new EmpresaBuilder()
 
     EmpresaDAO(Connection connection) {
         this.connection = connection
-    }
-
-    EmpresaDAO() {
     }
 
     @Override

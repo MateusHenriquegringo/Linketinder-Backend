@@ -9,10 +9,10 @@ class Candidato {
 
     String first_name
     String last_name
-    String CPF
+    String cpf
     String description
     String email
-    String CEP
+    String cep
     String city
     String password
 
@@ -26,10 +26,10 @@ class Candidato {
                 "id=" + id +
                 ", first_name='" + first_name + '\'' +
                 ", last_name='" + last_name + '\'' +
-                ", CPF='" + CPF + '\'' +
+                ", CPF='" + cpf + '\'' +
                 ", description='" + description + '\'' +
                 ", email='" + email + '\'' +
-                ", CEP='" + CEP + '\'' +
+                ", CEP='" + cep + '\'' +
                 ", city='" + city + '\'' +
                 ", password='" + password + '\'' +
                 ", competences=" + competences +

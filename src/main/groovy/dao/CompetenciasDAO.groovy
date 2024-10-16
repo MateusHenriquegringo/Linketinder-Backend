@@ -8,13 +8,11 @@ import java.sql.*
 
 class CompetenciasDAO implements ModelsCRUD<Competencia, Long>{
 
-    private Connection connection = ConnectionFactory.getConnection(DBTypes.POSTGRES)
+    private Connection connection
 
     CompetenciasDAO(Connection connection) {
         this.connection = connection
     }
-
-    CompetenciasDAO(){}
 
     @Override
     long create(Competencia competencia) {

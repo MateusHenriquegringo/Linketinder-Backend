@@ -42,12 +42,12 @@ class CandidatoDAOTest extends Specification {
 
     def setup() {
         candidato = new Candidato(
-                CPF: "12345678901",
+                cpf: "12345678901",
                 first_name: "João",
                 last_name: "Silva",
                 email: "joao.silva@example.com",
                 city: "São Paulo",
-                CEP: "01001000",
+                cep: "01001000",
                 description: "Um candidato promissor",
                 password: "senhaSegura123"
         )
@@ -84,8 +84,8 @@ class CandidatoDAOTest extends Specification {
         ResultSet resultSet = pstmt.executeQuery()
 
         resultSet.next()
-        resultSet.getString("CPF") == candidato.getCPF()
-        resultSet.getString("CEP") == candidato.getCEP()
+        resultSet.getString("CPF") == candidato.getCpf()
+        resultSet.getString("CEP") == candidato.getCep()
         resultSet.getString("first_name") == candidato.getFirst_name()
         resultSet.getString("last_name") == candidato.getLast_name()
         resultSet.getString("description") == candidato.getDescription()
@@ -108,7 +108,7 @@ class CandidatoDAOTest extends Specification {
 
         and:
         candidato.setEmail("emailvalido@email")
-        candidato.setCPF(null)
+        candidato.setCpf(null)
 
         when:
         dao.create(candidato)
@@ -290,8 +290,8 @@ class CandidatoDAOTest extends Specification {
         anotherCandidato.setFirst_name("name")
         anotherCandidato.setLast_name("last_name")
         anotherCandidato.setCity("city")
-        anotherCandidato.setCEP("cep")
-        anotherCandidato.setCPF("cpf")
+        anotherCandidato.setCep("cep")
+        anotherCandidato.setCpf("cpf")
         anotherCandidato.setPassword("supersenha")
         anotherCandidato.setEmail("outroEmail")
 

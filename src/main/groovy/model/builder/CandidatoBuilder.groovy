@@ -31,7 +31,7 @@ class CandidatoBuilder implements ICandidatoBuilder {
 
     @Override
     CandidatoBuilder setCPF(String cpf) {
-        model.setCPF(cpf)
+        model.setCpf(cpf)
         return this
     }
 
@@ -43,7 +43,7 @@ class CandidatoBuilder implements ICandidatoBuilder {
 
     @Override
     CandidatoBuilder setCEP(String cep) {
-        model.setCEP(cep)
+        model.setCep(cep)
         return this
     }
 

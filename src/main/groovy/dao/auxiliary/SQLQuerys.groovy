@@ -12,6 +12,7 @@ GROUP BY c.id, c.first_name, c.last_name, c.cpf, c.email, c.cep, c.city, c.descr
 """
     ),
 
+
     RETURN_VAGA_WITH_COMPETENCES(
             """
             SELECT v.id, v.vaga_name, v.empresa_id, v.state, v.city, v.description, 
@@ -23,7 +24,7 @@ GROUP BY c.id, c.first_name, c.last_name, c.cpf, c.email, c.cep, c.city, c.descr
 """
     ),
 
-    LIST_ALL_CANDIDATOS_JOIN_COMPETENCIAS (
+    LIST_ALL_CANDIDATOS_JOIN_COMPETENCIAS(
             """
 SELECT 
     c.*,

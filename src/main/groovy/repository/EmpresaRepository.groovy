@@ -1,12 +1,16 @@
 package repository
 
+import DB.ConnectionFactory
+import DB.DBTypes
 import dao.EmpresaDAO
 import dao.ModelsCRUD
 import model.Empresa
 
 class EmpresaRepository {
 
-    ModelsCRUD<Empresa, Long> empresaDAO = new EmpresaDAO()
+    ModelsCRUD<Empresa, Long> empresaDAO = new EmpresaDAO(
+            ConnectionFactory.getConnection(DBTypes.POSTGRES)
+    )
 
     void createEmpresa(Empresa empresa) {
         empresaDAO.create(empresa)
