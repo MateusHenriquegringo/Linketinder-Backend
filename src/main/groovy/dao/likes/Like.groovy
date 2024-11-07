@@ -1,30 +1,10 @@
 package dao.likes;
 
-import enums.LikeDirectionENUM;
 
-public class Like {
+class Like {
 
-    private long candidatoId;
+    private long from;
 
-    private long empresaId;
+    private long to;
 
-    LikeDirectionENUM direction;
-
-    Like(LikeDirectionENUM direction, long empresaId, long candidatoId) {
-        this.direction = direction;
-        this.empresaId = empresaId;
-        this.candidatoId = candidatoId;
-    }
-
-    long getCandidatoId() {
-        return candidatoId
-    }
-
-    long getEmpresaId() {
-        return empresaId
-    }
-
-    LikeDirectionENUM getDirection() {
-        return direction
-    }
 }

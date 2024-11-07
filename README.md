@@ -55,3 +55,68 @@ Aplicação Java que utiliza JDBC para operações CRUD em **Candidatos**, **Emp
     empresa.setName("Novo Nome da Empresa");
     empresaDAO.updateEmpresa(empresa);
     ```
+## Modelagem do banco de dados;
+```mermaid
+erDiagram
+    CANDIDATO {
+        int id
+        string nome
+        string email
+        string cidade
+        string telefone
+        string status
+    }
+    
+    VAGA_COMPETENCIA {
+        int vaga_id FK
+        enum competences    
+    }
+    
+    CANDIDATO_COMPETENCIA {
+        int candidato_id FK
+        enum competences  
+    }
+    EMPRESA {
+        int id PK
+        string empressa_name  
+        string description  
+        string email
+        string cnpj
+        string cep
+        string country
+        string password
+    }
+    VAGA {
+        int id PK
+        int empresa_id FK
+        string vaga_name
+        string description
+        string state
+        string city
+    }
+    
+    CANDIDATO_LIKES {
+        int candidato_id FK
+        int vaga_id FK
+    }
+    
+    EMPRESA_LIKES {
+        int empresa_id FK
+        int candidato_id FK
+    }
+    
+    MATCH {
+        int candidato_id FK
+        int empresa_id FK
+    }
+
+    %% Relacionamentos com Cardinalidades
+    CANDIDATO ||--o| CANDIDATO_COMPETENCIA : "tem"
+    VAGA ||--o| VAGA_COMPETENCIA : "requer"
+    CANDIDATO ||--o| CANDIDATO_LIKES : "curte"
+    VAGA ||--o| CANDIDATO_LIKES : "é curtida por"
+    EMPRESA ||--o| EMPRESA_LIKES : "curte"
+    CANDIDATO ||--o| EMPRESA_LIKES : "é curtido por"
+    CANDIDATO ||--o| MATCH : "faz match"
+    EMPRESA ||--o| MATCH : "faz match"
+    EMPRESA ||--o| VAGA : "publica"

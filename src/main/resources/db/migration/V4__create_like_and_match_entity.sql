@@ -1,14 +1,25 @@
-CREATE TABLE IF NOT EXISTS likes (
+CREATE TABLE IF NOT EXISTS candidato_likes (
     id SERIAL PRIMARY KEY,
     candidato_id INT NOT NULL,
+    vaga_id INT NOT NULL,
+    date_like TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_candidato FOREIGN KEY (candidato_id) REFERENCES candidato(id) ON DELETE CASCADE,
+    CONSTRAINT fk_vaga FOREIGN KEY (vaga_id) REFERENCES vaga(id) ON DELETE CASCADE,
+
+    CONSTRAINT unique_candidato_like UNIQUE (candidato_id, vaga_id)
+);
+
+CREATE TABLE IF NOT EXISTS empresa_likes (
+    id SERIAL PRIMARY KEY,
     empresa_id INT NOT NULL,
-    direction VARCHAR(50) NOT NULL CHECK (direction IN ('CANDIDATO_TO_EMPRESA', 'EMPRESA_TO_CANDIDATO')),
+    candidato_id INT NOT NULL,
     date_like TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT fk_candidato FOREIGN KEY (candidato_id) REFERENCES candidato(id) ON DELETE CASCADE,
     CONSTRAINT fk_empresa FOREIGN KEY (empresa_id) REFERENCES empresa(id) ON DELETE CASCADE,
 
-    CONSTRAINT unique_like UNIQUE (candidato_id, empresa_id, direction)
+    CONSTRAINT unique_empresa_like UNIQUE (candidato_id, empresa_id)
 );
 
 CREATE TABLE IF NOT EXISTS matches (
