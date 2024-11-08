@@ -1,20 +1,18 @@
 package dao.likes
 
-import service.CandidatoService
-
 import java.sql.Connection
 import java.sql.PreparedStatement
 
-class CandidatoLikesDAO {
+class EmpresaLikesDAO {
 
     private Connection connection
 
-    CandidatoLikesDAO(Connection connection) {
+    EmpresaLikesDAO(Connection connection) {
         this.connection = connection
     }
 
     void addLike(Like like){
-        String command = "INSERT INTO candidato_likes (candidato_id, vaga_id) VALUES (?, ?)"
+        String command = "INSERT INTO empresa_likes (empresa_id, candidato_id) VALUES (?, ?)"
 
         try(PreparedStatement preparedStatement = connection.prepareStatement(command)){
             preparedStatement.setLong(1, like.getFrom())
@@ -25,8 +23,8 @@ class CandidatoLikesDAO {
         }
     }
 
-    void deleteLike (Like like) {
-        String command = "DELETE FROM candidato_likes WHERE candidato_id = ? AND vaga_id = ?";
+    void deleteLike(Like like){
+        String command = "DELETE FROM empresa_likes WHERE empresa_id = ? AND candidato_id = ?";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(command)){
             preparedStatement.setLong(1, like.getFrom())
@@ -37,19 +35,14 @@ class CandidatoLikesDAO {
         }
     }
 
-    boolean likeToAnyVagaFromEmpresaExists(Like like){
-        String command = """SELECT 1 FROM candidato_likes cl
-                            JOIN vaga v 
-                            ON cl.vaga_id = v.id
-                            WHERE cl.candidato_id = ? 
-                              AND v.empresa_id = ? """;
+    boolean likeExists(Like like){
+        String command = "SELECT 1 FROM empresa_likes WHERE empresa_id = ? AND candidato_id = ?";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(command)){
-            preparedStatement.setLong(1, like.getTo())
-            preparedStatement.setLong(2, like.getFrom())
+            preparedStatement.setLong(1, like.getFrom())
+            preparedStatement.setLong(2, like.getTo())
 
             return preparedStatement.executeQuery().next()
-
         } catch (Exception e){
             throw new RuntimeException("erro ao verificar like "+ e.getMessage())
         }

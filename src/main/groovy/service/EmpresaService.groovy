@@ -3,14 +3,17 @@ package service
 import model.Empresa
 import repository.EmpresaRepository
 import service.dto.EmpresaResponseDTO
+import service.match.LikeMediator
 
 import java.util.stream.Collectors
 
 class EmpresaService {
 
-    private EmpresaRepository repository = new EmpresaRepository()
+    private LikeMediator mediator
+    private EmpresaRepository repository
 
-    EmpresaService(EmpresaRepository repository) {
+    EmpresaService(EmpresaRepository repository, LikeMediator mediator) {
+        this.mediator = mediator
         this.repository = repository
     }
 
@@ -41,6 +44,15 @@ class EmpresaService {
 
     void updateEmpresa(Empresa empresa, Long id) {
         repository.updateEmpresa(empresa, id)
+    }
+
+
+    void likeCandidato(long id, long idVaga) {
+        mediator.likeFromEmpresaToCandidato(id, idVaga)
+    }
+
+    void dislikeCandidato(long id, long idVaga) {
+        mediator.dislikeFromEmpresaToCandidato(id, idVaga)
     }
 
     private static mapToDto(Empresa it) {

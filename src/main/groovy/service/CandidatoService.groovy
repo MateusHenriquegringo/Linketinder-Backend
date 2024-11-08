@@ -5,12 +5,19 @@ import enums.CompetenciaENUM
 import model.Candidato
 import repository.CandidatoRepository
 import service.dto.CandidatoResponseDTO
+import service.match.LikeMediator
 
 import java.util.stream.Collectors
 
 class CandidatoService {
 
-    private CandidatoRepository repository = new CandidatoRepository()
+    CandidatoRepository repository;
+    private LikeMediator mediator;
+
+    EmpresaService(LikeMediator mediator, CandidatoRepository repository) {
+        this.mediator = mediator;
+        this.repository = repository;
+    }
 
     CandidatoService(CandidatoRepository repository) {
         this.repository = repository
@@ -65,6 +72,15 @@ class CandidatoService {
         repository.updateCompetences(id, competences)
     }
 
+
+    void likeVaga(long id, long idVaga) {
+        mediator.likeFromCandidatoToVaga(id, idVaga)
+    }
+
+    void dislikeVaga(long id, long idVaga) {
+        mediator.likeFromCandidatoToVaga(id, idVaga)
+    }
+
     private static CandidatoResponseDTO mapToDto(Candidato candidato){
         return new CandidatoResponseDTO (
                 candidato.getId(),
@@ -78,4 +94,5 @@ class CandidatoService {
                 candidato.getCompetences()
         )
     }
+
 }
