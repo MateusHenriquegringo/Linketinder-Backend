@@ -53,9 +53,10 @@ dependencies {
 
     compileOnly 'jakarta.platform:jakarta.jakartaee-api:10.0.0'
 
+    implementation 'org.flywaydb:flyway-core:9.0.0'
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.flywaydb:flyway-core:7.15.0'
+    implementation 'org.flywaydb:flyway-core:10.20.1'
     implementation 'javax.servlet:javax.servlet-api:4.0.1'
     implementation 'org.springframework:spring-core:6.1.12'
     implementation 'org.springframework:spring-web:6.1.12'
