@@ -1,59 +1,32 @@
 package service
 
-
 import enums.CompetenciaENUM
 import model.Candidato
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Service
 import repository.CandidatoRepository
-import service.dto.CandidatoResponseDTO
-import service.match.LikeMediator
 
-import java.util.stream.Collectors
-
+@Service
 class CandidatoService {
 
-    CandidatoRepository repository;
-    private LikeMediator mediator;
-
-    EmpresaService(LikeMediator mediator, CandidatoRepository repository) {
-        this.mediator = mediator;
-        this.repository = repository;
-    }
-
-    CandidatoService(CandidatoRepository repository) {
-        this.repository = repository
-    }
-    CandidatoService( ) {
-
-    }
+    @Autowired
+    private CandidatoRepository repository;
 
     void createCandidato(Candidato request) {
-        repository.createCandidato(request)
+        repository.save(request)
     }
 
-    List<CandidatoResponseDTO> listAllWithoutCompetences() {
-        return repository.listAllWithoutCompetences()
-                .stream()
-                .map {
-                    it -> mapToDto(it)
-                }
-                .collect(Collectors.toList())
+
+    List<Candidato> listAll() {
+        return repository.findAll()
     }
 
-    List<CandidatoResponseDTO> listAll() {
-        return repository.listAll()
-                .stream()
-                .map {
-                    it -> mapToDto(it)
-                }
-                .collect(Collectors.toList())
-    }
-
-    CandidatoResponseDTO findCandidatoById(Long id) {
-        return mapToDto(repository.findCandidatoById(id))
+    Candidato findCandidatoById(Long id) {
+        return repository.findById(id).orElse(null)
     }
 
     void removeCompetence(Long id, CompetenciaENUM competence) {
-        repository.removeCompetence(id, competence)
+        repository.deleteById(id, competence)
     }
 
     void addCompetence(Long id, List<CompetenciaENUM> competences) {
@@ -61,11 +34,11 @@ class CandidatoService {
     }
 
     void deleteCandidato(Long id) {
-        repository.deleteCandidato(id)
+        repository.deleteById(id)
     }
 
-    void updateCandidato(Candidato request, Long id) {
-        repository.updateCandidato(request, id)
+    void updateCandidato(Candidato request) {
+        repository.save(request)
     }
 
     void updateCompetences(Long id, List<CompetenciaENUM> competences) {
@@ -79,20 +52,6 @@ class CandidatoService {
 
     void dislikeVaga(long id, long idVaga) {
         mediator.likeFromCandidatoToVaga(id, idVaga)
-    }
-
-    private static CandidatoResponseDTO mapToDto(Candidato candidato){
-        return new CandidatoResponseDTO (
-                candidato.getId(),
-                candidato.getFirst_name(),
-                candidato.getLast_name(),
-                candidato.getCpf(),
-                candidato.getDescription(),
-                candidato.getEmail(),
-                candidato.getCep(),
-                candidato.getCity(),
-                candidato.getCompetences()
-        )
     }
 
 }

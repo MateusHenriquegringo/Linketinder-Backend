@@ -4,7 +4,8 @@ plugins {
     id 'groovy'
     id 'application'
     id 'org.flywaydb.flyway' version '7.15.0'
-
+    id 'org.springframework.boot' version '3.3.5'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'war'
 }
 
@@ -52,8 +53,18 @@ dependencies {
 
     compileOnly 'jakarta.platform:jakarta.jakartaee-api:10.0.0'
 
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.flywaydb:flyway-core:7.15.0'
     implementation 'javax.servlet:javax.servlet-api:4.0.1'
+    implementation 'org.springframework:spring-core:6.1.12'
+    implementation 'org.springframework:spring-web:6.1.12'
+    implementation 'org.springframework:spring-context:6.1.12'
+    implementation 'org.springframework:spring-beans:6.1.12'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:3.3.5'
+    implementation 'org.springframework:spring-webmvc:6.1.12'
+    implementation 'org.springframework.boot:spring-boot-autoconfigure:3.3.3'
+
 
     testImplementation 'com.h2database:h2:2.1.214'
     testImplementation 'org.spockframework:spock-core:2.3-groovy-4.0'
@@ -85,9 +96,7 @@ tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }
 
-tasks.withType(Javadoc).configureEach {
-    options.encoding = 'UTF-8'
-}
+
 
 tasks.named('test', Test) {
     useJUnitPlatform()

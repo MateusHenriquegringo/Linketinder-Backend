@@ -1,30 +1,37 @@
 package model
 
+import jakarta.persistence.*
+
+@Entity
+@Table(name = "empresa")
 class Empresa {
 
-    long id
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private long id
 
-    String empresa_name
-    String description
-    String email
-    String CNPJ
-    String CEP
-    String country
-    String password
+    @Column(name = "empresa_name")
+    private String empresa_name
 
-    Empresa () {}
+    @Column(name = "description")
+    private String description
 
-    @Override
-    public String toString() {
-        return "Empresa{" +
-                "id=" + id +
-                ", empresa_name='" + empresa_name + '\'' +
-                ", description='" + description + '\'' +
-                ", email='" + email + '\'' +
-                ", CNPJ='" + CNPJ + '\'' +
-                ", CEP='" + CEP + '\'' +
-                ", country='" + country + '\'' +
-                ", password='" + password + '\'' +
-                '}';
-    }
+    @Column(name = "email", unique = true)
+    private String email
+
+    @Column(name = "cnpj", unique = true)
+    private String cnpj
+
+    @Column(name = "state")
+    private String state
+
+    @Column(name = "city")
+    private String city
+
+    @Column(name = "country")
+    private String country
+
+    @Column(name = "password")
+    private String password
+
 }

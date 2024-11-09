@@ -1,5 +1,8 @@
 package service
 
+import org.springframework.stereotype.Service
+
+@Service
 class NotificationService {
 
     public notifyMatch(long candidatoId, long empresaId) {

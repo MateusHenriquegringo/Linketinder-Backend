@@ -1,70 +1,47 @@
 package service
 
 import model.Empresa
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Service
 import repository.EmpresaRepository
-import service.dto.EmpresaResponseDTO
-import service.match.LikeMediator
 
-import java.util.stream.Collectors
-
+@Service
 class EmpresaService {
 
-    private LikeMediator mediator
+    @Autowired
     private EmpresaRepository repository
 
-    EmpresaService(EmpresaRepository repository, LikeMediator mediator) {
-        this.mediator = mediator
-        this.repository = repository
-    }
-
-    EmpresaService( ) {
-    }
 
     void createEmpresa(Empresa empresa) {
-        repository.createEmpresa(empresa)
+        repository.save(empresa)
     }
 
     void deleteEmpresa(Long id) {
-        repository.deleteEmpresa(id)
+        repository.deleteById(id)
     }
 
-    EmpresaResponseDTO findEmpresaById(Long id) {
-        return mapToDto(repository.findEmpresaById(id))
-
+    Empresa findEmpresaById(Long id) {
+        repository.findById(id).orElse(null)
     }
 
-    List<EmpresaResponseDTO> listAll() {
-        return repository.listAll()
-                .stream()
-                .map {
-                    it -> mapToDto(it)
-                }
-                .collect(Collectors.toList())
+    List<Empresa> listAll() {
+        return repository.findAll()
     }
 
-    void updateEmpresa(Empresa empresa, Long id) {
-        repository.updateEmpresa(empresa, id)
+    void updateEmpresa(Empresa empresa) {
+        repository.save(empresa)
     }
 
 
     void likeCandidato(long id, long idVaga) {
         mediator.likeFromEmpresaToCandidato(id, idVaga)
+
     }
 
     void dislikeCandidato(long id, long idVaga) {
         mediator.dislikeFromEmpresaToCandidato(id, idVaga)
     }
 
-    private static mapToDto(Empresa it) {
-        return new EmpresaResponseDTO(
-                id: it.getId(),
-                empresa_name: it.getEmpresa_name(),
-                email: it.getEmail(),
-                description: it.getDescription(),
-                cnpj: it.getCNPJ(),
-                cep: it.getCEP(),
-                country: it.getCountry()
-        )
-    }
+
 }
 

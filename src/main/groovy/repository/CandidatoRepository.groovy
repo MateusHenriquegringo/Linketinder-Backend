@@ -1,63 +1,17 @@
 package repository
 
-import DB.ConnectionFactory
-import DB.DBTypes
-import dao.CandidatoDAO
-import dao.ModelsCRUD
-import dao.auxiliary.AuxiliaryTablesCRUD
-import dao.auxiliary.CandidatoCompetenciaDAO
-import enums.CompetenciaENUM
+
 import model.Candidato
+import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.stereotype.Repository
 
-class CandidatoRepository {
+@Repository
+interface CandidatoRepository extends JpaRepository<Candidato, Long> {
 
-    ModelsCRUD<Candidato, Long> candidatoDAO = new CandidatoDAO()
-    AuxiliaryTablesCRUD<Candidato, Long, CompetenciaENUM> competenciaCandidatoDAO =
-            new CandidatoCompetenciaDAO(ConnectionFactory.getConnection(DBTypes.POSTGRES))
+    //List<Candidato> listAllWithoutCompetences() {}
 
-    void createCandidato(Candidato request) {
-        long returnedID = candidatoDAO.create(request)
-        addCompetencesIfPresent(returnedID, request.getCompetences())
-    }
+    //void removeCompetence(Long id, CompetenciaENUM competence) {
 
-    List<Candidato> listAllWithoutCompetences() {
-        return candidatoDAO.listAll()
-    }
+    //void addCompetence(Long id, List<CompetenciaENUM> competences) {
 
-    List<Candidato> listAll() {
-        return competenciaCandidatoDAO.listAll()
-    }
-
-    Candidato findCandidatoById(Long id) {
-        return competenciaCandidatoDAO.findById(id)
-    }
-
-    void removeCompetence(Long id, CompetenciaENUM competence) {
-        competenciaCandidatoDAO.deleteCompetence(id, competence)
-    }
-
-    void addCompetence(Long id, List<CompetenciaENUM> competences) {
-        competenciaCandidatoDAO.createAssociation(id, competences)
-    }
-
-    void deleteCandidato(Long id) {
-        candidatoDAO.delete(id)
-    }
-
-    void updateCandidato(Candidato request, Long id) {
-        candidatoDAO.update(request, id)
-
-        competenciaCandidatoDAO.deleteAllCompetences(id)
-        addCompetencesIfPresent(id, request.getCompetences())
-    }
-
-    void updateCompetences(Long id, List<CompetenciaENUM> competences) {
-        competenciaCandidatoDAO.updateCompetences(id, competences)
-    }
-
-    private void addCompetencesIfPresent(Long candidatoID, List<CompetenciaENUM> competences) {
-        Optional.ofNullable(competences)
-                .filter(comp -> !comp.isEmpty() && comp !== null)
-                .ifPresent(comp -> competenciaCandidatoDAO.createAssociation(candidatoID, comp))
-    }
 }
