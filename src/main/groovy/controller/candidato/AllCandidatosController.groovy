@@ -16,8 +16,6 @@ class AllCandidatosController extends HttpServlet {
     private CandidatoService service = new CandidatoService()
     private ObjectMapper mapper = new ObjectMapper()
 
-
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Candidato candidato = mapper.readValue(req.getInputStream(), Candidato.class)

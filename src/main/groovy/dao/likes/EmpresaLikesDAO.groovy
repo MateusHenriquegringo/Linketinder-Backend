@@ -4,18 +4,18 @@ import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.SQLException
 
-class CandidatoLikesDAO {
+class EmpresaLikesDAO {
 
 
     private Connection connection
 
-    CandidatoLikesDAO (Connection connection) {
+    EmpresaLikesDAO (Connection connection) {
         this.connection = connection
     }
 
     void addLike(long from, long to){
 
-        String command = "INSERT INTO candidato_likes (candidato_id, vaga_id) VALUES (?, ?)"
+        String command = "INSERT INTO empresa_likes (empresa_id, candidato_id) VALUES (?, ?)"
 
         try(PreparedStatement pstmt = connection.prepareStatement(command)){
 
@@ -30,7 +30,7 @@ class CandidatoLikesDAO {
 
     void removeLike(long from, long to){
 
-        String command = "DELETE FROM candidato_likes WHERE candidato_id = ? AND vaga_id = ?;"
+        String command = "DELETE FROM empresa_likes WHERE empresa_id = ? AND candidato_id = ?;"
 
         try(PreparedStatement pstmt = connection.prepareStatement(command)){
 
@@ -42,5 +42,4 @@ class CandidatoLikesDAO {
             throw new RuntimeException("erro ao adicionar match "+ e.getMessage())
         }
     }
-
 }

@@ -4,19 +4,32 @@ package service
 import enums.CompetenciaENUM
 import model.Candidato
 import repository.CandidatoRepository
+import repository.LikeRepository
+import repository.MatchRepository
 import service.dto.CandidatoResponseDTO
 
 import java.util.stream.Collectors
 
 class CandidatoService {
 
-    private CandidatoRepository repository = new CandidatoRepository()
+    private LikeRepository likeRepository
+    private MatchRepository matchRepository
+
+    private CandidatoRepository repository
 
     CandidatoService(CandidatoRepository repository) {
         this.repository = repository
     }
     CandidatoService( ) {
 
+    }
+
+    void likeVaga(long from, long to){
+        likeRepository.candidatoLikesVaga(from, to)
+    }
+
+    void dislikeVaga(long from, long to){
+        likeRepository.candidatoDislikesVaga(from, to)
     }
 
     void createCandidato(Candidato request) {
